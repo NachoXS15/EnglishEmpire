@@ -6,3 +6,5 @@ const db = new Sequelize(DATABASE, USERNAME, HOSTNAME || null, {
     host: HOSTNAME,
     dialect: 'mysql'
 })
+
+export default db;
