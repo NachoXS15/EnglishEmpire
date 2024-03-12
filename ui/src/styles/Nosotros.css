@@ -1,0 +1,118 @@
+.nosotros--main-container{
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  padding-top: 115px;
+  padding-bottom: 5rem;
+}
+
+
+.nosotros--second-banner{
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.second-banner--element{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  height: 100%;
+  padding: 1rem 0;
+}
+
+.second-banner--element img{
+  width: 100%;
+}
+
+
+.second-banner--element p{
+  font-size: 36px;
+}
+
+.nosotros--first-text{
+  width: 80%;
+  margin: auto;
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem;
+  text-align: center;
+}
+
+.nosotros--second-text{
+  width: 100%;
+  font-size: 27px;
+  line-height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  gap: 1.5rem;
+  padding: 4rem;
+  background-color: #252d62;
+}
+
+.nosotros--second-text p,
+.nosotros--second-text h3{
+  color: #f1f1f1;
+}
+
+.profes-container{
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  height: auto;
+  gap: 5rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10%;
+}
+
+.nosotros--cursos-banner{
+  position: relative;
+  background-color: #252d62;
+  text-align: center;
+  padding: 7rem 10%;
+  font-size: 36px;
+}
+
+.nosotros--cursos-banner p{
+  color: #f1f1f1;
+  font-weight: bold;
+}
+
+.nosotros--cursos-banner a{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #f1f1f1;
+  text-decoration: none;
+  position: absolute;
+  background-color: #ee1120;
+  border-radius: 40px;
+  width: 300px;
+  height: 80px;
+  left: calc(50% - 150px);
+  bottom: -40px;
+  cursor: pointer;
+}
+
+@media (max-width: 1024px){
+
+  .nosotros--second-banner{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+  }
+  
+
+}
