@@ -1,4 +1,4 @@
-import { Sequelize, DataType, DataTypes } from "sequelize";
+import { Sequelize, DataTypes } from "sequelize";
 import db from '../database/db.js'
 
 const staffModel = db.define('staff', {

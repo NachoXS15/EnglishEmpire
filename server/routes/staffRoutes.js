@@ -1,6 +1,6 @@
 import express from 'express'
+import { getAllStaff } from "../controllers/staffController.js";
 const router = express.Router();
-import { getAllStaff } from "../controllers/staffController";
 
 router.get('/', getAllStaff)
 
