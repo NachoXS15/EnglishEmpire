@@ -1,0 +1,53 @@
+.cursoDetails-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 115px;
+  padding-bottom: 115px;
+  width: 100%;
+}
+
+.curso-banner{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 248px;
+  width: 90%;
+  background: url('../assets/cursoDetails/banner_teens.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  border-radius: 0 0 45px 45px;
+  padding-left: 54px;
+}
+
+.curso-banner p{
+  color: #f1f1f1;
+  font-size: 54px;
+}
+
+.curso-description{
+  padding-top: 3rem;
+  width: 80%;
+  display: flex;
+}
+
+.text-description{
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 70%;
+  font-size: 28px;
+  margin: auto;
+}
+
+.parrafo-description{
+  line-height: 42px;
+}
+
+.price-description{
+  width: 30%;
+  height: 200px;
+  background-color: red;
+}

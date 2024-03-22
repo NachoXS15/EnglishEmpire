@@ -11,38 +11,44 @@ export default function Cursos() {
       name: 'Kinder "A"',
       ages: '3, 4 y 5',
       img: 'https://www.englishempire.com.ar/assets/courses/kinder/__Mobile_kinder.png',
-      category: 'Kinder'
+      category: 'Kinder',
+      url: '/kinder/1'
     },
     {
       name: 'Juniors "A"',
       ages: '6 y 7',
       img: 'https://www.englishempire.com.ar/assets/courses/juniors/__Mobile_beginners04.png',
-      category: 'Juniors'
+      category: 'Juniors',
+      url: '/juniors/1'
     },
     {
       name: 'Juniors "B"',
       ages: '8, 9 y 10',
       img: 'https://www.englishempire.com.ar/assets/courses/juniors/__Mobile_beginners03.png',
-      category: 'Juniors'
+      category: 'Juniors',
+      url: '/juniors/2'
     },
     {
       name: 'Juniors "C"',
       ages: '11, 12 y 13',
       img: 'https://www.englishempire.com.ar/assets/courses/juniors/__Mobile_beginners02.png',
-      category: 'Juniors'
+      category: 'Juniors',
+      url: '/juniors/3'
     },
     {
       name: 'Teens',
       ages: '14, 15 y 16',
       img: 'https://www.englishempire.com.ar/assets/courses/teens/__Mobile_teens01.png',
-      category: 'Teens'
+      category: 'Teens',
+      url: '/teens/1'
     },
     {
       name: 'Adults Principiantes (virtual)',
       ages: ['+17'],
       img: 'https://www.englishempire.com.ar/assets/courses/kinder/__Mobile_kinder.png',
-      category: 'Adults'
-    },
+      category: 'Adults',
+      url: '/adults/1'
+    }
   ]
 
   const [cursos, setCursos] = useState(cursosJSON)
@@ -74,9 +80,11 @@ export default function Cursos() {
               cursos.filter(curso => curso.category === categorySelected).map(curso => (
                 <CourseCard
                   key={curso.name}
-                  url={curso.img}
+                  imgUrl={curso.img}
                   cursoName={curso.name}
                   cursoAge={curso.ages}
+                  url={curso.url}
+
                 />
               ))
             }
