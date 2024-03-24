@@ -1,0 +1,17 @@
+.inscription-container{
+  padding-top: 115px;
+}
+
+.select-element{
+  height: 40px;
+  background-color: #f1f1f1;
+  border: none;
+  padding: .3rem;
+  font-size: 20px;
+}
+
+.form-element label p{
+  padding-top: 12px;
+  font-weight: normal;
+  font-size: 20px;
+}

@@ -5,6 +5,10 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Inicio from './components/Inicio/Inicio.jsx'
 import Cursos from './components/Cursos/Cursos.jsx'
 import Nosotros from './components/Nosotros/Nosotros.jsx'
+import Postulate from './components/Postulate/Postulate.jsx'
+import Contacto from './components/Contacto/Contacto.jsx'
+import CursoDetails from './components/CursoDetails/CursoDetails.jsx'
+import Inscription from './components/Inscription/Inscription.jsx'
 
 const router = createBrowserRouter([
   {
@@ -18,6 +22,22 @@ const router = createBrowserRouter([
   {
     path: '/nosotros',
     element: <Nosotros></Nosotros>
+  },
+  {
+    path: '/postulate',
+    element: <Postulate></Postulate>
+  },
+  {
+    path: '/contacto',
+    element: <Contacto></Contacto>
+  },
+  {
+    path: '/cursos/:nivel/:id',
+    element: <CursoDetails />
+  },
+  {
+    path: '/inscripcion',
+    element: <Inscription />
   }
 ])
 

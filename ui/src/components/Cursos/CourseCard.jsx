@@ -1,14 +1,15 @@
+import { Link } from 'react-router-dom'
 import '../../styles/CourseCard.css'
 
-export function CourseCard({ url, cursoName, cursoAge }) {
+export function CourseCard({ imgUrl, cursoName, cursoAge, url }) {
 
   return (
-    <div className='curso-card'>
-      <img src={url} alt="cursoLogo" />
+    <Link className='curso-card' to={`/cursos${url}`}>
+      <img src={imgUrl} alt="cursoLogo" />
       <div>
         <p>{cursoName}</p>
         <p>{cursoAge}</p>
       </div>
-    </div>
+    </Link>
   )
 }

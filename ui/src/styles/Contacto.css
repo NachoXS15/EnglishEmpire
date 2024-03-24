@@ -1,0 +1,27 @@
+.contacto-container{
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding-top: 115px;
+}
+
+.contacto-info{
+  display: flex;
+  margin: auto;
+  width: 80%;
+  justify-content: space-between;
+  font-size: 25px;
+}
+
+.contacto-info p:last-child{
+  font-weight: bold;
+}
+
+.contacto-icons{
+  display: flex;
+}
+
+.contacto-icons a img{
+  background-color: #242424;
+  width: 40px;
+}
