@@ -1,7 +1,7 @@
-import { Sequelize, DataType, DataTypes } from "sequelize";
+import { Sequelize, DataTypes } from "sequelize";
 import db from '../database/db.js';
 
-const cursoModel = db.define("cursos", {
+const cursoModel = db.define('cursos', {
     id: {type: DataTypes.INTEGER, primaryKey: true, allowNull: true},
     nombre_curso: {type: DataTypes.TEXT},
     inicio: {type: DataTypes.TEXT},
