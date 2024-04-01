@@ -1,7 +1,7 @@
-import cursoModel from "../models/cursoModel.js";
+//import cursoModel from "../models/cursoModel.js";
 import db from "../database/db.js";
-import { QueryTypes } from "sequelize";
-import dotenv from 'dotenv'
+import {Sequelize, QueryTypes } from "sequelize";
+import cursoModel from "../models/cursoModel.js";
 const { GETALLCURSOS } = process.env
 
 export const getAllCursos = async(req, res) => {
@@ -26,6 +26,7 @@ export const getOneCurso = async(req, res) => {
 export const postCurso = async(req, res) => {
     try {
         await cursoModel.create(req.body)
+        console.log(cursoModel)
         res.json({
             operation: 'ok'
         })

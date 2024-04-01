@@ -1,11 +1,13 @@
-import { Sequelize, DataTypes } from "sequelize";
 import db from '../database/db.js'
+import { DataTypes } from "sequelize";
 
-const staffModel = db.define('staff', {
+const StaffModel = db.define('staff', {
     id: {type: DataTypes.INTEGER, primaryKey: true, allowNull: true},
     nombre: {type: DataTypes.TEXT},
     cargo: {type: DataTypes.TEXT},
-    imagen: {type: DataTypes.TEXT}
+    imagen: {type: DataTypes.TEXT},
+    createdAT: {type: DataTypes.DATE},
+    updatedAt: {type: DataTypes.DATE}
 })
 
-export default staffModel
+export default StaffModel;

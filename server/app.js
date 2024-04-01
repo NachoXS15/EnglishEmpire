@@ -13,6 +13,7 @@ app.use(express.json());
 app.use('/staff', staffRouter)
 app.use('/cursos', cursosRouter)
 
+//conexion a db
 try {
     await db.authenticate();
     console.log("Conexion correcta")
