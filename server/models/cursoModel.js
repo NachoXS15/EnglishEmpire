@@ -1,7 +1,7 @@
+import db from "../database/db.js";
 import { DataTypes } from "sequelize";
-import db from '../database/db.js';
 
-const cursoModel = db.define("cursos", {
+const CursoModel = db.define('curso', {
     id: {type: DataTypes.INTEGER, primaryKey: true, allowNull: true},
     nombre_curso: {type: DataTypes.TEXT},
     id_categoria: {type: DataTypes.INTEGER},
@@ -10,7 +10,9 @@ const cursoModel = db.define("cursos", {
     descripcion: {type: DataTypes.TEXT},
     id_profesor: {type: DataTypes.INTEGER},
     costo: {type: DataTypes.INTEGER},
-    programa: {type: DataTypes.TEXT, allowNull: true}
+    programa: {type: DataTypes.TEXT},
+    createdAt: {type: DataTypes.DATE},
+    updatedAt: {type: DataTypes.DATE}
 })
 
-export default cursoModel;
+export default CursoModel;
