@@ -1,0 +1,50 @@
+#root{
+  width: 100vw;
+  height: 100vh;
+}
+
+.main-container{
+  display: flex;
+  flex-direction: column;
+  gap: 5rem;
+}
+
+.cursos-section,
+.certificacion-section{
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-direction: column;
+  width: 100%;
+  height: auto;
+}
+
+.title{
+  font-weight: 500;
+  text-align: center;
+  font-size: 48px;
+}
+
+.cursos-section p{
+  font-size: 32px;
+  text-align: center;
+  line-height: 1.4;
+  padding: 0px 2rem;
+  max-width: 1200px;
+}
+
+/* Certificados section */
+
+.certificacion-section ul{
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  text-align: justify;
+  width: 90%;
+}
+
+.certificacion-section ul li{
+  display: flex;
+  justify-content: flex-start;
+  font-size: 20px;
+}

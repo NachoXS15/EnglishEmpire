@@ -1,0 +1,100 @@
+.footer-container{
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  font-size: 27px;
+  align-items: center;
+  justify-content: center;
+  background-color: #242854;
+  height: 560px;
+}
+
+.footer-container *{
+  color: #fff;
+}
+
+footer{
+  display: flex;
+  justify-content: center;
+  width: 90%;
+  gap: 5rem;
+}
+
+
+.logo-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+  height: 100%;
+}
+
+.copyrigth{
+  text-align: center;
+}
+
+
+footer nav{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+footer nav h3{
+  font-size: 34px;
+  font-weight: 400;
+}
+
+footer nav li{
+  font-size: 27px;
+}
+
+.redes-footer p{
+  font-size: 30px;
+}
+
+.redes-footer div{
+  display: flex;
+  gap: 2rem;
+  padding-top: 2rem;
+}
+
+.redes-footer img{
+  width: 30px;
+}
+
+@media (max-width: 1024px) {
+  .logo-container{
+    display: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .nosotros-nav{
+    display: none;
+  }
+
+  .footer-container {
+    font-size: 20px;
+  }
+
+  footer nav h3{
+    font-size: 24px;
+    font-weight: 400;
+  }
+  
+  footer nav li{
+    font-size: 24px;
+  }
+  
+  .redes-footer p{
+    font-size: 27px;
+  }
+
+  footer{
+    justify-content: space-around;
+    width: 90%;
+    gap: 0;
+  }
+}

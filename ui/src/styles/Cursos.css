@@ -1,0 +1,44 @@
+.cursos--main-container{
+  padding-top: 115px;
+}
+
+.cursos-main{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+  width: 100%;
+  height: auto;
+  padding: 3rem;
+}
+
+.cursos-buttons{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.cursos-buttons button{
+  font-size: 18px;
+  padding: 6px 12px;
+  border-radius: 15px;
+  border: none;
+  cursor: pointer;
+  color: #252d62;
+  background-color: #f1f1f1;
+}
+
+button.curso-selected{
+  color: #f1f1f1;
+  background-color: #252d62;
+}
+
+
+.cursos-cards-container{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 3rem;
+}
