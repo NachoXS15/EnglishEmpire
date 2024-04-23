@@ -14,11 +14,11 @@ export const getAllStaff = async(req, res) => {
 
 export const getOneStaff = async(req, res) => {
     try {
-        const staff = await staffModel.findOne({where: {id: req.params.id}})
+        const staff = await StaffModel.findOne({where: {id: req.params.id}})
         console.log(staff)
         res.json(staff)
     } catch (error) {
-        console.log("error al traer un coso: ", error.message)
+        console.log("error al traer un staff: ", error.message)
     }
 }
 
