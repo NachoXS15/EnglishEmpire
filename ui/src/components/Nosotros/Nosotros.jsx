@@ -6,8 +6,28 @@ import ProfesorCard from './ProfesorCard.jsx'
 import nosAlumnos from '../../assets/nosotros/alumnos-recibidos.png'
 import nosCursos from '../../assets/nosotros/cursos.png'
 import nosProfesores from '../../assets/nosotros/profesores.png'
+import axios from 'axios'
+import { useState, useEffect } from 'react'
 
+const BASE_URI = "http://localhost:3000/staff"
 export default function Nosotros() {
+  const [staff, setStaff] = useState([]);
+
+  const getStaff = async(req, res) => {
+    try {
+      const res = await axios.get(BASE_URI);
+      setStaff(res.data);
+      console.log(staff);
+    } catch (error) {
+      console.log("Error al traer los vagos", error.message);
+    }
+  }
+
+  useEffect(() => {
+    getStaff();
+  }, [])
+  
+
   return (
     <>
       <Header></Header>
@@ -47,48 +67,13 @@ export default function Nosotros() {
           <p>Conoce a nuestros profesores profesionales de inglés, un equipo de expertos en la enseñanza del idioma. Cada uno de ellos tiene años de experiencia y ha dedicado su carrera a ayudar a otros a alcanzar su máximo potencial en el aprendizaje del inglés. Y también al resto del equipo que contribuyen con todo el personal docentes y al engrandecimiento institucional.</p>
         </div>
         <div className='profes-container'>
-          <ProfesorCard
-            name='Juan'
-            role='Director'
-            imgUrl='https://www.englishempire.com.ar/assets/profesores/400x400/Juan.jpg'
-          />
-          <ProfesorCard
-            name='Juan'
-            role='Director'
-            imgUrl='https://www.englishempire.com.ar/assets/profesores/400x400/Juan.jpg'
-          />
-          <ProfesorCard
-            name='Juan'
-            role='Director'
-            imgUrl='https://www.englishempire.com.ar/assets/profesores/400x400/Juan.jpg'
-          />
-          <ProfesorCard
-            name='Juan'
-            role='Director'
-            imgUrl='https://www.englishempire.com.ar/assets/profesores/400x400/Juan.jpg'
-          />
-          <ProfesorCard
-            name='Juan'
-            role='Director'
-            imgUrl='https://www.englishempire.com.ar/assets/profesores/400x400/Juan.jpg'
-          />
-          <ProfesorCard
-            name='Juan'
-            role='Director'
-            imgUrl='https://www.englishempire.com.ar/assets/profesores/400x400/Juan.jpg'
-          />
-
-          <ProfesorCard
-            name='Juan'
-            role='Director'
-            imgUrl='https://www.englishempire.com.ar/assets/profesores/400x400/Juan.jpg'
-          />
-          <ProfesorCard
-            name='Juan'
-            role='Director'
-            imgUrl='https://www.englishempire.com.ar/assets/profesores/400x400/Juan.jpg'
-          />
-
+          {
+            staff.map(prof => (
+              <ProfesorCard key={prof.id} name={prof.nombre} role={prof.cargo} />
+            ))
+          }
+          
+          
         </div>
         <div className='nosotros--cursos-banner'>
           <p>¡Permítenos inspirarte a alcanzar tus metas y superar tus expectativas con nuestros profesores profesionales!</p>
