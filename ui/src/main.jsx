@@ -38,6 +38,10 @@ const router = createBrowserRouter([
   {
     path: '/inscripcion',
     element: <Inscription />
+  },
+  {
+    path: '/inscripcion/:id',
+    element: <Inscription />
   }
 ])
 
