@@ -87,6 +87,31 @@
   justify-content: center;
   align-items: center;
   padding: 2rem;
+  gap: 1rem;
+}
+
+.confirmacion h2{
+  font-size: 27px;
+}
+
+.confirmacion p{
+  font-size: 18px;
+}
+
+.confirmacion h3{
+  font-size: 22.5px;
+}
+
+/* confirmacion datos */
+.confirmacion .datos{
+  display: flex;
+  gap: 3rem;
+}
+
+.confirmacion .datos-first-container{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 

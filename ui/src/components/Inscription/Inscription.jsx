@@ -72,7 +72,7 @@ export default function Inscription() {
 								<span>*</span>
 							</label>
 
-							<input type="text" id='nombre' />
+							<input type="text" id='nombre' required />
 						</div>
 						<div className='form-element'>
 							<label htmlFor="apellido">
@@ -214,6 +214,9 @@ export default function Inscription() {
 					</form>
 
 				</div>
+
+				{/* ------METODO DE PAGO------ */}
+
 				<div className='metodo-de-pago disabled'>
 					<h2>Método de pago:</h2>
 					<div className='metodos-list'>
@@ -236,24 +239,46 @@ export default function Inscription() {
 					</div>
 
 				</div>
+
+				{/* ------CONFIRMACION------ */}
+
 				<div className='confirmacion disabled'>
 					<h2>Confirmación</h2>
 					<p>Por favor revisa que los datos estén correctos antes de enviar la inscripción.</p>
 					<div className='datos'>
-						<div>
+						<div className='datos-first-container'>
 							<div className='datos-alumno'>
 								<h3>Datos del alumno:</h3>
-								<p>Nombre</p>
-								<p>Apellido</p>
-								<p>Mail</p>
-								<p>Telefono</p>
-								<p>Fecha de Nacimiento</p>
+								<p><b>Nombre: </b></p>
+								<p><b>Apellido: </b></p>
+								<p><b>Fecha de nacimiento: </b></p>
+								<p><b>DNI: </b></p>
+								<p><b>Email: </b></p>
+								<p><b>Teléfono: </b></p>
+								<p><b>Con tutor/a: </b></p>
 							</div>
-							<div className='datos-tutor disabled'>
-
+							<div className='datos-tutor'>
+								<h3>Datos del tutor:</h3>
+								<p><b>Nombre: </b></p>
+								<p><b>Apellido: </b></p>
+								<p><b>Fecha de nacimiento: </b></p>
+								<p><b>DNI: </b></p>
+								<p><b>Email: </b></p>
+								<p><b>Parentesco: </b></p>
+								<p><b>Teléfono: </b></p>
+								<p><b>Contacto alternativo: </b></p>
 							</div>
 						</div>
-
+						<div className='datos-curso-pago'>
+							<h3>Datos del curso</h3>
+							<p><b>Curso: </b>Juniors</p>
+							<h3>Método de pago: </h3>
+							<p><b>Pago: </b></p>
+						</div>
+					</div>
+					<div className='pago--buttons-container button'>
+						<button>Volver</button>
+						<button>Confirmar</button>
 					</div>
 				</div>
 			</section>
