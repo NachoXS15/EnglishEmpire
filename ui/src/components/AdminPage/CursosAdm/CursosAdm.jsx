@@ -77,7 +77,13 @@ export default function CursosAdm() {
   }
 
   useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const modify = queryParams.get('modify');
 
+
+    if (modify) {
+      setCursoModificarId(modify)
+    }
   }, [])
 
 
