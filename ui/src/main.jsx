@@ -11,6 +11,7 @@ import CursoDetails from './components/CursoDetails/CursoDetails.jsx'
 import Inscription from './components/Inscription/Inscription.jsx'
 import Login from './components/AdminPage/Login.jsx'
 import Menu from './components/AdminPage/Menu.jsx'
+import CursosAdm from './components/AdminPage/CursosAdm/CursosAdm.jsx'
 
 const router = createBrowserRouter([
   {
@@ -46,12 +47,17 @@ const router = createBrowserRouter([
     element: <Inscription />
   },
   {
+    // --------Admin page--------
     path: '/administracion',
     element: <Login />
   },
   {
     path: '/menu',
     element: <Menu />
+  },
+  {
+    path: '/menu/cursos',
+    element: <CursosAdm />
   }
 ])
 

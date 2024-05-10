@@ -1,0 +1,33 @@
+.modificar-curso-container{
+  background-color: rgba(0, 0, 0, .5);
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modificar-curso-box{
+  position: relative;
+  width: 90vw;
+  height: 80vh;
+  background-color: #fff;
+  border-radius: 12px;
+  border: 1px solid #3949b1;
+}
+
+.salir-modificar{
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  background-color: red;
+  width: 28px;
+  height: 28px;
+  border-radius: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

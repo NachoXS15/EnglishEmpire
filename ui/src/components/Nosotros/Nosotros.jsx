@@ -6,10 +6,10 @@ import ProfesorCard from './ProfesorCard.jsx'
 import nosAlumnos from '../../assets/nosotros/alumnos-recibidos.png'
 import nosCursos from '../../assets/nosotros/cursos.png'
 import nosProfesores from '../../assets/nosotros/profesores.png'
-import axios from 'axios'
-import { useState, useEffect } from 'react'
 
 export default function Nosotros() {
+
+
 
   return (
     <>
@@ -55,8 +55,8 @@ export default function Nosotros() {
               <ProfesorCard key={prof.id} name={prof.nombre} role={prof.cargo} />
             ))
           }
-          
-          
+
+
         </div>
         <div className='nosotros--cursos-banner'>
           <p>¡Permítenos inspirarte a alcanzar tus metas y superar tus expectativas con nuestros profesores profesionales!</p>

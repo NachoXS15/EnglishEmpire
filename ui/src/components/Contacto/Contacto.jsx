@@ -2,9 +2,6 @@ import '../../styles/Contacto.css'
 import Header from '../Header.jsx'
 import Footer from '../Footer.jsx'
 import { MainBanner } from '../MainBanner.jsx'
-import fbIcon from '../../assets/icons/icon-fb.png'
-import igIcon from '../../assets/icons/icon-ig.png'
-import tikTokIcon from '../../assets/icons/icon-tiktok.png'
 
 export default function Contacto() {
   return (
@@ -21,13 +18,13 @@ export default function Contacto() {
             <p>¡Usa nuestras redes para comunicarte!</p>
             <div className='contacto-icons'>
               <a href="">
-                <img src={fbIcon} alt="Facebook" />
+                <i className="fa-brands fa-facebook"></i>
               </a>
               <a href="">
-                <img src={igIcon} alt="" />
+                <i class="fa-brands fa-instagram"></i>
               </a>
               <a href="">
-                <img src={tikTokIcon} alt="" />
+                <i class="fa-brands fa-whatsapp"></i>
               </a>
             </div>
           </div>
