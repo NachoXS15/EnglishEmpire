@@ -13,10 +13,12 @@ router.get('/staff', async(req, res) => {
 router.get('/staff/:id', async (req, res) => {
     try {
         const staffOne = await prisma.staff.findUnique({
-            where: req.params.id
+            where:{
+                id: parseInt(req.params.id)
+            }
         })
     } catch (error) {
-        console.log(error.message);
+        return res.status(400).json({'error': error.message})
     }
 })
 
@@ -37,18 +39,24 @@ router.post('/staff', async(req, res) => {
 router.put('/staff/:id', async(req, res) => {
     try {
         await prisma.staff.update({
-            where: req.params.id
+            where:{
+                id: parseInt(req.params.id)
+            }
         })
     } catch (error) {
-        console.log(error.message);
+        return res.status(400).json({'error': error.message})
     }
 })
 
 router.delete('/staff/:id', async (req, res) => {
     try {
-        await prisma.staff.delete({where: req.params.id})
+        await prisma.staff.delete({
+            where:{
+                id: parseInt(req.params.id)
+            }
+        })
     } catch (error) {
-        console.log(error.message);
+        return res.status(400).json({'error': error.message})
     }
 })
 

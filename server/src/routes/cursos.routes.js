@@ -14,16 +14,19 @@ router.get('/cursos', async(req, res) => {
 router.get('/cursos/:id', async (req, res) => {
     try {
         const cursosOne = await prisma.cursos.findUnique({
-            where: req.params.id
+            where:{
+                id: parseInt(req.params.id)
+            }
         })
+        res.json(cursosOne)
     } catch (error) {
-        console.log(error.message);
+        return res.status(400).json({'error': error.message})
     }
 })
 
 router.post('/cursos', async(req, res) => {
     try {
-        const newcursos = await prisma.cursos.create({
+        const newcurso = await prisma.cursos.create({
             data: req.body
         })
         res.json({
@@ -38,18 +41,25 @@ router.post('/cursos', async(req, res) => {
 router.put('/cursos/:id', async(req, res) => {
     try {
         await prisma.cursos.update({
-            where: req.params.id
+            where:{
+                id: parseInt(req.params.id)
+            }
         })
     } catch (error) {
-        console.log(error.message);
+        return res.status(400).json({'error': error.message})
     }
 })
 
 router.delete('/cursos/:id', async (req, res) => {
     try {
-        await prisma.cursos.delete({where: req.params.id})
+        const cursoDeleted = await prisma.cursos.delete({
+            where:{
+                id: parseInt(req.params.id)
+            }
+        })
+        res.json('Eliminado')
     } catch (error) {
-        console.log(error.message);
+        return res.status(400).json({'error': error.message})
     }
 })
 

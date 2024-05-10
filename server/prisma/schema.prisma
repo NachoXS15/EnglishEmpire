@@ -9,11 +9,9 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-
-
 
 model Cursos{
   id Int @id @default(autoincrement())
@@ -25,6 +23,7 @@ model Cursos{
   descripcion String
   costo Int
   programa String
+  img String
 }
 
 model Category {
