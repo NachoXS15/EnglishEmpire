@@ -9,24 +9,7 @@ import nosProfesores from '../../assets/nosotros/profesores.png'
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 
-const BASE_URI = "http://localhost:3000/staff"
 export default function Nosotros() {
-  const [staff, setStaff] = useState([]);
-
-  const getStaff = async(req, res) => {
-    try {
-      const res = await axios.get(BASE_URI);
-      setStaff(res.data);
-      console.log(staff);
-    } catch (error) {
-      console.log("Error al traer los vagos", error.message);
-    }
-  }
-
-  useEffect(() => {
-    getStaff();
-  }, [])
-  
 
   return (
     <>
@@ -72,8 +55,8 @@ export default function Nosotros() {
               <ProfesorCard key={prof.id} name={prof.nombre} role={prof.cargo} />
             ))
           }
-          
-          
+
+
         </div>
         <div className='nosotros--cursos-banner'>
           <p>¡Permítenos inspirarte a alcanzar tus metas y superar tus expectativas con nuestros profesores profesionales!</p>

@@ -1,0 +1,66 @@
+.cursos-admin-container{
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #fff;
+  width: 100%;
+  max-width: 1000px;
+  height: 100vh;
+  padding: 2rem 0;
+}
+
+.cursos-admin--header{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
+  position: relative;
+  max-width: 1200px;
+  min-width: 400px;
+  width: 60%;
+  padding: 1rem;
+}
+
+.back-to-menu-btn{
+  position: absolute;
+  height: 40px;
+  width: 40px;
+  top: 20px;
+  left: 12px;
+  font-size: 40px;
+  cursor: pointer;
+}
+
+
+.cursos-admin--header h2{
+  font-size: 40px;
+}
+
+.cursos-admin--header select{
+  width: 200px;
+  height: 40px;
+  font-size: 18px;
+  background-color: #fff;
+  border-radius: 24px;
+  padding: 0 12px;
+  cursor: pointer;
+}
+
+/* grilla cursos */
+
+.grilla-cursos{
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: calc(auto + 20px);
+  grid-template-columns:repeat(auto-fit, minmax(400px, 1fr));
+  grid-template-rows: auto;
+  gap: 20px;
+  padding-bottom: 20px;
+  padding-top: 20px;
+
+}

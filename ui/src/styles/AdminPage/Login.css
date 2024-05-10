@@ -34,6 +34,22 @@
   gap: 2rem;
 }
 
+.login--form-container div{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.login--form-container div.other-error{
+  align-items: center;
+}
+
+.login--form-container div span{
+  color: #EE1120;
+  padding-left: 12px;
+}
+
 .login--form-container input{
   width: 320px;
   height: 60px;
@@ -59,3 +75,4 @@
   cursor: pointer;
   text-decoration: none;
 }
+
