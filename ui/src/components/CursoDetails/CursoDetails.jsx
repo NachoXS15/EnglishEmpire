@@ -1,8 +1,10 @@
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import '../../styles/CursoDetails.css'
 import { useEffect } from 'react'
 import Header from '../Header'
 import Footer from '../Footer'
+import weekIcon from '../../assets/cursoDetails/icon_semanas.png'
+import lessonsIcon from '../../assets/cursoDetails/icon_frecuencia.png'
 
 export default function CursoDetails() {
   const { nivel, id } = useParams()
@@ -18,12 +20,12 @@ export default function CursoDetails() {
       'Nuestro objetivo es ayudar a los adolescentes a alcanzar un nivel de inglés que les permita desenvolverse en situaciones académicas, sociales y profesionales en un mundo cada vez más globalizado.',
       '¡Inscribir a tu hijo en nuestras clases de inglés para adolescentes es una inversión en su futuro! ¡Aprender un segundo idioma es una herramienta valiosa para su desarrollo personal y profesional!'
 
-    ]
+    ],
+    duration: 40,
+    weeklyLessons: 1,
+    inicio: 'Marzo',
+    final: 'Diciembre'
   }
-
-  useEffect(() => {
-    console.log(nivel, id)
-  })
 
   return (
     <>
@@ -39,7 +41,32 @@ export default function CursoDetails() {
             ))}
           </div>
           <div className='price-description'>
+            <div className='price-description--card'>
+              <h2>${data.precio.toString().charAt(0)}.{data.precio.toString().slice(1)}</h2>
+              <Link to={`/inscripcion/${id}`} className='inscription-btn'>Inscribirme</Link>
+              <div className="card--duration">
+                <p>
+                  <img src={weekIcon} alt="" />
+                  {data.duration} semanas
+                </p>
+                <p>
+                  <img src={lessonsIcon} alt="" />
+                  {data.weeklyLessons} clase semanal
+                </p>
+              </div>
+              <div className='card--inicio-final'>
+                <div>
+                  <p className='card--red-text'>Fecha de inicio</p>
+                  <p>{data.inicio}</p>
+                </div>
+                <div>
+                  <p className='card--red-text'>Fecha de inicio</p>
+                  <p>{data.final}</p>
+                </div>
 
+              </div>
+
+            </div>
           </div>
 
         </div>

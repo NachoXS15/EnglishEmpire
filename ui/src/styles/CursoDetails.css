@@ -31,6 +31,8 @@
   padding-top: 3rem;
   width: 80%;
   display: flex;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 .text-description{
@@ -39,15 +41,96 @@
   gap: 2rem;
   width: 70%;
   font-size: 28px;
-  margin: auto;
 }
 
 .parrafo-description{
   line-height: 42px;
 }
 
+/* card */
 .price-description{
+  position: sticky;
+  top: 135px;
+  display: flex;
+  justify-content: flex-end;
   width: 30%;
-  height: 200px;
-  background-color: red;
+  margin-top: -135px;
+}
+
+.price-description--card{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  width: 80%;
+  background-color: #f1f1f1;
+  padding: 2rem 0;
+  border-radius: 20px;
+  color: #252D52;
+  height: auto;
+}
+
+.price-description--card h2{
+  font-size: 40px;
+  font-weight: normal;
+  
+}
+
+.inscription-btn{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #EE1120;
+  padding: 12px;
+  border-radius: 36px;
+  width: 80%;
+  font-size: 32px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.card--duration{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 80%;
+}
+
+.card--duration p{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 4px;
+  font-size: 18px;
+}
+
+.card--duration img{
+  width: 30px;
+}
+
+
+.card--inicio-final{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.5rem;
+  width: 100%;
+  padding: 0 10%;
+  border-top: 6px solid #fff;
+  font-size: 18px;
+}
+
+.card--inicio-final div{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.card--inicio-final div:first-child{
+  padding-top: 28px;
+}
+
+.card--red-text{
+  color: #EE1120;
 }

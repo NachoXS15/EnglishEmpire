@@ -8,6 +8,9 @@ import nosCursos from '../../assets/nosotros/cursos.png'
 import nosProfesores from '../../assets/nosotros/profesores.png'
 
 export default function Nosotros() {
+
+
+
   return (
     <>
       <Header></Header>
@@ -47,47 +50,12 @@ export default function Nosotros() {
           <p>Conoce a nuestros profesores profesionales de inglés, un equipo de expertos en la enseñanza del idioma. Cada uno de ellos tiene años de experiencia y ha dedicado su carrera a ayudar a otros a alcanzar su máximo potencial en el aprendizaje del inglés. Y también al resto del equipo que contribuyen con todo el personal docentes y al engrandecimiento institucional.</p>
         </div>
         <div className='profes-container'>
-          <ProfesorCard
-            name='Juan'
-            role='Director'
-            imgUrl='https://www.englishempire.com.ar/assets/profesores/400x400/Juan.jpg'
-          />
-          <ProfesorCard
-            name='Juan'
-            role='Director'
-            imgUrl='https://www.englishempire.com.ar/assets/profesores/400x400/Juan.jpg'
-          />
-          <ProfesorCard
-            name='Juan'
-            role='Director'
-            imgUrl='https://www.englishempire.com.ar/assets/profesores/400x400/Juan.jpg'
-          />
-          <ProfesorCard
-            name='Juan'
-            role='Director'
-            imgUrl='https://www.englishempire.com.ar/assets/profesores/400x400/Juan.jpg'
-          />
-          <ProfesorCard
-            name='Juan'
-            role='Director'
-            imgUrl='https://www.englishempire.com.ar/assets/profesores/400x400/Juan.jpg'
-          />
-          <ProfesorCard
-            name='Juan'
-            role='Director'
-            imgUrl='https://www.englishempire.com.ar/assets/profesores/400x400/Juan.jpg'
-          />
+          {
+            staff.map(prof => (
+              <ProfesorCard key={prof.id} name={prof.nombre} role={prof.cargo} />
+            ))
+          }
 
-          <ProfesorCard
-            name='Juan'
-            role='Director'
-            imgUrl='https://www.englishempire.com.ar/assets/profesores/400x400/Juan.jpg'
-          />
-          <ProfesorCard
-            name='Juan'
-            role='Director'
-            imgUrl='https://www.englishempire.com.ar/assets/profesores/400x400/Juan.jpg'
-          />
 
         </div>
         <div className='nosotros--cursos-banner'>
