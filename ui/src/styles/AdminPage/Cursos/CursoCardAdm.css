@@ -1,0 +1,41 @@
+.curso-card-adm{
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+  place-items: center;
+  background-color: #f1f1f1;
+  border-radius: 20px;
+  min-width: 40px;
+  max-width: 90vw;
+  height: auto;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+
+.curso-card-adm div{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+  padding: 18px;
+}
+
+.modify{
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  padding: 4px;
+  border: 1px solid #aaa;
+}
+
+.modify:active{
+  background-color: #aaa;
+}
+

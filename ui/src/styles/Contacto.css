@@ -19,6 +19,9 @@
 
 .contacto-icons{
   display: flex;
+  justify-content: flex-start;
+  gap: 12px;
+  font-size: 32px;
 }
 
 .contacto-icons a img{
