@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { prisma } from "../../database/db.js";
 const router = Router();
-router.get('/staff', async(req, res) => {
+router.get('/', async(req, res) => {
     try {
         const staff = await prisma.staff.findMany();
         res.json(staff);
@@ -10,7 +10,7 @@ router.get('/staff', async(req, res) => {
     }
 })
 
-router.get('/staff/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
     try {
         const staffOne = await prisma.staff.findUnique({
             where:{
@@ -22,7 +22,7 @@ router.get('/staff/:id', async (req, res) => {
     }
 })
 
-router.post('/staff', async(req, res) => {
+router.post('/', async(req, res) => {
     try {
         const newStaff = await prisma.staff.create({
             data: req.body
@@ -36,7 +36,7 @@ router.post('/staff', async(req, res) => {
     }
 })
 
-router.put('/staff/:id', async(req, res) => {
+router.put('/:id', async(req, res) => {
     try {
         await prisma.staff.update({
             where:{
@@ -48,7 +48,7 @@ router.put('/staff/:id', async(req, res) => {
     }
 })
 
-router.delete('/staff/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
     try {
         await prisma.staff.delete({
             where:{
