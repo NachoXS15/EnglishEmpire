@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors'
-import cursosRoutes from '../src/routes/cursos.routes.js'
-import staffRoutes from '../src/routes/staff.routes.js'
+import cursosRoutes from './routes/cursos.routes.js'
+import staffRoutes from './routes/staff.routes.js'
 
 const app = express();
 

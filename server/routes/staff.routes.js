@@ -1,11 +1,10 @@
 import { Router } from "express";
-import { prisma } from "../../database/db.js";
+import { prisma } from "../database/db.js";
 const router = Router();
-
 router.get('/', async(req, res) => {
     try {
-        const cursos = await prisma.cursos.findMany();
-        res.json(cursos);
+        const staff = await prisma.staff.findMany();
+        res.json(staff);
     } catch (error) {
         console.log(error.message);
     }
@@ -13,12 +12,11 @@ router.get('/', async(req, res) => {
 
 router.get('/:id', async (req, res) => {
     try {
-        const cursosOne = await prisma.cursos.findUnique({
+        const staffOne = await prisma.staff.findUnique({
             where:{
                 id: parseInt(req.params.id)
             }
         })
-        res.json(cursosOne)
     } catch (error) {
         return res.status(400).json({'error': error.message})
     }
@@ -26,7 +24,7 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async(req, res) => {
     try {
-        const newcurso = await prisma.cursos.create({
+        const newStaff = await prisma.staff.create({
             data: req.body
         })
         res.json({
@@ -40,7 +38,7 @@ router.post('/', async(req, res) => {
 
 router.put('/:id', async(req, res) => {
     try {
-        await prisma.cursos.update({
+        await prisma.staff.update({
             where:{
                 id: parseInt(req.params.id)
             }
@@ -52,16 +50,14 @@ router.put('/:id', async(req, res) => {
 
 router.delete('/:id', async (req, res) => {
     try {
-        const cursoDeleted = await prisma.cursos.delete({
+        await prisma.staff.delete({
             where:{
                 id: parseInt(req.params.id)
             }
         })
-        res.json('Eliminado')
     } catch (error) {
         return res.status(400).json({'error': error.message})
     }
 })
-
 
 export default router;
