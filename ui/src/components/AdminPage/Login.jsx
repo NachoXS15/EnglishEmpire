@@ -1,20 +1,14 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import logo from '../../assets/logo.png'
 import '../../styles/AdminPage/Login.css'
+import { signIn } from '../../config/auth'
+import { useAuth } from '../../config/AuthProvider'
+import { useNavigate } from 'react-router'
 
 export default function Login() {
-
-  const db = [
-    {
-      email: 'nico240501@gmail.com',
-      password: '1234'
-    },
-    {
-      email: 'juandavila@englishempire.com',
-      password: '1234'
-    }
-  ]
-
+  const navigate = useNavigate();
+  const { userLoggedIn } = useAuth();
+  const [isLogged, setIsLogged] = useState(false);
   const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
     email: '',
@@ -33,6 +27,13 @@ export default function Login() {
       [name]: value
     }))
   }
+
+  useEffect(() => {
+    if (isLogged) {
+      navigate('/menu');
+    }
+  }, [isLogged])
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -54,21 +55,16 @@ export default function Login() {
     }
 
     setErrors({})
+    try {
+      await signIn(formData.email, formData.password);
+      setIsLogged(true)
+      
+    } catch (error) {
+      setErrors({
+        others: "Ingrese datos validos"
+      })
+    }
 
-    const data = new FormData();
-    data.append('email', formData.email);
-    data.append('password', formData.password);
-
-    fetch('url', {
-      method: 'POST',
-      body: data
-    })
-      .then(response => response.json())
-      .then(data => console.log(data))
-      .catch(error => {
-        errors.others = 'Error inesperado, intente nuevamente'
-        setErrors(errors)
-      });
   }
 
   return (

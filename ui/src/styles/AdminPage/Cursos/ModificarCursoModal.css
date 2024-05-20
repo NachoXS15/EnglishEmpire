@@ -13,21 +13,227 @@
 .modificar-curso-box{
   position: relative;
   width: 90vw;
+  max-width: 800px;
   height: 80vh;
   background-color: #fff;
   border-radius: 12px;
   border: 1px solid #3949b1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  color: #222;
+  padding: 1rem 0;
+  z-index: 1;
 }
 
-.salir-modificar{
+.modificar-curso-box h2{
+  font-size: 28px;
+}
+
+.modificar-curso-box h3{
+  font-size: 28px;
+}
+
+.modificar-form-cursos{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  gap: 12px;
+  padding: 12px;
+}
+
+
+
+.modificar-form-cursos div{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  min-width: 200px;
+  max-width: 90%;
+  font-size: 18px;
+}
+
+.modificar-form-cursos input[type="text"],
+.modificar-form-cursos input[type="date"],
+.modificar-form-cursos select
+{
+  min-width: 160px;
+  max-width: 100%;
+  width: 200px;
+  height: 40px;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #222;
+  border-radius: 12px;
+}
+
+.modificar-form-cursos input[type="file"]{
   position: absolute;
-  top: -12px;
-  right: -12px;
-  background-color: red;
-  width: 28px;
-  height: 28px;
-  border-radius: 14px;
+  left: -9999px;
+}
+
+.modificar-form-cursos input[type="file"]:valid + .programa-label:after{
+  content: 'Archivo seleccionado: ' attr(value);
+
+}
+
+.modificar-form-cursos .programa-label{
+  font-size: 16px;
+  border: 1px solid #222;
+  cursor: pointer;
+}
+
+
+.modificar-form-cursos textarea{
+  width: 300px;
+  max-width: 90%;
+  height: 240px;
+  border: 1px solid #222;
+  padding: 4px;
+  resize: none;
+}
+
+div.modificar-curso-btns{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-top: 18px;
+}
+div.modificar-curso-btns button{
+
+  border: none;
+  padding: 12px;
+  border-radius: 24px;
+  background-color: #EE1120;
+  color: #fff;
+  cursor: pointer;
+  width: 170px;
+  font-size: 16px;
+}
+
+/* Descartar cambios */
+
+.descartar-cambios-modal{
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, .5);
+  z-index: 999;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.descartar-cambios-modal.disabled{
+  display: none;
+}
+
+.descartar-cambios-box{
+  background-color: #eee;
+  width: 300px;
+  height: 120px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  text-align: center;
+}
+
+.descartar-cambios-box div{
+  display: flex;
+  gap: 24px;
+}
+.descartar-cambios-box button{
+  background-color: #EE1120;
+  color: #fff;
+  border: none;
+  width: 80px;
+  height: 28px;
+  border-radius: 12px;
+  cursor: pointer;
+
+}
+
+/* Actualizar curso */
+
+.actualizar-curso-modal{
+  position: absolute;
+  background-color: rgba(0, 0, 0, .5);
+  width: 100vw;
+  height: 100vh;
+  z-index: 99;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.actualizar-curso-box{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 300px;
+  height: 120px;
+  background-color: #eee;
+  padding: 12px;
+}
+
+.actualizar-curso-box .no-actualizar-curso{
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: #eee;
+  width: 26px;
+  height: 26px;
+  border: 1px solid #aaa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.actualizar-curso-box button{
+  background-color: #EE1120;
+  color: #fff;
+  width: 140px;
+  height: 36px;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.disabled{
+  display: none;
+}
+
+
+
+/* Boton de salir */
+
+.salir-modificar{
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  background-color: #eee;
+  border: 1px solid #aaa;
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 1000;
 }

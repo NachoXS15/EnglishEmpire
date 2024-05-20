@@ -3,6 +3,7 @@ import '../../styles/Slider.css'
 
 import { useState } from 'react'
 import { useEffect } from 'react'
+import { Link } from 'react-router-dom';
 
 
 export default function Slider({ images, text, link, interval = true }) {
@@ -25,7 +26,7 @@ export default function Slider({ images, text, link, interval = true }) {
   return (
     <div className='slider'>
       <img src={images[currentImage]} alt="" />
-      <a href={link} className='inscripcion-btn'>{text}</a>
+      <Link to={link} className='inscripcion-btn'>{text}</Link>
     </div>
   )
 

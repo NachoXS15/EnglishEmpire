@@ -1,0 +1,74 @@
+.personal-body{
+  background-color: #f1f1f1;
+  width: 100%;
+  height: 100vh;
+  margin: auto;
+}
+
+.personal-container{
+  width: 100%;
+  max-width: 1000px;
+  min-height: 100%;
+  height: auto;
+  margin: auto;
+}
+
+.personal--header{
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 1200px;
+  min-width: 400px;
+  width: 60%;
+  height: 134px;
+  padding: 1rem;
+  margin: auto;
+}
+
+.personal--header h2{
+  font-size: 40px;
+}
+
+.personal--header i{
+  position: absolute;
+  font-size: 40px;
+  left: 12px;
+  cursor: pointer;
+}
+
+/* Staff elements */
+
+.personal--cards-container{
+  display: flex;
+  gap: 3rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 1rem;
+  width: 100%;
+  height: calc(100vh - 134px);
+  overflow-y: auto;
+}
+
+
+.profesor-card--admin{
+  position: relative;
+}
+
+.profesor-card--admin i{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  border: 1px solid #222;
+  width: 40px;
+  height: 40px;
+  background-color: #f1f1f1;
+  position: absolute;
+  right: 0;
+  cursor: pointer;
+}
+
+.profesor-card--admin i:hover{
+  background-color: #e1e1e1;
+}

@@ -56,12 +56,12 @@ const cursosJSON = [
 ]
 
 export default function CursosAdm() {
-  const [cursoModificarId, setCursoModificarId] = useState(0)
   const [categorySelected, setCategorySelected] = useState('Kinder')
   const categories = ['Kinder', 'Juniors', 'Teens', 'Adults', 'Individuales', 'Empresariales']
 
+  // Estado para modificar la url y que aparezca el modal
+  const [cursoModificarId, setCursoModificarId] = useState(0)
   const navigate = useNavigate()
-
 
   const goBackToMenu = () => {
     navigate('../menu')
@@ -84,7 +84,7 @@ export default function CursosAdm() {
     if (modify) {
       setCursoModificarId(modify)
     }
-  }, [])
+  }, [cursoModificarId])
 
 
   return (
@@ -122,6 +122,7 @@ export default function CursosAdm() {
         &&
         <ModificarCursoModal
           id={cursoModificarId}
+          modificarCurso={modificarCurso}
         />
       }
     </div>

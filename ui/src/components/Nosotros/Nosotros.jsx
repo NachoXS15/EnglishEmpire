@@ -50,11 +50,11 @@ export default function Nosotros() {
           <p>Conoce a nuestros profesores profesionales de inglés, un equipo de expertos en la enseñanza del idioma. Cada uno de ellos tiene años de experiencia y ha dedicado su carrera a ayudar a otros a alcanzar su máximo potencial en el aprendizaje del inglés. Y también al resto del equipo que contribuyen con todo el personal docentes y al engrandecimiento institucional.</p>
         </div>
         <div className='profes-container'>
-          {/* {
+          {
             staff.map(prof => (
               <ProfesorCard key={prof.id} name={prof.nombre} role={prof.cargo} />
             ))
-          } */}
+          }
 
 
         </div>

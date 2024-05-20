@@ -12,6 +12,10 @@ import Inscription from './components/Inscription/Inscription.jsx'
 import Login from './components/AdminPage/Login.jsx'
 import Menu from './components/AdminPage/Menu.jsx'
 import CursosAdm from './components/AdminPage/CursosAdm/CursosAdm.jsx'
+import Personal from './components/AdminPage/Personal/Personal.jsx'
+
+import './config/firebase-config.js'
+
 
 const router = createBrowserRouter([
   {
@@ -20,19 +24,19 @@ const router = createBrowserRouter([
   },
   {
     path: '/cursos',
-    element: <Cursos></Cursos>
+    element: <Cursos />
   },
   {
     path: '/nosotros',
-    element: <Nosotros></Nosotros>
+    element: <Nosotros />
   },
   {
     path: '/postulate',
-    element: <Postulate></Postulate>
+    element: <Postulate />
   },
   {
     path: '/contacto',
-    element: <Contacto></Contacto>
+    element: <Contacto />
   },
   {
     path: '/cursos/:nivel/:id',
@@ -58,6 +62,10 @@ const router = createBrowserRouter([
   {
     path: '/menu/cursos',
     element: <CursosAdm />
+  },
+  {
+    path: '/menu/personal',
+    element: <Personal />
   }
 ])
 

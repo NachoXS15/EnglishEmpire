@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import Logo from '../../assets/logo.png'
 import '../../styles/AdminPage/Menu.css'
+import { signOut } from "../../config/auth"
 
 export default function Menu() {
   const navigate = useNavigate()
@@ -15,7 +16,7 @@ export default function Menu() {
   }, [isLogged])
 
   const logOut = () => {
-    setIsLogged(false)
+    signOut();
   }
 
   const goTo = (url) => {
