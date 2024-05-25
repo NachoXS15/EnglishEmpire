@@ -73,7 +73,7 @@ export default function Personal() {
                 <i className="fa-solid fa-pen"></i>
                 <ProfesorCard
                   name={empleado.name}
-                  role={empleado.role}
+                  role={empleado.cargo}
                   imgUrl={empleado.imgURL}
                 />
               </div>

@@ -26,12 +26,13 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async(req, res) => {
     try {
-        const newcurso = await prisma.cursos.create({
+        const newCurso = await prisma.cursos.create({
             data: req.body
         })
         res.json({
             message: 'ok'
         })
+        console.log(newCurso);
         
     } catch (error) {
         console.log(error.message);
