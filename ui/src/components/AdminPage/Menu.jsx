@@ -17,6 +17,7 @@ export default function Menu() {
 
   const logOut = () => {
     signOut();
+    navigate('/administracion')
   }
 
   const goTo = (url) => {

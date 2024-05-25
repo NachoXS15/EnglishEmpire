@@ -13,28 +13,27 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Cursos{
-  id Int @id @default(autoincrement())
-  name String
-  idCategory Int
-  category Category?
-  inicio String
-  fin String
+model Cursos {
+  id          Int        @id @default(autoincrement())
+  name        String
+  categoryId  Int?
+  category    Category?  @relation(fields: [categoryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  inicio      String
+  fin         String
   descripcion String
-  costo Int
-  programa String
-  img String
+  costo       Int
+  programa    String
+  img         String
 }
 
 model Category {
-  idCategory Int @id @unique
-  cursos Cursos? @relation(fields: [idCategory], references: [id])
-  name String @unique
+  id     Int      @id @default(autoincrement())
+  name   String   @unique
+  cursos Cursos[] // Relación uno a muchos
 }
-
-model Staff{
-  id Int @id @default(autoincrement())
-  name String
-  cargo String
+model Staff {
+  id     Int    @id @default(autoincrement())
+  name   String
+  cargo  String
   imagen String
 }
