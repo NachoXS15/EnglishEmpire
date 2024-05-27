@@ -7,7 +7,6 @@ router.get('/', async(req, res) => {
     try {
         const categories = await prisma.category.findMany();
         res.json(categories);
-        console.log(categories);
     } catch (error) {
         console.log(error.message);    
     }
