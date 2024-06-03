@@ -7,18 +7,28 @@ import nosAlumnos from '../../assets/nosotros/alumnos-recibidos.png'
 import nosCursos from '../../assets/nosotros/cursos.png'
 import nosProfesores from '../../assets/nosotros/profesores.png'
 import { useEffect, useState } from 'react'
+import { getFirestore, getDocs, collection } from 'firebase/firestore'
 
 export default function Nosotros() {
   const [staff, setStaff] = useState([])
 
+  const db = getFirestore()
+
   useEffect(() => {
-    fetch('https://englishempire.onrender.com/staff')
-      .then((response) => response.json())
-      .then((data) => {
-        setStaff(data)
-        console.log(data)
-      })
-      .catch(error => console.log('Error staff: ', error.message))
+    const fetchData = async () => {
+      try {
+        const response = await getDocs(collection(db, 'Staff'));
+        const dataList = response.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setStaff(dataList);
+      } catch (error) {
+        console.error('Error fetching data: ', error);
+      }
+    };
+
+    fetchData();
 
   }, [])
 
@@ -66,7 +76,7 @@ export default function Nosotros() {
           {
             staff.map(prof => (
               <ProfesorCard
-                name={prof.name}
+                name={prof.nombre}
                 role={prof.cargo}
                 imgUrl={`data:image/jpeg;base64,${prof.imagen}`}
                 key={prof.id}

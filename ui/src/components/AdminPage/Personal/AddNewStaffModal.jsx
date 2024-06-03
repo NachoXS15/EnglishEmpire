@@ -53,32 +53,8 @@ export default function AddNewStaffModal({ setId }) {
 
     if (e.target.innerText == 'Si') {
       // POST A PERSONAL PENDIENTE ...
-      const data = {
-        name: nombre,
-        cargo: cargo
-      };
+      console.log(imageBase64)
 
-      try {
-        console.log('enviando datos...')
-        console.log(data)
-        const response = await fetch('https://englishempire.onrender.com/staff', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
-        });
-
-        if (response.ok) {
-          console.log("Datos enviados exitosamente!");
-        } else {
-          console.log("Error al enviar los datos.");
-          setError('Error al enviar los datos')
-        }
-      } catch (error) {
-        console.error("Error:", error);
-        console.log("Error al enviar los datos.");
-      }
 
     }
     setError('')
