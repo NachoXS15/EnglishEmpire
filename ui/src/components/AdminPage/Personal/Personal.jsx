@@ -4,6 +4,7 @@ import ProfesorCard from '../../Nosotros/ProfesorCard'
 import { useState, useEffect } from 'react'
 import ModificarStaffModal from './ModificarStaffModal'
 import AddNewStaffModal from './AddNewStaffModal'
+import { getDocs, getFirestore, collection } from 'firebase/firestore'
 
 export default function Personal() {
   const navigate = useNavigate()
@@ -16,20 +17,23 @@ export default function Personal() {
     setStaffModificarId(id)
   }
 
+  const db = getFirestore();  
 
   useEffect(() => {
-    fetch('https://englishempire.onrender.com/staff')
-      .then((response) => response.json())
-      .then((data) => {
-        setStaff(data)
-      })
-      .catch(error => console.log('Error staff: ', error.message))
+    const fetchData = async () => {
+      try {
+        const response = await getDocs(collection(db, 'Staff'));
+        const dataList = response.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setStaff(dataList);
+      } catch (error) {
+        console.error('Error fetching data: ', error);
+      }
+    };
 
-    const queryParams = new URLSearchParams(location.search);
-    const modify = queryParams.get('modify');
-    if (modify) {
-      setStaffModificarId(modify)
-    }
+    fetchData();
 
   }, [])
 
@@ -52,7 +56,7 @@ export default function Personal() {
               >
                 <i className="fa-solid fa-pen"></i>
                 <ProfesorCard
-                  name={empleado.name}
+                  name={empleado.nombre}
                   role={empleado.cargo}
                   imgUrl={empleado.imagen}
                 />

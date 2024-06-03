@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import '../../../styles/AdminPage/Personal/AddNewStaffModal.css'
 import ProfesorCard from '../../Nosotros/ProfesorCard.jsx'
+import { addDoc,collection, getFirestore } from 'firebase/firestore'
 
 export default function AddNewStaffModal({ setId }) {
 
@@ -14,6 +15,8 @@ export default function AddNewStaffModal({ setId }) {
   const handleExitModal = () => {
     setId(0)
   }
+
+  const db = getFirestore();
 
   const handleInputChange = async (e) => {
     if (e.target.id == 'nombre') {
@@ -34,7 +37,17 @@ export default function AddNewStaffModal({ setId }) {
   }
 
   const handleGuardarCambios = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
+
+    const saveData = async() => {
+      const docRef = await addDoc(collection(db, "Staff"), {
+        nombre: nombre,
+        cargo: cargo,
+        imagen: img
+      });
+      alert("Persona agregada a DB")
+
+    }
 
     if (e.target.innerText == 'Guardar Cambios') {
       if (nombre == '') {
@@ -52,10 +65,8 @@ export default function AddNewStaffModal({ setId }) {
     }
 
     if (e.target.innerText == 'Si') {
-      // POST A PERSONAL PENDIENTE ...
+      saveData();
       console.log(imageBase64)
-
-
     }
     setError('')
     setActualizarStaffModal(prevState => !prevState)

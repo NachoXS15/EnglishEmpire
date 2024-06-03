@@ -6,7 +6,6 @@ import { signOut } from "../../config/auth"
 
 export default function Menu() {
   const navigate = useNavigate()
-
   const [isLogged, setIsLogged] = useState(true)
 
   useEffect(() => {

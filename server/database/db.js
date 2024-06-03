@@ -1,3 +1,11 @@
 import {PrismaClient} from '@prisma/client'
-export const prisma = new PrismaClient();
+const prisma = new PrismaClient();
+try {
+    prisma.$connect
+} catch (error) {
+    throw new Error("No se pudo establecer conexión con la base de datos.");
+}
+
+export default prisma
+
 
