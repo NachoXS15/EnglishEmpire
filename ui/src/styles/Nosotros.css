@@ -67,13 +67,11 @@
 
 .profes-container{
   display: flex;
+  gap: 3rem;
   flex-wrap: wrap;
-  width: 100%;
-  height: auto;
-  gap: 5rem;
-  align-items: center;
   justify-content: center;
-  padding: 0 10%;
+  width: 100%;
+  padding: 1rem;
 }
 
 .nosotros--cursos-banner{

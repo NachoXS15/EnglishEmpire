@@ -9,61 +9,57 @@ import { useNavigate } from 'react-router-dom'
 export default function CursosAdm() {
   const [cursos, setCursos] = useState([])
   const [categories, setCategories] = useState([])
-  const [categorySelected, setCategorySelected] = useState('Kinders')
+  const [categorySelectedId, setCategorySelectedId] = useState(3)
 
   // Estado para modificar la url y que aparezca el modal
   const [cursoModificarId, setCursoModificarId] = useState(0)
   const navigate = useNavigate()
 
+  // useEffect para fetchear datos de cursos
   useEffect(() => {
-    const fetchCursos = async () => {
-      try {
-        const response = await fetch('https://englishempire.onrender.com/cursos');
-        const data = await response.json();
-        setCursos(data);
-        console.log(cursos);
-      } catch (error) {
-        console.error('Error fetching cursos: ', error.message);
-      }
-    };
-  
-    const fetchCategories = async() => {
-      try {
-        const response = await fetch('https://englishempire.onrender.com/categories')
-        const data = await response.json();
-        setCategories(data)
-      } catch (error) {
-        console.log('Error fecthing categorias: ', error.message);
-      }
+    fetch('https://englishempire.onrender.com/cursos')
+      .then(res => res.json())
+      .then(dataCursos => {
+        let cursosFiltered = dataCursos.filter(curso => curso.categoryId == categorySelectedId)
+        setCursos(cursosFiltered)
+      })
+      .catch(err => {
+        console.log('Error fetching cursos: ', err.message)
+      })
+  }, [categorySelectedId]);
+
+  // useEffect para fetchear categories
+  useEffect(() => {
+    fetch('https://englishempire.onrender.com/categories')
+      .then(res => res.json())
+      .then(data => setCategories(data))
+      .catch(err => {
+        console.log('Error fetching categories: ', err.message)
+      })
+  }, [])
+
+  // useEffect modify cursos
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const modify = queryParams.get('modify');
+    if (modify) {
+      setCursoModificarId(modify)
     }
-    
-    fetchCursos();
-    fetchCategories();
-  }, []);
+  }, [cursoModificarId])
+
 
   const goBackToMenu = () => {
     navigate('../menu')
   }
 
   const selectedCursoChange = (e) => {
-    setCategorySelected(e.target.value)
+    setCategorySelectedId(e.target.value)
   }
 
   const modificarCurso = (id) => {
     navigate(`.?modify=${id}`)
     setCursoModificarId(id)
   }
-
-  useEffect(() => {
-    const queryParams = new URLSearchParams(location.search);
-    const modify = queryParams.get('modify');
-
-
-    if (modify) {
-      setCursoModificarId(modify)
-    }
-  }, [cursoModificarId])
-
 
   return (
     <div className='cursos-admin-container'>
@@ -72,10 +68,10 @@ export default function CursosAdm() {
           <i className="fa-solid fa-circle-left"></i>
         </div>
         <h2>Cursos</h2>
-        <select name="filter" onChange={selectedCursoChange} value={categorySelected}>
+        <select name="filter" onChange={selectedCursoChange} defaultValue={categorySelectedId}>
           {
             categories.map(category => (
-              <option name={category.name} key={category.id}>{category.name}</option>
+              <option name={category.name} key={category.id} value={category.id}>{category.name}</option>
             ))
           }
         </select>
@@ -83,7 +79,6 @@ export default function CursosAdm() {
       <div className='grilla-cursos'>
         {
           cursos.map(curso => (
-            // curso.category == categorySelected &&
             <CursoCardAdm
               key={curso.id}
               cursoName={curso.name}

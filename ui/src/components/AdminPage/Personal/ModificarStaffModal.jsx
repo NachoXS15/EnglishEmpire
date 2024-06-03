@@ -1,57 +1,68 @@
 import { useState } from 'react'
 import '../../../styles/AdminPage/Personal/ModificarStaffModal.css'
 
-const staff = [
-  {
-    name: 'Juan Davila',
-    role: 'President',
-    imgURL: 'https://www.englishempire.com.ar/assets/profesores/400x400/Juan.jpg'
-  },
-  {
-    name: 'Davila Juan',
-    role: 'President',
-    imgURL: 'https://www.englishempire.com.ar/assets/profesores/400x400/Juan.jpg'
-  },
-  {
-    name: 'Nicolás Lujan',
-    role: 'Desarrollo y Tech',
-    imgURL: 'https://www.englishempire.com.ar/assets/profesores/400x400/Juan.jpg'
-  },
-  {
-    name: 'Marco Gavio',
-    role: 'Ex-Profesor',
-    imgURL: 'https://www.englishempire.com.ar/assets/profesores/400x400/Juan.jpg'
-  }
-]
-
-export default function ModificarStaffModal() {
-
-  const [staffAModificar, setStaffAModificar] = useState()
-  const [descartarCambiosModal, setDescartarCambiosModal] = useState(false)
+export default function ModificarStaffModal({ empleado, setId }) {
   const [actualizarStaffModal, setActualizarStaffModal] = useState(false)
+  const [nombre, setNombre] = useState(empleado.name)
+  const [cargo, setCargo] = useState(empleado.cargo)
+  const [imagen, setImagen] = useState(null)
 
+  const handleExitModal = () => {
+    setId(0)
+  }
+
+  const handleGuardarCambios = async (e) => {
+    e.preventDefault()
+    console.log(e.target.innerText)
+    if (e.target.innerText == 'Si') {
+      // guardar cambios
+      // post a staff
+      console.log(empleado)
+
+    }
+    setActualizarStaffModal(prevState => !prevState)
+
+  }
 
   return (
     <div className='modificar-staff-container'>
       <div className='modificar-staff--box'>
+        <div className='salir-modificar-staff' onClick={handleExitModal}>X</div>
+
         <div className='modificar-staff--title'>
           <h2>Modificar Personal</h2>
         </div>
+
         <form className='modificar-staff-form'>
           <div>
             <label htmlFor="nombre">Nombre</label>
-            <input type="text" />
+            <input type="text" id='nombre' defaultValue={empleado.name} />
           </div>
           <div>
-            <label htmlFor="nombre">Cargo</label>
-            <input type="text" />
+            <label htmlFor="cargo">Cargo</label>
+            <input type="text" id='cargo' defaultValue={empleado.cargo} />
           </div>
           <div>
-            <label htmlFor="nombre">Imagen</label>
-            <input type="file" />
+            <label htmlFor="img">Imagen</label>
+            <input type="file" id='img' />
+          </div>
+          <div>
+            <button onClick={handleGuardarCambios}>Guardar Cambios</button>
           </div>
         </form>
-        <div className='salir-modificar-staff'>X</div>
+
+        {
+          actualizarStaffModal &&
+          <div className='guardar-cambios-modal'>
+            <div>
+              <p>¿Desea guardar cambios?</p>
+              <div>
+                <button onClick={handleGuardarCambios}>Si</button>
+                <button onClick={handleGuardarCambios}>No</button>
+              </div>
+            </div>
+          </div>
+        }
       </div>
     </div>
   )

@@ -6,8 +6,21 @@ import ProfesorCard from './ProfesorCard.jsx'
 import nosAlumnos from '../../assets/nosotros/alumnos-recibidos.png'
 import nosCursos from '../../assets/nosotros/cursos.png'
 import nosProfesores from '../../assets/nosotros/profesores.png'
+import { useEffect, useState } from 'react'
 
 export default function Nosotros() {
+  const [staff, setStaff] = useState([])
+
+  useEffect(() => {
+    fetch('https://englishempire.onrender.com/staff')
+      .then((response) => response.json())
+      .then((data) => {
+        setStaff(data)
+        console.log(data)
+      })
+      .catch(error => console.log('Error staff: ', error.message))
+
+  }, [])
 
 
 
@@ -52,7 +65,12 @@ export default function Nosotros() {
         <div className='profes-container'>
           {
             staff.map(prof => (
-              <ProfesorCard key={prof.id} name={prof.nombre} role={prof.cargo} />
+              <ProfesorCard
+                name={prof.name}
+                role={prof.cargo}
+                imgUrl={`data:image/jpeg;base64,${prof.imagen}`}
+                key={prof.id}
+              />
             ))
           }
 
