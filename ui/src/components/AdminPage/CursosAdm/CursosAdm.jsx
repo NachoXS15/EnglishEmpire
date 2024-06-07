@@ -3,39 +3,45 @@ import '../../../styles/AdminPage/Cursos/CursosAdm.css'
 import CursoCardAdm from './CursoCardAdm'
 import ModificarCursoModal from './modificarCursoModal'
 import { useNavigate } from 'react-router-dom'
+import { getFirestore, getDocs, collection } from 'firebase/firestore'
 
 
 
 export default function CursosAdm() {
   const [cursos, setCursos] = useState([])
   const [categories, setCategories] = useState([])
-  const [categorySelectedId, setCategorySelectedId] = useState(3)
+  const [categorySelectedId, setCategorySelectedId] = useState('Kinders')
 
   // Estado para modificar la url y que aparezca el modal
   const [cursoModificarId, setCursoModificarId] = useState(0)
   const navigate = useNavigate()
 
-  // useEffect para fetchear datos de cursos
-  useEffect(() => {
-    fetch('https://englishempire.onrender.com/cursos')
-      .then(res => res.json())
-      .then(dataCursos => {
-        let cursosFiltered = dataCursos.filter(curso => curso.categoryId == categorySelectedId)
-        setCursos(cursosFiltered)
-      })
-      .catch(err => {
-        console.log('Error fetching cursos: ', err.message)
-      })
-  }, [categorySelectedId]);
+  const db = getFirestore()
 
-  // useEffect para fetchear categories
   useEffect(() => {
-    fetch('https://englishempire.onrender.com/categories')
-      .then(res => res.json())
-      .then(data => setCategories(data))
-      .catch(err => {
-        console.log('Error fetching categories: ', err.message)
-      })
+    const fetchData = async () => {
+      try {
+        const response = await getDocs(collection(db, 'Cursos'));
+        const dataList = response.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setCursos(dataList);
+        console.log(dataList)
+      } catch (error) {
+        console.error('Error fetching data: ', error);
+      }
+      try {
+        const response = await getDocs(collection(db, 'Categorias'));
+        const cat = response.docs[0].data().categorias
+        setCategories(cat)
+      } catch (error) {
+        console.error('Error fetching data: ', error);
+      }
+    };
+
+    fetchData();
+
   }, [])
 
   // useEffect modify cursos
@@ -71,7 +77,7 @@ export default function CursosAdm() {
         <select name="filter" onChange={selectedCursoChange} defaultValue={categorySelectedId}>
           {
             categories.map(category => (
-              <option name={category.name} key={category.id} value={category.id}>{category.name}</option>
+              <option name={category} key={category} value={category}>{category}</option>
             ))
           }
         </select>
@@ -81,9 +87,9 @@ export default function CursosAdm() {
           cursos.map(curso => (
             <CursoCardAdm
               key={curso.id}
-              cursoName={curso.name}
-              cursoAge={curso.ages}
-              imgUrl={curso.img}
+              cursoName={curso.nombre}
+              cursoAge={curso.edad}
+              imgUrl={curso.imagen}
               id={curso.id}
               modificarCurso={modificarCurso}
             />
