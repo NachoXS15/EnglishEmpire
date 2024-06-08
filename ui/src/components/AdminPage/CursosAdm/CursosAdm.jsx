@@ -10,10 +10,10 @@ import { getFirestore, getDocs, collection } from 'firebase/firestore'
 export default function CursosAdm() {
   const [cursos, setCursos] = useState([])
   const [categories, setCategories] = useState([])
-  const [categorySelectedId, setCategorySelectedId] = useState('Kinders')
+  const [categorySelectedName, setCategorySelectedId] = useState('Kinders')
 
   // Estado para modificar la url y que aparezca el modal
-  const [cursoModificarId, setCursoModificarId] = useState(0)
+  const [cursoModificarId, setCursoModificarId] = useState(false)
   const navigate = useNavigate()
 
   const db = getFirestore()
@@ -22,12 +22,11 @@ export default function CursosAdm() {
     const fetchData = async () => {
       try {
         const response = await getDocs(collection(db, 'Cursos'));
-        const dataList = response.docs.map(doc => ({
+        const dataCursos = response.docs.map(doc => ({
           id: doc.id,
           ...doc.data()
         }));
-        setCursos(dataList);
-        console.log(dataList)
+        setCursos(dataCursos);
       } catch (error) {
         console.error('Error fetching data: ', error);
       }
@@ -63,8 +62,14 @@ export default function CursosAdm() {
   }
 
   const modificarCurso = (id) => {
-    navigate(`.?modify=${id}`)
-    setCursoModificarId(id)
+    if (id == 0) {
+      setCursoModificarId(false)
+      navigate('.')
+
+    } else {
+      navigate(`.?modify=${id}`)
+      setCursoModificarId(id)
+    }
   }
 
   return (
@@ -74,7 +79,7 @@ export default function CursosAdm() {
           <i className="fa-solid fa-circle-left"></i>
         </div>
         <h2>Cursos</h2>
-        <select name="filter" onChange={selectedCursoChange} defaultValue={categorySelectedId}>
+        <select name="filter" onChange={selectedCursoChange} defaultValue={categorySelectedName}>
           {
             categories.map(category => (
               <option name={category} key={category} value={category}>{category}</option>
@@ -84,7 +89,7 @@ export default function CursosAdm() {
       </div>
       <div className='grilla-cursos'>
         {
-          cursos.map(curso => (
+          cursos.filter(curso => curso.categoria == categorySelectedName).map(curso => (
             <CursoCardAdm
               key={curso.id}
               cursoName={curso.nombre}
@@ -97,9 +102,9 @@ export default function CursosAdm() {
         }
       </div>
       {
-        cursoModificarId > 0
-        &&
+        cursoModificarId &&
         <ModificarCursoModal
+          cursos={cursos}
           id={cursoModificarId}
           modificarCurso={modificarCurso}
         />

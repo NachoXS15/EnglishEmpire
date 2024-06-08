@@ -1,65 +1,17 @@
 import '../../../styles/AdminPage/Cursos/ModificarCursoModal.css'
 import { useEffect, useState } from 'react'
 
-const cursosJSON = [
-  {
-    name: 'Kinder "A"',
-    ages: '3, 4 y 5',
-    img: 'https://www.englishempire.com.ar/assets/courses/kinder/__Mobile_kinder.png',
-    category: 'Kinder',
-    url: '/kinder/1',
-    id: '1'
-  },
-  {
-    name: 'Juniors "A"',
-    ages: '6 y 7',
-    img: 'https://www.englishempire.com.ar/assets/courses/juniors/__Mobile_beginners04.png',
-    category: 'Juniors',
-    url: '/juniors/1',
-    id: '2'
-  },
-  {
-    name: 'Juniors "B"',
-    ages: '8, 9 y 10',
-    img: 'https://www.englishempire.com.ar/assets/courses/juniors/__Mobile_beginners03.png',
-    category: 'Juniors',
-    url: '/juniors/2',
-    id: '3'
-  },
-  {
-    name: 'Juniors "C"',
-    ages: '11, 12 y 13',
-    img: 'https://www.englishempire.com.ar/assets/courses/juniors/__Mobile_beginners02.png',
-    category: 'Juniors',
-    url: '/juniors/3',
-    id: '4'
-  },
-  {
-    name: 'Teens',
-    ages: '14, 15 y 16',
-    img: 'https://www.englishempire.com.ar/assets/courses/teens/__Mobile_teens01.png',
-    category: 'Teens',
-    url: '/teens/1',
-    id: '5'
-  },
-  {
-    name: 'Adults Principiantes (virtual)',
-    ages: ['+17'],
-    img: 'https://www.englishempire.com.ar/assets/courses/kinder/__Mobile_kinder.png',
-    category: 'Adults',
-    url: '/adults/1',
-    id: '6'
-  }
-]
 
-export default function ModificarCursoModal({ id, modificarCurso }) {
+
+export default function ModificarCursoModal({ cursos, id, modificarCurso }) {
 
   const [cursoAModificar, setCursoAModificar] = useState({})
   const [actualizarCursoModal, setActualizarCursoModal] = useState(false)
   const [descartarCambiosModal, setDescartarCambiosModal] = useState(false)
 
   useEffect(() => {
-    setCursoAModificar(cursosJSON.filter(curso => id == curso.id)[0])
+    console.log(cursos)
+    setCursoAModificar(cursos.filter(curso => id == curso.id)[0])
     setDescartarCambiosModal(false)
     setActualizarCursoModal(false)
   }, [])
@@ -95,11 +47,11 @@ export default function ModificarCursoModal({ id, modificarCurso }) {
     <div className="modificar-curso-container">
       <div className='modificar-curso-box'>
         <h2>Modificar curso</h2>
-        <h3>{cursoAModificar.name}</h3>
+        <h3>{cursoAModificar.nombre}</h3>
         <form className='modificar-form-cursos'>
           <div>
             <label htmlFor="name">Nombre del curso</label>
-            <input type="text" id='name' defaultValue={cursoAModificar.name} />
+            <input type="text" id='name' defaultValue={cursoAModificar.nombre} />
           </div>
           <div>
             <label htmlFor="categories">Categoria del curso</label>
@@ -123,7 +75,7 @@ export default function ModificarCursoModal({ id, modificarCurso }) {
           </div>
           <div>
             <label htmlFor="ages">Edades</label>
-            <input type="text" id='ages' defaultValue={cursoAModificar.ages} />
+            <input type="text" id='ages' defaultValue={cursoAModificar.edad} />
           </div>
           <div>
             <label htmlFor="">Programa del curso</label>

@@ -9,15 +9,20 @@ import { getDocs, getFirestore, collection } from 'firebase/firestore'
 export default function Personal() {
   const navigate = useNavigate()
   const [staff, setStaff] = useState([])
-
-  const [staffModificarId, setStaffModificarId] = useState('')
+  const [staffModificarId, setStaffModificarId] = useState(false)
 
   const modificarStaff = (id) => {
-    navigate(`.?modify=${id}`)
-    setStaffModificarId(id)
+    if (id == 0) {
+      setStaffModificarId(false)
+      navigate('.')
+
+    } else {
+      navigate(`.?modify=${id}`)
+      setStaffModificarId(id)
+    }
   }
 
-  const db = getFirestore();  
+  const db = getFirestore();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -51,7 +56,7 @@ export default function Personal() {
         <div className='personal--cards-container'>
           {
             staff.map(empleado => (
-              <div className='profesor-card--admin' key={empleado.name}
+              <div className='profesor-card--admin' key={empleado.nombre}
                 onClick={() => modificarStaff(empleado.id)}
               >
                 <i className="fa-solid fa-pen"></i>
@@ -79,8 +84,7 @@ export default function Personal() {
         </div>
       </div>
       {
-        staffModificarId > 0
-        &&
+        staffModificarId & staffModificarId != 'add' &&
         <ModificarStaffModal
           empleado={staff.filter(e => e.id == staffModificarId)[0]}
           id={staffModificarId}

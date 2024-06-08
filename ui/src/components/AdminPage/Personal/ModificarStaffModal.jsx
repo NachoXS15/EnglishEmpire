@@ -3,7 +3,7 @@ import '../../../styles/AdminPage/Personal/ModificarStaffModal.css'
 
 export default function ModificarStaffModal({ empleado, setId }) {
   const [actualizarStaffModal, setActualizarStaffModal] = useState(false)
-  const [nombre, setNombre] = useState(empleado.name)
+  const [nombre, setNombre] = useState(empleado.nombre)
   const [cargo, setCargo] = useState(empleado.cargo)
   const [imagen, setImagen] = useState(null)
 
@@ -36,7 +36,7 @@ export default function ModificarStaffModal({ empleado, setId }) {
         <form className='modificar-staff-form'>
           <div>
             <label htmlFor="nombre">Nombre</label>
-            <input type="text" id='nombre' defaultValue={empleado.name} />
+            <input type="text" id='nombre' defaultValue={empleado.nombre} />
           </div>
           <div>
             <label htmlFor="cargo">Cargo</label>
