@@ -1,0 +1,18 @@
+.add-curso--container{
+  background-color: rgba(0,0,0,.4);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.add-curso--box{
+  background-color: #f1f1f1;
+  width: 500px;
+  height: auto;
+  min-height: 400px;
+}

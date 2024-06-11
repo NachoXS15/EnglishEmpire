@@ -1,7 +1,10 @@
 import { useState } from 'react'
-import '../../../styles/AdminPage/Personal/AddNewStaffModal.css'
 import ProfesorCard from '../../Nosotros/ProfesorCard.jsx'
-import { addDoc,collection, getFirestore } from 'firebase/firestore'
+import { addDoc, collection, getFirestore } from 'firebase/firestore'
+import { getStorage, ref, uploadString, getDownloadURL } from "firebase/storage";
+
+
+
 
 export default function AddNewStaffModal({ setId }) {
 
@@ -11,12 +14,22 @@ export default function AddNewStaffModal({ setId }) {
   const [cargo, setCargo] = useState('')
   const [img, setImg] = useState('')
   const [imageBase64, setImageBase64] = useState("");
+  // Initialize Firebase
+  const db = getFirestore();
+  const storage = getStorage();
+
+  const uploadImage = async (base64Image) => {
+    const storageRef = ref(storage, `images/${new Date().getTime()}`);
+    await uploadString(storageRef, base64Image, 'data_url');
+    const imageUrl = await getDownloadURL(storageRef);
+    return imageUrl;
+  };
+
 
   const handleExitModal = () => {
     setId(0)
   }
 
-  const db = getFirestore();
 
   const handleInputChange = async (e) => {
     if (e.target.id == 'nombre') {
@@ -25,30 +38,34 @@ export default function AddNewStaffModal({ setId }) {
       setCargo(e.target.value)
     } else if (e.target.id == 'img') {
       const file = e.target.files[0];
-      if (file && (file.type === 'image/jpeg' || file.type === 'image/jpg')) {
+      if (file) {
         const reader = new FileReader();
-        reader.onload = (e) => {
-          setImg(e.target.result);
-          setImageBase64(e.target.result.split(",")[1]);
-        }
         reader.readAsDataURL(file);
+        reader.onloadend = () => {
+          setImg(reader.result)
+          setImageBase64(reader.result);
+        };
       }
+    }
+  }
+
+  const saveData = async () => {
+    try {
+      const imgURL = await uploadImage(imageBase64);
+      await addDoc(collection(db, "Staff"), {
+        nombre: nombre,
+        cargo: cargo,
+        imagen: imgURL
+      });
+      alert("Persona agregada a DB");
+    } catch (error) {
+      console.error("Error saving data:", error);
+      alert("Ocurrió un error al guardar la información. Por favor, inténtalo de nuevo.");
     }
   }
 
   const handleGuardarCambios = async (e) => {
     e.preventDefault();
-
-    const saveData = async() => {
-      const docRef = await addDoc(collection(db, "Staff"), {
-        nombre: nombre,
-        cargo: cargo,
-        imagen: img
-      });
-      alert("Persona agregada a DB")
-
-    }
-
     if (e.target.innerText == 'Guardar Cambios') {
       if (nombre == '') {
         setError('Ingrese nombre')
@@ -66,7 +83,6 @@ export default function AddNewStaffModal({ setId }) {
 
     if (e.target.innerText == 'Si') {
       saveData();
-      console.log(imageBase64)
     }
     setError('')
     setActualizarStaffModal(prevState => !prevState)

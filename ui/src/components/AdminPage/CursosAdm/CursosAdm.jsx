@@ -4,8 +4,7 @@ import CursoCardAdm from './CursoCardAdm'
 import ModificarCursoModal from './modificarCursoModal'
 import { useNavigate } from 'react-router-dom'
 import { getFirestore, getDocs, collection } from 'firebase/firestore'
-
-
+import AddCursoModal from './AddCursoModal'
 
 export default function CursosAdm() {
   const [cursos, setCursos] = useState([])
@@ -100,12 +99,23 @@ export default function CursosAdm() {
             />
           ))
         }
+
+      </div>
+      <div>
+        <button className='add-curso-btn' onClick={() => { modificarCurso('add') }}>Agregar Curso</button>
+
       </div>
       {
-        cursoModificarId &&
+        (cursoModificarId && cursoModificarId != 'add') &&
         <ModificarCursoModal
           cursos={cursos}
           id={cursoModificarId}
+          modificarCurso={modificarCurso}
+        />
+      }
+      {
+        cursoModificarId == 'add' &&
+        <AddCursoModal
           modificarCurso={modificarCurso}
         />
       }

@@ -84,7 +84,7 @@ export default function Personal() {
         </div>
       </div>
       {
-        staffModificarId & staffModificarId != 'add' &&
+        (staffModificarId && staffModificarId != 'add') &&
         <ModificarStaffModal
           empleado={staff.filter(e => e.id == staffModificarId)[0]}
           id={staffModificarId}
