@@ -3,9 +3,6 @@ import ProfesorCard from '../../Nosotros/ProfesorCard.jsx'
 import { addDoc, collection, getFirestore } from 'firebase/firestore'
 import { getStorage, ref, uploadString, getDownloadURL } from "firebase/storage";
 
-
-
-
 export default function AddNewStaffModal({ setId }) {
 
   const [actualizarStaffModal, setActualizarStaffModal] = useState(false)
@@ -25,11 +22,9 @@ export default function AddNewStaffModal({ setId }) {
     return imageUrl;
   };
 
-
   const handleExitModal = () => {
     setId(0)
   }
-
 
   const handleInputChange = async (e) => {
     if (e.target.id == 'nombre') {
@@ -57,7 +52,9 @@ export default function AddNewStaffModal({ setId }) {
         cargo: cargo,
         imagen: imgURL
       });
-      alert("Persona agregada a DB");
+      alert("Personal agregado correctamente!");
+      setId(0)
+      window.location.reload()
     } catch (error) {
       console.error("Error saving data:", error);
       alert("Ocurrió un error al guardar la información. Por favor, inténtalo de nuevo.");
@@ -107,7 +104,7 @@ export default function AddNewStaffModal({ setId }) {
           </div>
           <div>
             <label htmlFor="img">Imagen</label>
-            <input type="file" id='img' accept=".jpg, .jpeg" onChange={handleInputChange} />
+            <input type="file" id='img' accept=".jpg, .jpeg, .png" onChange={handleInputChange} />
           </div>
           <div>
             <button onClick={handleGuardarCambios}>Guardar Cambios</button>

@@ -51,7 +51,6 @@ export default function CursosAdm() {
     }
   }, [cursoModificarId])
 
-
   const goBackToMenu = () => {
     navigate('../menu')
   }
@@ -60,7 +59,7 @@ export default function CursosAdm() {
     setCategorySelectedId(e.target.value)
   }
 
-  const modificarCurso = (id) => {
+  const navigateTo = (id) => {
     if (id == 0) {
       setCursoModificarId(false)
       navigate('.')
@@ -92,17 +91,17 @@ export default function CursosAdm() {
             <CursoCardAdm
               key={curso.id}
               cursoName={curso.nombre}
-              cursoAge={curso.edad}
+              cursoAge={curso.edades}
               imgUrl={curso.imagen}
               id={curso.id}
-              modificarCurso={modificarCurso}
+              navigateTo={navigateTo}
             />
           ))
         }
 
       </div>
       <div>
-        <button className='add-curso-btn' onClick={() => { modificarCurso('add') }}>Agregar Curso</button>
+        <button className='add-curso-btn' onClick={() => { navigateTo('add') }}>Agregar Curso</button>
 
       </div>
       {
@@ -110,13 +109,17 @@ export default function CursosAdm() {
         <ModificarCursoModal
           cursos={cursos}
           id={cursoModificarId}
-          modificarCurso={modificarCurso}
+          navigateTo={navigateTo}
+          categories={categories}
+          categorySelectedName={categorySelectedName}
         />
       }
       {
         cursoModificarId == 'add' &&
         <AddCursoModal
-          modificarCurso={modificarCurso}
+          navigateTo={navigateTo}
+          categories={categories}
+          categorySelectedName={categorySelectedName}
         />
       }
     </div>

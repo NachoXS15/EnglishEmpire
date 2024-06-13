@@ -2,7 +2,7 @@ import { useState } from 'react'
 import '../../../styles/AdminPage/Cursos/CursoCardAdm.css'
 import defaultCursoImg from '../../../assets/adminPage/cursos_default_img.png'
 
-export default function CursoCardAdm({ imgUrl, cursoName, cursoAge, id, modificarCurso }) {
+export default function CursoCardAdm({ imgUrl, cursoName, cursoAge, id, navigateTo }) {
   const [imageSrc, setImageSrc] = useState(imgUrl)
 
   const handleImgError = () => {
@@ -10,7 +10,7 @@ export default function CursoCardAdm({ imgUrl, cursoName, cursoAge, id, modifica
   }
 
   return (
-    <div className='curso-card-adm' data-id={id} onClick={() => { modificarCurso(id) }}>
+    <div className='curso-card-adm' data-id={id} onClick={() => { navigateTo(id) }}>
       <img src={imageSrc} alt={cursoName} onError={handleImgError} />
       <div>
         <p>{cursoName}</p>

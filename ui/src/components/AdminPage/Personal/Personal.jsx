@@ -11,7 +11,7 @@ export default function Personal() {
   const [staff, setStaff] = useState([])
   const [staffModificarId, setStaffModificarId] = useState(false)
 
-  const modificarStaff = (id) => {
+  const navigateTo = (id) => {
     if (id == 0) {
       setStaffModificarId(false)
       navigate('.')
@@ -24,22 +24,21 @@ export default function Personal() {
 
   const db = getFirestore();
 
+  const fetchData = async () => {
+    try {
+      const response = await getDocs(collection(db, 'Staff'));
+      const dataList = response.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      setStaff(dataList);
+    } catch (error) {
+      console.error('Error fetching data: ', error);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getDocs(collection(db, 'Staff'));
-        const dataList = response.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }));
-        setStaff(dataList);
-      } catch (error) {
-        console.error('Error fetching data: ', error);
-      }
-    };
-
     fetchData();
-
   }, [])
 
   const goBackToMenu = () => {
@@ -57,7 +56,7 @@ export default function Personal() {
           {
             staff.map(empleado => (
               <div className='profesor-card--admin' key={empleado.nombre}
-                onClick={() => modificarStaff(empleado.id)}
+                onClick={() => navigateTo(empleado.id)}
               >
                 <i className="fa-solid fa-pen"></i>
                 <ProfesorCard
@@ -69,7 +68,7 @@ export default function Personal() {
             ))
           }
           <div className='profesor-card--admin'
-            onClick={() => modificarStaff('add')}
+            onClick={() => navigateTo('add')}
           >
             <i>+</i>
             <ProfesorCard
@@ -88,14 +87,16 @@ export default function Personal() {
         <ModificarStaffModal
           empleado={staff.filter(e => e.id == staffModificarId)[0]}
           id={staffModificarId}
-          setId={modificarStaff}
+          setId={navigateTo}
+          fetchData={fetchData}
         />
       }
       {
         staffModificarId == 'add'
         &&
         <AddNewStaffModal
-          setId={modificarStaff}
+          setId={navigateTo}
+
         />
       }
     </div >

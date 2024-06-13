@@ -78,7 +78,7 @@ export default function Nosotros() {
               <ProfesorCard
                 name={prof.nombre}
                 role={prof.cargo}
-                imgUrl={`data:image/jpeg;base64,${prof.imagen}`}
+                imgUrl={prof.imagen}
                 key={prof.id}
               />
             ))
