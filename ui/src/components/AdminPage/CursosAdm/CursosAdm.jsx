@@ -4,8 +4,7 @@ import CursoCardAdm from './CursoCardAdm'
 import ModificarCursoModal from './modificarCursoModal'
 import { useNavigate } from 'react-router-dom'
 import { getFirestore, getDocs, collection } from 'firebase/firestore'
-
-
+import AddCursoModal from './AddCursoModal'
 
 export default function CursosAdm() {
   const [cursos, setCursos] = useState([])
@@ -52,7 +51,6 @@ export default function CursosAdm() {
     }
   }, [cursoModificarId])
 
-
   const goBackToMenu = () => {
     navigate('../menu')
   }
@@ -61,7 +59,7 @@ export default function CursosAdm() {
     setCategorySelectedId(e.target.value)
   }
 
-  const modificarCurso = (id) => {
+  const navigateTo = (id) => {
     if (id == 0) {
       setCursoModificarId(false)
       navigate('.')
@@ -93,20 +91,35 @@ export default function CursosAdm() {
             <CursoCardAdm
               key={curso.id}
               cursoName={curso.nombre}
-              cursoAge={curso.edad}
+              cursoAge={curso.edades}
               imgUrl={curso.imagen}
               id={curso.id}
-              modificarCurso={modificarCurso}
+              navigateTo={navigateTo}
             />
           ))
         }
+
+      </div>
+      <div>
+        <button className='add-curso-btn' onClick={() => { navigateTo('add') }}>Agregar Curso</button>
+
       </div>
       {
-        cursoModificarId &&
+        (cursoModificarId && cursoModificarId != 'add') &&
         <ModificarCursoModal
-          cursos={cursos}
+          curso={cursos.filter(curso => curso.id == cursoModificarId)[0]}
           id={cursoModificarId}
-          modificarCurso={modificarCurso}
+          navigateTo={navigateTo}
+          categories={categories}
+          categorySelectedName={categorySelectedName}
+        />
+      }
+      {
+        cursoModificarId == 'add' &&
+        <AddCursoModal
+          navigateTo={navigateTo}
+          categories={categories}
+          categorySelectedName={categorySelectedName}
         />
       }
     </div>
