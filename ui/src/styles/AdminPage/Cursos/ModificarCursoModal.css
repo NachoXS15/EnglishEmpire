@@ -58,6 +58,16 @@
   font-size: 18px;
 }
 
+.modificar-form-cursos label{
+  width: calc(100% - 8px);
+}
+
+.modificar-form-cursos label.descripcion-label{
+  width: 100%;
+  margin: auto;
+  text-align: center;
+}
+
 .modificar-form-cursos input[type="text"],
 .modificar-form-cursos input[type="date"],
 .modificar-form-cursos input[type="number"],

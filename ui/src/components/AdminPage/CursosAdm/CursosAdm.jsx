@@ -107,7 +107,7 @@ export default function CursosAdm() {
       {
         (cursoModificarId && cursoModificarId != 'add') &&
         <ModificarCursoModal
-          cursos={cursos}
+          curso={cursos.filter(curso => curso.id == cursoModificarId)[0]}
           id={cursoModificarId}
           navigateTo={navigateTo}
           categories={categories}

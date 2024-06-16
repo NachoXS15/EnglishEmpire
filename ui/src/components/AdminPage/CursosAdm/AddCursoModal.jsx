@@ -153,8 +153,12 @@ export default function AddCursoModal({ navigateTo, categories, categorySelected
             <input type="file" accept='.jpeg, .jpg, .png' id='imagen' onChange={handleInputChange} />
           </div>
           <div>
-            <label htmlFor="descripcion">Descripcion del curso</label>
+            <label htmlFor="descripcion" className='descripcion-label'>Descripcion del curso</label>
             <textarea name="descripcion" id="descripcion" onChange={handleInputChange}></textarea>
+          </div>
+          <div>
+            <label htmlFor="linkPago">Link de pago </label>
+            <input type="text" id='linkPago' onChange={handleInputChange} defaultValue={cursoModificado.linkPago} />
           </div>
           <div className='modificar-curso-btns'>
             <button onClick={handleSubmit}>Agregar curso</button>
