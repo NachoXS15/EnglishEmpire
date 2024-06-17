@@ -4,6 +4,7 @@ import '../../styles/AdminPage/Login.css'
 import { signIn } from '../../config/auth'
 import { useAuth } from '../../config/AuthProvider'
 import { useNavigate } from 'react-router'
+import { auth } from '../../config/firebase-config'
 
 export default function Login() {
   const navigate = useNavigate();
@@ -33,7 +34,36 @@ export default function Login() {
       navigate('/menu');
     }
   }, [isLogged])
-  
+
+  const signInAuth = async () => {
+    try {
+      await signIn(formData.email, formData.password);
+      const user = auth.currentUser
+      const token = await user.getIdToken();
+      console.log('Token:', token);
+
+      const response = await fetch('http://localhost:3000/auth', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({token})
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData);
+      }
+
+      const data = await response.json();
+      const jwtToken = data.jwt;
+
+      localStorage.setItem('token', jwtToken);
+      console.log('Sesión Iniciada');
+    } catch (error) {
+      console.error('Error:', error.message);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -56,9 +86,10 @@ export default function Login() {
 
     setErrors({})
     try {
-      await signIn(formData.email, formData.password);
+      // await signIn(formData.email, formData.password);
+      await signInAuth();
       setIsLogged(true)
-      
+
     } catch (error) {
       setErrors({
         others: "Ingrese datos validos"
