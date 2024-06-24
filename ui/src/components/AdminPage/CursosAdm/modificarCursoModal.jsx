@@ -1,6 +1,8 @@
 import '../../../styles/AdminPage/Cursos/ModificarCursoModal.css'
 import { useEffect, useState } from 'react'
-import { getFirestore, doc, deleteDoc } from 'firebase/firestore'
+import { doc, getFirestore, updateDoc, deleteDoc } from 'firebase/firestore'
+import { getDownloadURL, getStorage, ref, uploadString } from 'firebase/storage'
+
 
 export default function ModificarCursoModal({ curso, navigateTo, categories, categorySelectedName }) {
 
@@ -12,32 +14,67 @@ export default function ModificarCursoModal({ curso, navigateTo, categories, cat
   const [descartarCambiosModal, setDescartarCambiosModal] = useState(false)
   const [deleteCursoModal, setDeleteCursoModal] = useState(false)
   const [imgSubida, setImgSubida] = useState('')
+
   const db = getFirestore()
+  const storage = getStorage()
+
 
   useEffect(() => {
     setDescartarCambiosModal(false)
     setActualizarCursoModal(false)
   }, [])
 
-  const actualizarCurso = (e) => {
+  const uploadImage = async (base64Image) => {
+    try {
+      const storageRef = ref(storage, `images/${new Date().getTime()}`);
+      await uploadString(storageRef, base64Image, 'data_url');
+      const imageUrl = await getDownloadURL(storageRef);
+      console.log(imageUrl)
+      return imageUrl;
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    }
+  };
+
+  const actualizarCurso = async (e) => {
     e.preventDefault()
     setNoChanges(false)
     if (
       cursoModificado.nombre == curso.nombre &
-      cursoModificado.edad == curso.edad &
+      cursoModificado.edades == curso.edades &
       cursoModificado.categoria == curso.categoria &
       cursoModificado.categoria == curso.categoria &
       cursoModificado.clasesSemanales == curso.clasesSemanales &
       cursoModificado.inicio == curso.inicio &
       cursoModificado.duracion == curso.duracion &
       cursoModificado.descripcion == curso.descripcion &
+      cursoModificado.precio == curso.precio &
       imgSubida == ''
     ) {
       setNoChanges(true)
     } else {
-      if (e.target.innerText == 'asConfirmar') {
+      if (e.target.innerText == 'Confirmar') {
+        let cursoFinal = cursoModificado
+        // Modificar Curso
+        // subir la nueva imagen y actualizar
+        if (imgSubida.length >= 0) {
+          const imgURL = await uploadImage(imgSubida)
+          cursoFinal = {
+            ...cursoFinal,
+            imagen: imgURL
+          }
+          console.log(cursoFinal)
+          const docRef = doc(db, "Cursos", curso.id);
+          await updateDoc(docRef, cursoFinal)
+        } else {
+          const docRef = doc(db, "Cursos", curso.id);
+          await updateDoc(docRef, cursoModificado)
+        }
+        alert('Datos modificados correctamente! :D')
         setActualizarCursoModal(false)
         navigateTo(0)
+        window.location.reload()
+
       } else if (e.target.classList[0] == 'fa-solid' || e.target.classList[0] == 'no-actualizar-curso') {
         setActualizarCursoModal(false)
       } else {
@@ -80,11 +117,22 @@ export default function ModificarCursoModal({ curso, navigateTo, categories, cat
     }
   }
 
-  const handleInputChange = (e) => {
-    setCursoModificado({
-      ...cursoModificado,
-      [e.target.id]: e.target.value
-    })
+  const handleInputChange = async (e) => {
+    if (e.target.id == 'imagen') {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = () => {
+          setImgSubida(reader.result);
+        };
+      }
+    } else {
+      setCursoModificado({
+        ...cursoModificado,
+        [e.target.id]: e.target.value
+      })
+    }
   }
 
 
@@ -129,14 +177,18 @@ export default function ModificarCursoModal({ curso, navigateTo, categories, cat
             <label htmlFor="imagen" className='programa-label'>
               Seleccionar Archivo
             </label>
-            <input type="file" id='imagen' accept='.jpeg, .jpg, .png' />
+            <input type="file" id='imagen' accept='.jpeg, .jpg, .png' onChange={handleInputChange} />
           </div>
           <div>
             <label htmlFor="descripcion" className='descripcion-label'>Descripcion del curso</label>
             <textarea name="descripcion" id="descripcion" onChange={handleInputChange} defaultValue={cursoModificado.descripcion}></textarea>
           </div>
           <div>
-            <label htmlFor="linkPago">Link de pago </label>
+            <label htmlFor="precio">Precio del curso</label>
+            <input type="number" id='precio' onChange={handleInputChange} defaultValue={cursoModificado.precio} />
+          </div>
+          <div>
+            <label htmlFor="linkPago">Link de pago</label>
             <input type="text" id='linkPago' onChange={handleInputChange} defaultValue={cursoModificado.linkPago} />
           </div>
           {

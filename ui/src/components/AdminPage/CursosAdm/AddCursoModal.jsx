@@ -116,8 +116,8 @@ export default function AddCursoModal({ navigateTo, categories, categorySelected
             <input type="text" id='nombre' onChange={handleInputChange} />
           </div>
           <div>
-            <label htmlFor="categorie">Categoria del curso</label>
-            <select name="categorie" id="categorie" onChange={handleInputChange} defaultValue={categorySelectedName}>
+            <label htmlFor="categoria">Categoria del curso</label>
+            <select name="categoria" id="categoria" onChange={handleInputChange} defaultValue={categorySelectedName}>
               {
                 categories.map(category => (
                   <option name={category} key={category} value={category}>{category}</option>
@@ -157,8 +157,12 @@ export default function AddCursoModal({ navigateTo, categories, categorySelected
             <textarea name="descripcion" id="descripcion" onChange={handleInputChange}></textarea>
           </div>
           <div>
+            <label htmlFor="precio">Precio del curso</label>
+            <input type="number" id='precio' onChange={handleInputChange} />
+          </div>
+          <div>
             <label htmlFor="linkPago">Link de pago </label>
-            <input type="text" id='linkPago' onChange={handleInputChange} defaultValue={cursoModificado.linkPago} />
+            <input type="text" id='linkPago' onChange={handleInputChange} />
           </div>
           <div className='modificar-curso-btns'>
             <button onClick={handleSubmit}>Agregar curso</button>

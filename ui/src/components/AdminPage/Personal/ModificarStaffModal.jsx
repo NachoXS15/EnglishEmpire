@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import '../../../styles/AdminPage/Personal/ModificarStaffModal.css'
-import { doc, getFirestore, updateDoc, deleteDoc } from 'firebase/firestore'
 import ProfesorCard from '../../Nosotros/ProfesorCard'
+import { doc, getFirestore, updateDoc, deleteDoc } from 'firebase/firestore'
 import { getDownloadURL, getStorage, ref, uploadString } from 'firebase/storage'
 
 export default function ModificarStaffModal({ empleado, setId }) {
