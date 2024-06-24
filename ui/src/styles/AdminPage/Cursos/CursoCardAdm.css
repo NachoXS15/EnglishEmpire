@@ -13,6 +13,9 @@
   text-decoration: none;
 }
 
+.curso-card-adm img{
+  border-radius: 20px 0 0 20px;
+}
 
 .curso-card-adm div{
   display: flex;

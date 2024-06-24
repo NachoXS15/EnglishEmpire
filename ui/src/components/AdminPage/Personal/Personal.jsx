@@ -11,6 +11,43 @@ export default function Personal() {
   const [staff, setStaff] = useState([])
   const [staffModificarId, setStaffModificarId] = useState(false)
 
+  const db = getFirestore();
+
+  const fetchData = async () => {
+
+    const cargoPrioridad = {
+      'Presidente': 1,
+      'Secretaria': 5,
+      'Secretario': 5,
+      'Manejo de RRSS': 7,
+      'Profesora': 10,
+      'Profesor': 10
+    };
+
+    try {
+      const response = await getDocs(collection(db, 'Staff'));
+      const dataList = response.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      const empleadosOrdenados = dataList.sort((a, b) => {
+        return cargoPrioridad[a.cargo] - cargoPrioridad[b.cargo];
+      });
+      setStaff(empleadosOrdenados);
+    } catch (error) {
+      console.error('Error fetching data: ', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [])
+
+
+  const goBackToMenu = () => {
+    navigate('../menu')
+  }
+
   const navigateTo = (id) => {
     if (id == 0) {
       setStaffModificarId(false)
@@ -22,28 +59,6 @@ export default function Personal() {
     }
   }
 
-  const db = getFirestore();
-
-  const fetchData = async () => {
-    try {
-      const response = await getDocs(collection(db, 'Staff'));
-      const dataList = response.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }));
-      setStaff(dataList);
-    } catch (error) {
-      console.error('Error fetching data: ', error);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, [])
-
-  const goBackToMenu = () => {
-    navigate('../menu')
-  }
 
   return (
     <div className='personal-body'>
