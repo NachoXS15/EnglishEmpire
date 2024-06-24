@@ -22,7 +22,7 @@ export default function Menu() {
   const goTo = (url) => {
     navigate(url)
   }
-
+  
   return (
     <div className="menu-container">
       <div className="menu-box">
