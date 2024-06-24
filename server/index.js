@@ -43,7 +43,8 @@ app.post('/auth', async(req, res) => {
         res.json({
             jwt: jwtToken
         })
-        console.table(jwtToken);
+        console.log(jwtToken);
+        console.log('Token Verificado');
     } catch (error) {
         res.status(401).send('Token Invalido')
     }
