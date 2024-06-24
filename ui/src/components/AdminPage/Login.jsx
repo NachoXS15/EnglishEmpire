@@ -14,8 +14,7 @@ export default function Login() {
   const [formData, setFormData] = useState({
     email: '',
     password: ''
-  })
-
+  });
 
   const isValidEmail = (email) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -26,19 +25,22 @@ export default function Login() {
     setFormData(prevState => ({
       ...prevState,
       [name]: value
-    }))
-  }
+    }));
+  };
 
   useEffect(() => {
     if (isLogged) {
       navigate('/menu');
     }
-  }, [isLogged])
+  }, [isLogged, navigate]);
 
   const signInAuth = async () => {
     try {
       await signIn(formData.email, formData.password);
-      const user = auth.currentUser
+      const user = auth.currentUser;
+      if (!user) {
+        throw new Error('No user is currently signed in');
+      }
       const token = await user.getIdToken();
       console.log('Token:', token);
 
@@ -47,12 +49,12 @@ export default function Login() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({token})
+        body: JSON.stringify({ token })
       });
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData);
+        throw new Error(errorData.message || 'Failed to authenticate');
       }
 
       const data = await response.json();
@@ -62,6 +64,7 @@ export default function Login() {
       console.log('Sesión Iniciada');
     } catch (error) {
       console.error('Error:', error.message);
+      throw error; // Re-throw the error to handle it in handleSubmit
     }
   };
 
@@ -84,19 +87,16 @@ export default function Login() {
       return;
     }
 
-    setErrors({})
+    setErrors({});
     try {
-      // await signIn(formData.email, formData.password);
       await signInAuth();
-      setIsLogged(true)
-
+      setIsLogged(true);
     } catch (error) {
       setErrors({
-        others: "Ingrese datos validos"
-      })
+        others: "Ingrese datos válidos"
+      });
     }
-
-  }
+  };
 
   return (
     <div className='login-container'>
@@ -124,19 +124,15 @@ export default function Login() {
               onChange={handleChange} />
             {errors.password && <span>{errors.password}</span>}
           </div>
-
           <div className='other-error'>
             <button type='submit' className='login-button'>Ingresar</button>
             {errors.others && <span>{errors.others}</span>}
-
           </div>
         </form>
         <div>
           <a href=''>¿Problemas para iniciar sesión? Click aqui</a>
         </div>
-
       </div>
-
     </div>
-  )
+  );
 }
