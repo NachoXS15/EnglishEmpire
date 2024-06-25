@@ -9,7 +9,7 @@ export default function Menu() {
   const [isLogged, setIsLogged] = useState(true)
 
   useEffect(() => {
-    const token = localStorage.getItem('item');
+    const token = localStorage.getItem('token');
     if (!token) {
       setIsLogged(false)
       navigate('/administracion')

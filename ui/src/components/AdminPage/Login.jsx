@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react'
-import logo from '../../assets/logo.png'
-import '../../styles/AdminPage/Login.css'
-import { signIn } from '../../config/auth'
-import { useAuth } from '../../config/AuthProvider'
-import { useNavigate } from 'react-router'
-import { auth } from '../../config/firebase-config'
+import { useState, useEffect } from 'react';
+import logo from '../../assets/logo.png';
+import '../../styles/AdminPage/Login.css';
+import { signIn } from '../../config/auth';
+import { useAuth } from '../../config/AuthProvider';
+import { useNavigate } from 'react-router';
+import { auth } from '../../config/firebase-config';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -15,6 +15,13 @@ export default function Login() {
     email: '',
     password: ''
   });
+
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    if (token) {
+      navigate('/menu')
+    }
+  })
 
   const isValidEmail = (email) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -28,11 +35,7 @@ export default function Login() {
     }));
   };
 
-  useEffect(() => {
-    if (isLogged) {
-      navigate('/menu');
-    }
-  }, [isLogged, navigate]);
+  
 
   const signInAuth = async () => {
     try {
@@ -62,9 +65,10 @@ export default function Login() {
 
       localStorage.setItem('token', jwtToken);
       console.log('Sesión Iniciada');
+      setIsLogged(true); 
     } catch (error) {
       console.error('Error:', error.message);
-      throw error; // Re-throw the error to handle it in handleSubmit
+      throw error;
     }
   };
 
@@ -90,13 +94,18 @@ export default function Login() {
     setErrors({});
     try {
       await signInAuth();
-      setIsLogged(true);
     } catch (error) {
       setErrors({
         others: "Ingrese datos válidos"
       });
     }
   };
+
+  useEffect(() => {
+    if (isLogged) {
+      navigate('/menu');
+    }
+  }, [isLogged, navigate]);
 
   return (
     <div className='login-container'>
