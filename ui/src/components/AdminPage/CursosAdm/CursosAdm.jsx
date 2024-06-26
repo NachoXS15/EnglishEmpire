@@ -12,10 +12,18 @@ export default function CursosAdm() {
   const [cursos, setCursos] = useState([])
   const [categories, setCategories] = useState([])
   const [categorySelectedName, setCategorySelectedId] = useState('Kinders')
-
+  const [isLogged, setIsLogged] = useState(true)
   // Estado para modificar la url y que aparezca el modal
   const [cursoModificarId, setCursoModificarId] = useState(false)
   const navigate = useNavigate()
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      setIsLogged(false)
+      navigate('/administracion')
+    }
+  })
 
   const db = getFirestore()
 

@@ -10,6 +10,16 @@ export default function Personal() {
   const navigate = useNavigate()
   const [staff, setStaff] = useState([])
   const [staffModificarId, setStaffModificarId] = useState(false)
+  const [isLogged, setIsLogged] = useState(true)
+
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      setIsLogged(false)
+      navigate('/administracion')
+    }
+  })
 
   const db = getFirestore();
 
