@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { doc, getFirestore, updateDoc, deleteDoc } from 'firebase/firestore'
 import { getDownloadURL, getStorage, ref, uploadString } from 'firebase/storage'
 
-
+// AGREGAR TEMA DE CUPOS DISPONIBLES
 export default function ModificarCursoModal({ curso, navigateTo, categories, categorySelectedName }) {
 
   const [cursoModificado, setCursoModificado] = useState({
@@ -171,6 +171,10 @@ export default function ModificarCursoModal({ curso, navigateTo, categories, cat
           <div>
             <label htmlFor="edades">Edades</label>
             <input type="text" id='edades' onChange={handleInputChange} defaultValue={cursoModificado.edades} />
+          </div>
+          <div>
+            <label htmlFor="cupos">Cupos</label>
+            <input type="number" id='cupos' onChange={handleInputChange} defaultValue={0} />
           </div>
           <div>
             <label htmlFor="imagen">Imagen del curso</label>

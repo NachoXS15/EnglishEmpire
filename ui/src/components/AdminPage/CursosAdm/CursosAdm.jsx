@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom'
 import { getFirestore, getDocs, collection } from 'firebase/firestore'
 import AddCursoModal from './AddCursoModal'
 
+// ARREGLAR PROBLEMA DE SUBIR IMG
+
 export default function CursosAdm() {
   const [cursos, setCursos] = useState([])
   const [categories, setCategories] = useState([])
