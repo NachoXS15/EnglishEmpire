@@ -23,10 +23,6 @@ const router = createBrowserRouter([
     element: <Inicio />
   },
   {
-    path: '/cursos',
-    element: <Cursos />
-  },
-  {
     path: '/nosotros',
     element: <Nosotros />
   },
@@ -39,7 +35,15 @@ const router = createBrowserRouter([
     element: <Contacto />
   },
   {
-    path: '/cursos/:nivel/:id',
+    path: '/cursos',
+    element: <Cursos />
+  },
+  {
+    path: '/cursos/:nivel',
+    element: <Cursos />
+  },
+  {
+    path: '/cursos/:nivel/:nombre',
     element: <CursoDetails />
   },
   {

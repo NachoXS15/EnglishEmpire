@@ -35,8 +35,6 @@ export default function Login() {
     }));
   };
 
-  
-
   const signInAuth = async () => {
     try {
       await signIn(formData.email, formData.password);
@@ -65,7 +63,7 @@ export default function Login() {
 
       localStorage.setItem('token', jwtToken);
       console.log('Sesión Iniciada');
-      setIsLogged(true); 
+      setIsLogged(true);
     } catch (error) {
       console.error('Error:', error.message);
       throw error;

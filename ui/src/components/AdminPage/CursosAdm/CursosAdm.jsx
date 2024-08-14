@@ -35,7 +35,13 @@ export default function CursosAdm() {
           id: doc.id,
           ...doc.data()
         }));
-        setCursos(dataCursos);
+        const ordenarPorLetra = (a, b) => {
+          const letraA = a.nombre.match(/"([^"]+)"/)[1];
+          const letraB = b.nombre.match(/"([^"]+)"/)[1];
+          return letraA.localeCompare(letraB);
+        }
+        let cursosOrdenados = dataCursos.sort(ordenarPorLetra)
+        setCursos(cursosOrdenados);
       } catch (error) {
         console.error('Error fetching data: ', error);
       }
@@ -112,8 +118,8 @@ export default function CursosAdm() {
       </div>
       <div>
         <button className='add-curso-btn' onClick={() => { navigateTo('add') }}>Agregar Curso</button>
-
       </div>
+
       {
         (cursoModificarId && cursoModificarId != 'add') &&
         <ModificarCursoModal

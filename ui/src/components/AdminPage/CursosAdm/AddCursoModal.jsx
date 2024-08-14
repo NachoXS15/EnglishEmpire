@@ -146,6 +146,10 @@ export default function AddCursoModal({ navigateTo, categories, categorySelected
             <input type="number" name="clasesSemanales" id="clasesSemanales" onChange={handleInputChange} />
           </div>
           <div>
+            <label htmlFor="cupos">Cupos</label>
+            <input type="number" id='cupos' onChange={handleInputChange} />
+          </div>
+          <div>
             <label htmlFor="imagen">Imagen del curso</label>
             <label htmlFor="imagen" className='programa-label'>
               Seleccionar Archivo

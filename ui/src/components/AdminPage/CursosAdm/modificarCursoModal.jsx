@@ -49,6 +49,7 @@ export default function ModificarCursoModal({ curso, navigateTo, categories, cat
       cursoModificado.duracion == curso.duracion &
       cursoModificado.descripcion == curso.descripcion &
       cursoModificado.precio == curso.precio &
+      cursoModificado.cupos == curso.cupos &
       imgSubida == ''
     ) {
       setNoChanges(true)
@@ -57,7 +58,7 @@ export default function ModificarCursoModal({ curso, navigateTo, categories, cat
         let cursoFinal = cursoModificado
         // Modificar Curso
         // subir la nueva imagen y actualizar
-        if (imgSubida.length >= 0) {
+        if (imgSubida.length >= 1) {
           const imgURL = await uploadImage(imgSubida)
           cursoFinal = {
             ...cursoFinal,
@@ -174,7 +175,7 @@ export default function ModificarCursoModal({ curso, navigateTo, categories, cat
           </div>
           <div>
             <label htmlFor="cupos">Cupos</label>
-            <input type="number" id='cupos' onChange={handleInputChange} defaultValue={0} />
+            <input type="number" id='cupos' onChange={handleInputChange} defaultValue={cursoModificado.cupos} />
           </div>
           <div>
             <label htmlFor="imagen">Imagen del curso</label>
