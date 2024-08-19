@@ -43,8 +43,6 @@ export default function Login() {
         throw new Error('No user is currently signed in');
       }
       const token = await user.getIdToken();
-      console.log('Token:', token);
-
       const response = await fetch('http://localhost:3000/auth', {
         method: 'POST',
         headers: {
