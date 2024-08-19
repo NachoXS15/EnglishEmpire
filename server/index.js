@@ -39,7 +39,7 @@ app.post('/auth', async(req, res) => {
     try {
         const decodedToken = await admin.auth().verifyIdToken(idToken);
         const userId = decodedToken.uid
-        const jwtToken = jwt.sign({userId}, SECRET_KEY, {expiresIn: '30m'})
+        const jwtToken = jwt.sign({userId}, SECRET_KEY, {expiresIn: '2d'})
         res.json({
             jwt: jwtToken
         })
