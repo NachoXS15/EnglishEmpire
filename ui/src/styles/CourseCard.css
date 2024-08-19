@@ -11,6 +11,10 @@
   text-decoration: none;
 }
 
+.curso-card img{
+  border-radius: 20px 0 0 20px;
+}
+
 .curso-card div{
   display: flex;
   flex-direction: column;

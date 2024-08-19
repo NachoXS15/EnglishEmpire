@@ -21,10 +21,10 @@ export default function Contacto() {
                 <i className="fa-brands fa-facebook"></i>
               </a>
               <a href="">
-                <i class="fa-brands fa-instagram"></i>
+                <i className="fa-brands fa-instagram"></i>
               </a>
               <a href="">
-                <i class="fa-brands fa-whatsapp"></i>
+                <i className="fa-brands fa-whatsapp"></i>
               </a>
             </div>
           </div>

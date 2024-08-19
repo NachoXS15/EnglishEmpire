@@ -3,89 +3,88 @@ import '../../../styles/AdminPage/Cursos/CursosAdm.css'
 import CursoCardAdm from './CursoCardAdm'
 import ModificarCursoModal from './modificarCursoModal'
 import { useNavigate } from 'react-router-dom'
+import { getFirestore, getDocs, collection } from 'firebase/firestore'
+import AddCursoModal from './AddCursoModal'
 
-const cursosJSON = [
-  {
-    name: 'Kinder "A"',
-    ages: '3, 4 y 5',
-    img: 'https://www.englishempire.com.ar/assets/courses/kinder/__Mobile_kinder.png',
-    category: 'Kinder',
-    url: '/kinder/1',
-    id: '1'
-  },
-  {
-    name: 'Juniors "A"',
-    ages: '6 y 7',
-    img: 'https://www.englishempire.com.ar/assets/courses/juniors/__Mobile_beginners04.png',
-    category: 'Juniors',
-    url: '/juniors/1',
-    id: '2'
-  },
-  {
-    name: 'Juniors "B"',
-    ages: '8, 9 y 10',
-    img: 'https://www.englishempire.com.ar/assets/courses/juniors/__Mobile_beginners03.png',
-    category: 'Juniors',
-    url: '/juniors/2',
-    id: '3'
-  },
-  {
-    name: 'Juniors "C"',
-    ages: '11, 12 y 13',
-    img: 'https://www.englishempire.com.ar/assets/courses/juniors/__Mobile_beginners02.png',
-    category: 'Juniors',
-    url: '/juniors/3',
-    id: '4'
-  },
-  {
-    name: 'Teens',
-    ages: '14, 15 y 16',
-    img: 'https://www.englishempire.com.ar/assets/courses/teens/__Mobile_teens01.png',
-    category: 'Teens',
-    url: '/teens/1',
-    id: '5'
-  },
-  {
-    name: 'Adults Principiantes (virtual)',
-    ages: ['+17'],
-    img: 'https://www.englishempire.com.ar/assets/courses/kinder/__Mobile_kinder.png',
-    category: 'Adults',
-    url: '/adults/1',
-    id: '6'
-  }
-]
+// ARREGLAR PROBLEMA DE SUBIR IMG
 
 export default function CursosAdm() {
-  const [categorySelected, setCategorySelected] = useState('Kinder')
-  const categories = ['Kinder', 'Juniors', 'Teens', 'Adults', 'Individuales', 'Empresariales']
-
+  const [cursos, setCursos] = useState([])
+  const [categories, setCategories] = useState([])
+  const [categorySelectedName, setCategorySelectedId] = useState('Kinders')
+  const [isLogged, setIsLogged] = useState(true)
   // Estado para modificar la url y que aparezca el modal
-  const [cursoModificarId, setCursoModificarId] = useState(0)
+  const [cursoModificarId, setCursoModificarId] = useState(false)
   const navigate = useNavigate()
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      setIsLogged(false)
+      navigate('/administracion')
+    }
+  })
+
+  const db = getFirestore()
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getDocs(collection(db, 'Cursos'));
+        const dataCursos = response.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        const ordenarPorLetra = (a, b) => {
+          const letraA = a.nombre.match(/"([^"]+)"/)[1];
+          const letraB = b.nombre.match(/"([^"]+)"/)[1];
+          return letraA.localeCompare(letraB);
+        }
+        let cursosOrdenados = dataCursos.sort(ordenarPorLetra)
+        setCursos(cursosOrdenados);
+      } catch (error) {
+        console.error('Error fetching data: ', error);
+      }
+      try {
+        const response = await getDocs(collection(db, 'Categorias'));
+        const cat = response.docs[0].data().categorias
+        setCategories(cat)
+      } catch (error) {
+        console.error('Error fetching data: ', error);
+      }
+    };
+
+    fetchData();
+
+  }, [])
+
+  // useEffect modify cursos
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const modify = queryParams.get('modify');
+    if (modify) {
+      setCursoModificarId(modify)
+    }
+  }, [cursoModificarId])
 
   const goBackToMenu = () => {
     navigate('../menu')
   }
 
   const selectedCursoChange = (e) => {
-    setCategorySelected(e.target.value)
+    setCategorySelectedId(e.target.value)
   }
 
-  const modificarCurso = (id) => {
-    navigate(`.?modify=${id}`)
-    setCursoModificarId(id)
-  }
+  const navigateTo = (id) => {
+    if (id == 0) {
+      setCursoModificarId(false)
+      navigate('.')
 
-  useEffect(() => {
-    const queryParams = new URLSearchParams(location.search);
-    const modify = queryParams.get('modify');
-
-
-    if (modify) {
-      setCursoModificarId(modify)
+    } else {
+      navigate(`.?modify=${id}`)
+      setCursoModificarId(id)
     }
-  }, [cursoModificarId])
-
+  }
 
   return (
     <div className='cursos-admin-container'>
@@ -94,35 +93,49 @@ export default function CursosAdm() {
           <i className="fa-solid fa-circle-left"></i>
         </div>
         <h2>Cursos</h2>
-        <select name="filter" onChange={selectedCursoChange}>
+        <select name="filter" onChange={selectedCursoChange} defaultValue={categorySelectedName}>
           {
-            categories.map(curso => (
-              <option name={curso} key={curso}>{curso}</option>
+            categories.map(category => (
+              <option name={category} key={category} value={category}>{category}</option>
             ))
           }
         </select>
       </div>
       <div className='grilla-cursos'>
         {
-          cursosJSON.map(curso => (
-            curso.category == categorySelected &&
+          cursos.filter(curso => curso.categoria == categorySelectedName).map(curso => (
             <CursoCardAdm
               key={curso.id}
-              cursoName={curso.name}
-              cursoAge={curso.ages}
-              imgUrl={curso.img}
+              cursoName={curso.nombre}
+              cursoAge={curso.edades}
+              imgUrl={curso.imagen}
               id={curso.id}
-              modificarCurso={modificarCurso}
+              navigateTo={navigateTo}
             />
           ))
         }
+
       </div>
+      <div>
+        <button className='add-curso-btn' onClick={() => { navigateTo('add') }}>Agregar Curso</button>
+      </div>
+
       {
-        cursoModificarId > 0
-        &&
+        (cursoModificarId && cursoModificarId != 'add') &&
         <ModificarCursoModal
+          curso={cursos.filter(curso => curso.id == cursoModificarId)[0]}
           id={cursoModificarId}
-          modificarCurso={modificarCurso}
+          navigateTo={navigateTo}
+          categories={categories}
+          categorySelectedName={categorySelectedName}
+        />
+      }
+      {
+        cursoModificarId == 'add' &&
+        <AddCursoModal
+          navigateTo={navigateTo}
+          categories={categories}
+          categorySelectedName={categorySelectedName}
         />
       }
     </div>

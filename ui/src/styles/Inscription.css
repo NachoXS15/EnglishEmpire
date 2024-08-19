@@ -121,3 +121,9 @@
 }
 
 
+@media (max-width: 480px){
+  .form-container form{
+    padding: 2rem 0px;
+  }
+}
+

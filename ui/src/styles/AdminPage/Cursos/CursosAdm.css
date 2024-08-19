@@ -50,6 +50,16 @@
   cursor: pointer;
 }
 
+.add-curso-btn{
+  border: none;
+  padding: 12px;
+  border-radius: 24px;
+  background-color: #EE1120;
+  color: #fff;
+  cursor: pointer;
+  width: 170px;
+  font-size: 16px;
+}
 /* grilla cursos */
 
 .grilla-cursos{
@@ -59,7 +69,6 @@
   grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
   grid-template-rows: auto;
   gap: 20px;
-  padding-bottom: 20px;
-  padding-top: 20px;
+  padding: 20px;
 
 }

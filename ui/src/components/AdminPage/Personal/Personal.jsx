@@ -3,59 +3,72 @@ import { useNavigate } from 'react-router-dom'
 import ProfesorCard from '../../Nosotros/ProfesorCard'
 import { useState, useEffect } from 'react'
 import ModificarStaffModal from './ModificarStaffModal'
-
-// const staff = [
-//   {
-//     name: 'Juan Davila',
-//     role: 'President',
-//     imgURL: 'https://www.englishempire.com.ar/assets/profesores/400x400/Juan.jpg'
-//   },
-//   {
-//     name: 'Davila Juan',
-//     role: 'President',
-//     imgURL: 'https://www.englishempire.com.ar/assets/profesores/400x400/Juan.jpg'
-//   },
-//   {
-//     name: 'Nicolás Lujan',
-//     role: 'Desarrollo y Tech',
-//     imgURL: 'https://www.englishempire.com.ar/assets/profesores/400x400/Juan.jpg'
-//   },
-//   {
-//     name: 'Marco Gavio',
-//     role: 'Ex-Profesor',
-//     imgURL: 'https://www.englishempire.com.ar/assets/profesores/400x400/Juan.jpg'
-//   }
-// ]
-
+import AddNewStaffModal from './AddNewStaffModal'
+import { getDocs, getFirestore, collection } from 'firebase/firestore'
 
 export default function Personal() {
   const navigate = useNavigate()
   const [staff, setStaff] = useState([])
+  const [staffModificarId, setStaffModificarId] = useState(false)
+  const [isLogged, setIsLogged] = useState(true)
 
-  const [staffModificarId, setStaffModificarId] = useState('')
-
-  const modificarStaff = (id) => {
-    navigate(`.?modify=${id}`)
-    setStaffModificarId(id)
-  }
-
-  fetch('https://englishempire.onrender.com/staff')
-  .then((response) => response.json())
-  .then((data) => setStaff(data))
-  .catch(console.log("Error al traer Staff :("))
 
   useEffect(() => {
-    const queryParams = new URLSearchParams(location.search);
-    const modify = queryParams.get('modify');
-    if (modify) {
-      setStaffModificarId(modify)
+    const token = localStorage.getItem('token');
+    if (!token) {
+      setIsLogged(false)
+      navigate('/administracion')
     }
+  })
 
-  }, [staffModificarId])
+  const db = getFirestore();
+
+  const fetchData = async () => {
+
+    const cargoPrioridad = {
+      'Presidente': 1,
+      'Secretaria': 5,
+      'Secretario': 5,
+      'Manejo de RRSS': 7,
+      'Profesora': 10,
+      'Profesor': 10
+    };
+
+    try {
+      const response = await getDocs(collection(db, 'Staff'));
+      const dataList = response.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      const empleadosOrdenados = dataList.sort((a, b) => {
+        return cargoPrioridad[a.cargo] - cargoPrioridad[b.cargo];
+      });
+      setStaff(empleadosOrdenados);
+    } catch (error) {
+      console.error('Error fetching data: ', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [])
+
 
   const goBackToMenu = () => {
     navigate('../menu')
   }
+
+  const navigateTo = (id) => {
+    if (id == 0) {
+      setStaffModificarId(false)
+      navigate('.')
+
+    } else {
+      navigate(`.?modify=${id}`)
+      setStaffModificarId(id)
+    }
+  }
+
 
   return (
     <div className='personal-body'>
@@ -67,26 +80,48 @@ export default function Personal() {
         <div className='personal--cards-container'>
           {
             staff.map(empleado => (
-              <div className='profesor-card--admin' key={empleado.name}
-                onClick={() => modificarStaff(empleado.name)}
+              <div className='profesor-card--admin' key={empleado.nombre}
+                onClick={() => navigateTo(empleado.id)}
               >
                 <i className="fa-solid fa-pen"></i>
                 <ProfesorCard
-                  name={empleado.name}
+                  name={empleado.nombre}
                   role={empleado.cargo}
-                  imgUrl={empleado.imgURL}
+                  imgUrl={empleado.imagen}
                 />
               </div>
             ))
           }
+          <div className='profesor-card--admin'
+            onClick={() => navigateTo('add')}
+          >
+            <i>+</i>
+            <ProfesorCard
+              name={'Agregar Personal'}
+              role={'Click para añadir nuevo empleado'}
+              imgUrl={''}
+            >
+            </ProfesorCard>
+
+          </div>
+
         </div>
       </div>
       {
-        staffModificarId.length > 0
-        &&
+        (staffModificarId && staffModificarId != 'add') &&
         <ModificarStaffModal
+          empleado={staff.filter(e => e.id == staffModificarId)[0]}
           id={staffModificarId}
-          modificarStaff={modificarStaff}
+          setId={navigateTo}
+          fetchData={fetchData}
+        />
+      }
+      {
+        staffModificarId == 'add'
+        &&
+        <AddNewStaffModal
+          setId={navigateTo}
+
         />
       }
     </div >

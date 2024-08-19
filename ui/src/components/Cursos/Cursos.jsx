@@ -2,60 +2,50 @@ import Header from '../Header.jsx'
 import Footer from '../Footer.jsx'
 import { MainBanner } from '../MainBanner.jsx'
 import '../../styles/Cursos.css'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { CourseCard } from './CourseCard.jsx'
+import { collection, getDocs, getFirestore } from 'firebase/firestore'
 
 export default function Cursos() {
-  const cursosJSON = [
-    {
-      name: 'Kinder "A"',
-      ages: '3, 4 y 5',
-      img: 'https://www.englishempire.com.ar/assets/courses/kinder/__Mobile_kinder.png',
-      category: 'Kinder',
-      url: '/kinder/1'
-    },
-    {
-      name: 'Juniors "A"',
-      ages: '6 y 7',
-      img: 'https://www.englishempire.com.ar/assets/courses/juniors/__Mobile_beginners04.png',
-      category: 'Juniors',
-      url: '/juniors/1'
-    },
-    {
-      name: 'Juniors "B"',
-      ages: '8, 9 y 10',
-      img: 'https://www.englishempire.com.ar/assets/courses/juniors/__Mobile_beginners03.png',
-      category: 'Juniors',
-      url: '/juniors/2'
-    },
-    {
-      name: 'Juniors "C"',
-      ages: '11, 12 y 13',
-      img: 'https://www.englishempire.com.ar/assets/courses/juniors/__Mobile_beginners02.png',
-      category: 'Juniors',
-      url: '/juniors/3'
-    },
-    {
-      name: 'Teens',
-      ages: '14, 15 y 16',
-      img: 'https://www.englishempire.com.ar/assets/courses/teens/__Mobile_teens01.png',
-      category: 'Teens',
-      url: '/teens/1'
-    },
-    {
-      name: 'Adults Principiantes (virtual)',
-      ages: ['+17'],
-      img: 'https://www.englishempire.com.ar/assets/courses/kinder/__Mobile_kinder.png',
-      category: 'Adults',
-      url: '/adults/1'
-    }
-  ]
+  const db = getFirestore()
 
-  const [cursos, setCursos] = useState(cursosJSON)
-  const [categorySelected, setCategorySelected] = useState('Kinder')
-  const categories = ['Kinder', 'Juniors', 'Teens', 'Adults', 'Individuales', 'Empresariales']
+  const [cursos, setCursos] = useState([])
+  const [categorySelected, setCategorySelected] = useState('Kinders')
+  const [categories, setCategories] = useState([])
 
-  const selectCurso = (e) => {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getDocs(collection(db, 'Categorias'));
+        const cat = response.docs[0].data().categorias
+        setCategories(cat)
+      } catch (error) {
+        console.error('Error fetching data: ', error);
+      }
+      try {
+        const response = await getDocs(collection(db, 'Cursos'));
+        const dataCursos = response.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        const ordenarPorLetra = (a, b) => {
+          const letraA = a.nombre.match(/"([^"]+)"/)[1];
+          const letraB = b.nombre.match(/"([^"]+)"/)[1];
+          return letraA.localeCompare(letraB);
+        }
+        let cursosOrdenados = dataCursos.sort(ordenarPorLetra)
+        setCursos(cursosOrdenados);
+      } catch (error) {
+        console.error('Error fetching data: ', error);
+      }
+
+    };
+
+    fetchData();
+
+  }, [])
+
+  const selectCategory = (e) => {
     setCategorySelected(e.target.innerText)
   }
 
@@ -70,21 +60,17 @@ export default function Cursos() {
               <button
                 key={category}
                 className={category == categorySelected ? 'curso-selected' : ''}
-                onClick={selectCurso}
+                onClick={selectCategory}
               >{category}
               </button>
             ))}
           </div>
           <div className='cursos-cards-container'>
             {
-              cursos.filter(curso => curso.category === categorySelected).map(curso => (
+              cursos.filter(curso => curso.categoria === categorySelected).map(curso => (
                 <CourseCard
-                  key={curso.name}
-                  imgUrl={curso.img}
-                  cursoName={curso.name}
-                  cursoAge={curso.ages}
-                  url={curso.url}
-
+                  key={curso.id}
+                  curso={curso}
                 />
               ))
             }

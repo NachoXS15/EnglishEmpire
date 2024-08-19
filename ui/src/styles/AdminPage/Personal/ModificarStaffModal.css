@@ -1,5 +1,5 @@
 .modificar-staff-container{
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -41,17 +41,116 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 3rem;
+  gap: 24px;
   width: 100%;
   height: 100%;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 1rem;
 }
 
-.modificar-staff-form > div{
+.modificar-staff-form div{
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 4px;
+}
+
+.modificar-staff-form label{
+  font-size: 18px;
+}
+
+.modificar-staff-form input[type="text"]{
+  min-width: 160px;
+  max-width: 100%;
+  width: 200px;
+  height: 40px;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #222;
+  border-radius: 12px;
+}
+
+.modificar-staff--box button{
+  border: none;
+  padding: 12px;
+  border-radius: 24px;
+  background-color: #EE1120;
+  color: #fff;
+  cursor: pointer;
+  width: 170px;
+  font-size: 16px;
+}
+
+div.btns-div{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Modales */
+
+/* Guardar cambios */
+.guardar-cambios-modal{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: auto;
+  top: 0;
+}
+
+.guardar-cambios-modal > div{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #eee;
+  padding: 40px;
+  border-radius: 16px;
+  border: 1px solid #000;
+  gap: 12px;
+}
+
+.guardar-cambios-modal div button{
+  width: 100px;
+  margin: 12px;
+}
+
+
+/* Delete staff modal */
+
+.delete-staff-modal{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: auto;
+  top: 0;
+}
+
+
+.delete-staff-modal > div{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #eee;
+  padding: 40px;
+  border-radius: 16px;
+  border: 1px solid #000;
+  gap: 12px;
+}
+
+.delete-staff-modal button{
+  width: 100px;
+  margin: 12px;
 }
 
 

@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react'
-import logo from '../../assets/logo.png'
-import '../../styles/AdminPage/Login.css'
-import { signIn } from '../../config/auth'
-import { useAuth } from '../../config/AuthProvider'
-import { useNavigate } from 'react-router'
+import { useState, useEffect } from 'react';
+import logo from '../../assets/logo.png';
+import '../../styles/AdminPage/Login.css';
+import { signIn } from '../../config/auth';
+import { useAuth } from '../../config/AuthProvider';
+import { useNavigate } from 'react-router';
+import { auth } from '../../config/firebase-config';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -13,8 +14,14 @@ export default function Login() {
   const [formData, setFormData] = useState({
     email: '',
     password: ''
-  })
+  });
 
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    if (token) {
+      navigate('/menu')
+    }
+  })
 
   const isValidEmail = (email) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -25,15 +32,43 @@ export default function Login() {
     setFormData(prevState => ({
       ...prevState,
       [name]: value
-    }))
-  }
+    }));
+  };
 
-  useEffect(() => {
-    if (isLogged) {
-      navigate('/menu');
+  const signInAuth = async () => {
+    try {
+      await signIn(formData.email, formData.password);
+      const user = auth.currentUser;
+      if (!user) {
+        throw new Error('No user is currently signed in');
+      }
+      const token = await user.getIdToken();
+      console.log('Token:', token);
+
+      const response = await fetch('http://localhost:3000/auth', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ token })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to authenticate');
+      }
+
+      const data = await response.json();
+      const jwtToken = data.jwt;
+
+      localStorage.setItem('token', jwtToken);
+      console.log('Sesión Iniciada');
+      setIsLogged(true);
+    } catch (error) {
+      console.error('Error:', error.message);
+      throw error;
     }
-  }, [isLogged])
-  
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -54,18 +89,21 @@ export default function Login() {
       return;
     }
 
-    setErrors({})
+    setErrors({});
     try {
-      await signIn(formData.email, formData.password);
-      setIsLogged(true)
-      
+      await signInAuth();
     } catch (error) {
       setErrors({
-        others: "Ingrese datos validos"
-      })
+        others: "Ingrese datos válidos"
+      });
     }
+  };
 
-  }
+  useEffect(() => {
+    if (isLogged) {
+      navigate('/menu');
+    }
+  }, [isLogged, navigate]);
 
   return (
     <div className='login-container'>
@@ -93,19 +131,15 @@ export default function Login() {
               onChange={handleChange} />
             {errors.password && <span>{errors.password}</span>}
           </div>
-
           <div className='other-error'>
             <button type='submit' className='login-button'>Ingresar</button>
             {errors.others && <span>{errors.others}</span>}
-
           </div>
         </form>
         <div>
           <a href=''>¿Problemas para iniciar sesión? Click aqui</a>
         </div>
-
       </div>
-
     </div>
-  )
+  );
 }

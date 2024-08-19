@@ -1,78 +1,86 @@
 import '../../../styles/AdminPage/Cursos/ModificarCursoModal.css'
 import { useEffect, useState } from 'react'
+import { doc, getFirestore, updateDoc, deleteDoc } from 'firebase/firestore'
+import { getDownloadURL, getStorage, ref, uploadString } from 'firebase/storage'
 
-const cursosJSON = [
-  {
-    name: 'Kinder "A"',
-    ages: '3, 4 y 5',
-    img: 'https://www.englishempire.com.ar/assets/courses/kinder/__Mobile_kinder.png',
-    category: 'Kinder',
-    url: '/kinder/1',
-    id: '1'
-  },
-  {
-    name: 'Juniors "A"',
-    ages: '6 y 7',
-    img: 'https://www.englishempire.com.ar/assets/courses/juniors/__Mobile_beginners04.png',
-    category: 'Juniors',
-    url: '/juniors/1',
-    id: '2'
-  },
-  {
-    name: 'Juniors "B"',
-    ages: '8, 9 y 10',
-    img: 'https://www.englishempire.com.ar/assets/courses/juniors/__Mobile_beginners03.png',
-    category: 'Juniors',
-    url: '/juniors/2',
-    id: '3'
-  },
-  {
-    name: 'Juniors "C"',
-    ages: '11, 12 y 13',
-    img: 'https://www.englishempire.com.ar/assets/courses/juniors/__Mobile_beginners02.png',
-    category: 'Juniors',
-    url: '/juniors/3',
-    id: '4'
-  },
-  {
-    name: 'Teens',
-    ages: '14, 15 y 16',
-    img: 'https://www.englishempire.com.ar/assets/courses/teens/__Mobile_teens01.png',
-    category: 'Teens',
-    url: '/teens/1',
-    id: '5'
-  },
-  {
-    name: 'Adults Principiantes (virtual)',
-    ages: ['+17'],
-    img: 'https://www.englishempire.com.ar/assets/courses/kinder/__Mobile_kinder.png',
-    category: 'Adults',
-    url: '/adults/1',
-    id: '6'
-  }
-]
+// AGREGAR TEMA DE CUPOS DISPONIBLES
+export default function ModificarCursoModal({ curso, navigateTo, categories, categorySelectedName }) {
 
-export default function ModificarCursoModal({ id, modificarCurso }) {
-
-  const [cursoAModificar, setCursoAModificar] = useState({})
+  const [cursoModificado, setCursoModificado] = useState({
+    ...curso
+  })
+  const [noChanges, setNoChanges] = useState(false)
   const [actualizarCursoModal, setActualizarCursoModal] = useState(false)
   const [descartarCambiosModal, setDescartarCambiosModal] = useState(false)
+  const [deleteCursoModal, setDeleteCursoModal] = useState(false)
+  const [imgSubida, setImgSubida] = useState('')
+
+  const db = getFirestore()
+  const storage = getStorage()
+
 
   useEffect(() => {
-    setCursoAModificar(cursosJSON.filter(curso => id == curso.id)[0])
     setDescartarCambiosModal(false)
     setActualizarCursoModal(false)
   }, [])
 
-  const actualizarCurso = (e) => {
+  const uploadImage = async (base64Image) => {
+    try {
+      const storageRef = ref(storage, `images/${new Date().getTime()}`);
+      await uploadString(storageRef, base64Image, 'data_url');
+      const imageUrl = await getDownloadURL(storageRef);
+      console.log(imageUrl)
+      return imageUrl;
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    }
+  };
+
+  const actualizarCurso = async (e) => {
     e.preventDefault()
-    if (e.target.innerText == 'Confirmar') {
-      setActualizarCursoModal(false)
-      modificarCurso(0)
-    } else if (e.target.classList[0] == 'fa-solid' || e.target.classList[0] == 'no-actualizar-curso') {
-      setActualizarCursoModal(false)
+    setNoChanges(false)
+    if (
+      cursoModificado.nombre == curso.nombre &
+      cursoModificado.edades == curso.edades &
+      cursoModificado.categoria == curso.categoria &
+      cursoModificado.categoria == curso.categoria &
+      cursoModificado.clasesSemanales == curso.clasesSemanales &
+      cursoModificado.inicio == curso.inicio &
+      cursoModificado.duracion == curso.duracion &
+      cursoModificado.descripcion == curso.descripcion &
+      cursoModificado.precio == curso.precio &
+      cursoModificado.cupos == curso.cupos &
+      imgSubida == ''
+    ) {
+      setNoChanges(true)
     } else {
-      setActualizarCursoModal(true)
+      if (e.target.innerText == 'Confirmar') {
+        let cursoFinal = cursoModificado
+        // Modificar Curso
+        // subir la nueva imagen y actualizar
+        if (imgSubida.length >= 1) {
+          const imgURL = await uploadImage(imgSubida)
+          cursoFinal = {
+            ...cursoFinal,
+            imagen: imgURL
+          }
+          console.log(cursoFinal)
+          const docRef = doc(db, "Cursos", curso.id);
+          await updateDoc(docRef, cursoFinal)
+        } else {
+          const docRef = doc(db, "Cursos", curso.id);
+          await updateDoc(docRef, cursoModificado)
+        }
+        alert('Datos modificados correctamente! :D')
+        setActualizarCursoModal(false)
+        navigateTo(0)
+        window.location.reload()
+
+      } else if (e.target.classList[0] == 'fa-solid' || e.target.classList[0] == 'no-actualizar-curso') {
+        setActualizarCursoModal(false)
+      } else {
+        setActualizarCursoModal(true)
+      }
     }
   }
 
@@ -81,7 +89,7 @@ export default function ModificarCursoModal({ id, modificarCurso }) {
     if (descartarCambiosModal) {
       if (e.target.innerText == 'Si') {
         setDescartarCambiosModal(false)
-        modificarCurso(0)
+        navigateTo(0)
       } else if (e.target.innerText == 'No') {
         setDescartarCambiosModal(false)
       }
@@ -90,80 +98,161 @@ export default function ModificarCursoModal({ id, modificarCurso }) {
     }
   }
 
+  const handleDeleteCurso = async (e) => {
+    e.preventDefault()
+    setDeleteCursoModal(true)
+    console.log(deleteCursoModal)
+    if (e.target.innerText == 'Si') {
+      try {
+        const docRef = doc(db, "Cursos", cursoModificado.id);
+        await deleteDoc(docRef);
+        alert("Documento eliminado correctamente");
+        navigateTo(0)
+        window.location.reload(); // Recargar la página después de eliminar el documento
+      } catch (error) {
+        console.error("Error deleting document:", error);
+        alert("Ocurrió un error al eliminar el documento. Por favor, inténtalo de nuevo.");
+      }
+    } else if (e.target.innerText == 'No') {
+      setDeleteCursoModal(false)
+    }
+  }
+
+  const handleInputChange = async (e) => {
+    if (e.target.id == 'imagen') {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = () => {
+          setImgSubida(reader.result);
+        };
+      }
+    } else {
+      setCursoModificado({
+        ...cursoModificado,
+        [e.target.id]: e.target.value
+      })
+    }
+  }
+
 
   return (
     <div className="modificar-curso-container">
       <div className='modificar-curso-box'>
         <h2>Modificar curso</h2>
-        <h3>{cursoAModificar.name}</h3>
+        <h3>{curso.nombre}</h3>
         <form className='modificar-form-cursos'>
           <div>
-            <label htmlFor="name">Nombre del curso</label>
-            <input type="text" id='name' defaultValue={cursoAModificar.name} />
+            <label htmlFor="nombre">Nombre del curso</label>
+            <input type="text" id="nombre" onChange={handleInputChange} defaultValue={cursoModificado.nombre} />
           </div>
           <div>
-            <label htmlFor="categories">Categoria del curso</label>
-            <select name="categories" id="categories">
-              <option value="Kinder">Kinder</option>
-              <option value="Teens">Teens</option>
-              <option value="Adults">Adults</option>
+            <label htmlFor="categoria">Categoria del curso</label>
+            <select name="categories" id="categoria" onChange={handleInputChange} defaultValue={categorySelectedName}>
+              {
+                categories.map(category => (
+                  <option name={category} key={category} value={category}>{category}</option>
+                ))
+              }
             </select>
           </div>
           <div>
             <label htmlFor="inicio">Inicio del curso</label>
-            <input type="date" id='inicio' />
+            <input type="text" id='inicio' onChange={handleInputChange} defaultValue={cursoModificado.inicio} />
           </div>
           <div>
             <label htmlFor="fin">Fin del curso</label>
-            <input type="date" id='fin' />
+            <input type="text" id='fin' onChange={handleInputChange} defaultValue={cursoModificado.fin} />
           </div>
           <div>
             <label htmlFor="duracion">Duración</label>
-            <input type="text" name="duracion" id="duracion" />
+            <input type="text" name="duracion" id="duracion" onChange={handleInputChange} defaultValue={cursoModificado.duracion} />
           </div>
           <div>
-            <label htmlFor="ages">Edades</label>
-            <input type="text" id='ages' defaultValue={cursoAModificar.ages} />
+            <label htmlFor="edades">Edades</label>
+            <input type="text" id='edades' onChange={handleInputChange} defaultValue={cursoModificado.edades} />
           </div>
           <div>
-            <label htmlFor="">Programa del curso</label>
-            <label htmlFor="programa" className='programa-label'>
+            <label htmlFor="cupos">Cupos</label>
+            <input type="number" id='cupos' onChange={handleInputChange} defaultValue={cursoModificado.cupos} />
+          </div>
+          <div>
+            <label htmlFor="imagen">Imagen del curso</label>
+            <label htmlFor="imagen" className='programa-label'>
               Seleccionar Archivo
             </label>
-            <input type="file" id='programa' />
+            <input type="file" id='imagen' accept='.jpeg, .jpg, .png' onChange={handleInputChange} />
           </div>
           <div>
-            <label htmlFor="descripcion">Descripcion del curso</label>
-            <textarea name="descripcion" id="descripcion"></textarea>
+            <label htmlFor="descripcion" className='descripcion-label'>Descripcion del curso</label>
+            <textarea name="descripcion" id="descripcion" onChange={handleInputChange} defaultValue={cursoModificado.descripcion}></textarea>
           </div>
+          <div>
+            <label htmlFor="precio">Precio del curso</label>
+            <input type="number" id='precio' onChange={handleInputChange} defaultValue={cursoModificado.precio} />
+          </div>
+          <div>
+            <label htmlFor="linkPago">Link de pago</label>
+            <input type="text" id='linkPago' onChange={handleInputChange} defaultValue={cursoModificado.linkPago} />
+          </div>
+          {
+            noChanges &&
+            <div>
+              <p>Ningún cambio realizado</p>
+            </div>
+          }
           <div className='modificar-curso-btns'>
             <button onClick={actualizarCurso}>Actualizar curso</button>
+            <button onClick={handleDeleteCurso}>Eliminar Curso</button>
           </div>
+
         </form>
         <div className='salir-modificar' onClick={() => {
           setDescartarCambiosModal(true)
         }}>X</div>
-      </div>
-      {/* Descartar cambios modal */}
-      <div className={`descartar-cambios-modal ${!descartarCambiosModal ? 'disabled' : ''}`}>
-        <div className='descartar-cambios-box'>
-          <p>¿Deseas descartar los cambios realizados?</p>
+
+      </div >
+      {
+        deleteCursoModal &&
+        <div className='delete-curso-modal'>
           <div>
-            <button onClick={descartarCambios}>Si</button>
-            <button onClick={descartarCambios}>No</button>
+            <p>¿Eliminar {curso.nombre}?</p>
+            <div>
+              <button onClick={handleDeleteCurso}>Si</button>
+              <button onClick={handleDeleteCurso}>No</button>
+            </div>
           </div>
         </div>
-      </div>
-      <div className={`actualizar-curso-modal ${!actualizarCursoModal ? 'disabled' : ''}`}>
-        <div className='actualizar-curso-box'>
-          <p>¿Actualizar curso?</p>
-          <button onClick={actualizarCurso}>Confirmar</button>
-          <div className='no-actualizar-curso' onClick={actualizarCurso}>
-            <i className="fa-solid fa-x"></i>
+      }
+      {
+        descartarCambiosModal &&
+        <div className='descartar-cambios-modal'>
+          <div className='descartar-cambios-box'>
+            <p>¿Deseas descartar los cambios realizados?</p>
+            <div>
+              <button onClick={descartarCambios}>Si</button>
+              <button onClick={descartarCambios}>No</button>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
+      }
+      {
+        actualizarCursoModal &&
+        <div className="actualizar-curso-modal">
+          <div className='actualizar-curso-box'>
+            <p>¿Actualizar curso?</p>
+            <button onClick={actualizarCurso}>Confirmar</button>
+            <div className='no-actualizar-curso' onClick={actualizarCurso}>
+              <i className="fa-solid fa-x"></i>
+            </div>
+          </div>
+        </div>
+      }
+
+
+
+    </div >
   )
 
 }

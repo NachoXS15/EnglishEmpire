@@ -6,11 +6,15 @@
   align-items: center;
   width: 200px;
   font-size: 1.2rem;
+  text-align: center;
 }
 
 .profesor-card img{
+  height: 200px;
+  width: 200px;
   border: 4px solid #252d62;
   border-radius: 50%;
+  object-fit: cover;
 }
 
 .profesor-card--name{

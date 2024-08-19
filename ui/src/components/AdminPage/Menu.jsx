@@ -6,24 +6,32 @@ import { signOut } from "../../config/auth"
 
 export default function Menu() {
   const navigate = useNavigate()
-
   const [isLogged, setIsLogged] = useState(true)
 
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      setIsLogged(false)
+      navigate('/administracion')
+    }
+  })
+  
   useEffect(() => {
     if (!isLogged) {
       navigate('/administracion')
     }
-  }, [isLogged])
+  }, [isLogged, navigate])
 
   const logOut = () => {
     signOut();
-    navigate('/administracion')
+    localStorage.removeItem('token');
+    setIsLogged(false)
   }
 
   const goTo = (url) => {
     navigate(url)
   }
-
+  
   return (
     <div className="menu-container">
       <div className="menu-box">
