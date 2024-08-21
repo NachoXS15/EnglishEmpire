@@ -26,12 +26,14 @@
 }
 
 .back-to-menu-btn{
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: absolute;
   height: 40px;
   width: 40px;
-  top: 20px;
   left: 12px;
-  font-size: 40px;
+  font-size: 30px;
   cursor: pointer;
 }
 

@@ -100,6 +100,8 @@
 
 .confirmacion h3{
   font-size: 22.5px;
+  margin: 4px 0px;
+  text-decoration: underline;
 }
 
 /* confirmacion datos */

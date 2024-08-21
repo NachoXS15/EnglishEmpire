@@ -13,6 +13,7 @@ import Login from './components/AdminPage/Login.jsx'
 import Menu from './components/AdminPage/Menu.jsx'
 import CursosAdm from './components/AdminPage/CursosAdm/CursosAdm.jsx'
 import Personal from './components/AdminPage/Personal/Personal.jsx'
+import Inscripciones from './components/AdminPage/Inscripciones/Inscripciones.jsx'
 
 import './config/firebase-config.js'
 
@@ -70,6 +71,10 @@ const router = createBrowserRouter([
   {
     path: '/menu/personal',
     element: <Personal />
+  },
+  {
+    path: '/menu/inscripciones',
+    element: <Inscripciones />
   }
 ])
 

@@ -1,0 +1,106 @@
+.form-completo--container{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.exit-form-btn{
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  width: 40px;
+  height: 40px;
+  border-radius: 40px;
+  border: none;
+  cursor: pointer;
+}
+
+.form-completo--box{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  min-width: 360px;
+  max-width: 500px;
+  min-height: 360px;
+  max-height: 90%;
+  background-color: #fff;
+  border-radius: 16px;
+}
+
+.form-completo--box>div{
+  height: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.marcar-pagado-btns{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.marcar-pagado-btns button{
+  padding: 12px;
+  height: 40px;
+  font-size: 14px;
+  background-color: #EE1120;
+  color: #fff;
+  border: none;
+  border-radius:40px;
+  cursor: pointer;
+  text-decoration: none;
+}
+ 
+
+/* confirmar pago modal */
+
+.confirmar-pago--modal, .delete-insc--modal{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, .5);
+  width: 100%;
+  height: 100%;
+}
+
+.confirmar-pago--box, .delete-insc--box{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+  border-radius: 16px;
+  border: 1px solid #555;
+  width: 320px;
+  height: 140px;
+  background-color: #fff;
+}
+
+.confirmar-pago--box button, .delete-insc--box button{
+  width: 92px;
+  margin: 0 6px;
+  height: 32px;
+  font-size: 16px;
+  background-color: #EE1120;
+  color: #fff;
+  border: none;
+  border-radius:40px;
+  cursor: pointer;
+  text-decoration: none;
+}

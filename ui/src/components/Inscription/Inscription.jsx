@@ -4,17 +4,14 @@ import Footer from '../Footer'
 import { MainBanner } from '../MainBanner'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { getFirestore, getDocs, collection, serverTimestamp, addDoc } from 'firebase/firestore'
+import { getFirestore, getDocs, collection, serverTimestamp, addDoc, updateDoc, doc } from 'firebase/firestore'
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage'
 
 export default function Inscription() {
 	const [tutorSi, setTutorSi] = useState(false)
 	const [cursos, setCursos] = useState([])
+	const [file, setFile] = useState(null);
 	const [linkDePago, setLinkDePago] = useState('')
-
-	const { id } = useParams()
-	const db = getFirestore()
-	const navigate = useNavigate()
-
 	const [metodoPago, setMetodoPago] = useState('')
 	const [formAlumno, setFormAlumno] = useState({
 		nombre: '',
@@ -36,6 +33,10 @@ export default function Inscription() {
 		parentesco: '',
 		alternativo: ''
 	})
+
+	const { id } = useParams()
+	const db = getFirestore()
+	const navigate = useNavigate()
 
 	const handleInputAlumnoChange = (e) => {
 		setFormAlumno({
@@ -201,23 +202,91 @@ export default function Inscription() {
 			}
 		}
 
+
+		let cursoElegido = cursos.filter(curso => curso.nombre == formAlumno.curso)
+		// Descontar Cupo de curso
+
+
+		let comprobanteURL
+		if (metodoPago != 'Efectivo') {
+			comprobanteURL = await uploadComprobante(file)
+		} else {
+			comprobanteURL = false
+		}
+
 		// Agregar timestamp al formData
 		const formDataWithTimestamp = {
 			...formData,
-			createdAt: serverTimestamp(), // Marca de tiempo del servidor
+			comprobante: comprobanteURL,
+			pagado: false,
+			createdAt: serverTimestamp() // Marca de tiempo del servidor
 		};
 
-		try {
-			// Añadir un nuevo documento con un ID generado automáticamente
-			const docRef = await addDoc(collection(db, 'Inscripciones'), formDataWithTimestamp);
-			console.log('Documento creado con ID: ', docRef.id);
-			alert('Inscripcion exitosa!')
-			navigate('../')
+		// seleccionar el curso elegido para restarle un cupo
+		let cuposRestantes = cursoElegido[0].cupos - 1
+		const docRef = doc(db, 'Cursos', cursoElegido[0].id);
 
+		try {
+			await updateDoc(docRef, {
+				cupos: cuposRestantes
+			});
+			await addDoc(collection(db, 'Inscripciones'), formDataWithTimestamp);
+			alert('Inscripcion exitosa! Nos estaremos comunicando con usted a la brevedad!')
+			navigate('../')
 		} catch (error) {
-			console.error('Error subiendo los datos a Firestore: ', error);
+			console.error('Error al actualizar el campo:', error);
 		}
+
 	}
+
+	// Funciones para subir comprobante de pago
+	const handleFileChange = (e) => {
+		const selectedFile = e.target.files[0];
+
+		if (selectedFile && (selectedFile.type === 'application/pdf' || selectedFile.type.startsWith('image/'))) {
+			setFile(selectedFile); // Solo acepta PDFs o imágenes
+		} else {
+			alert('Formato de archivo no válido. Solo se aceptan PDFs e imágenes.');
+			// Puedes agregar lógica para notificar al usuario sobre el error
+		}
+	};
+
+
+	const uploadComprobante = (archivo) => {
+		return new Promise((resolve, reject) => {
+			if (!archivo) {
+				alert('Subir comprobante por favor')
+				reject('No se seleccionó ningún archivo');
+				return;
+			}
+
+			const storage = getStorage();
+			const storageRef = ref(storage, `comprobantes/${archivo.name}`);
+			const uploadTask = uploadBytesResumable(storageRef, archivo);
+
+			uploadTask.on(
+				'state_changed',
+				(snapshot) => {
+					// Puedes manejar el progreso de la carga aquí si lo deseas
+				},
+				(error) => {
+					reject('Error subiendo el archivo:', error);
+				},
+				async () => {
+					try {
+						const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+						resolve(downloadURL); // Devuelve la URL del comprobante
+					} catch (error) {
+						reject('Error obteniendo la URL del archivo:', error);
+					}
+				}
+			);
+
+
+		});
+	};
+
+
 
 	return (
 		<>
@@ -277,7 +346,7 @@ export default function Inscription() {
 
 							<select className='select-element' name="curso" id="curso" defaultValue={id} required onChange={handleInputAlumnoChange}>
 								<option value="x">Seleccionar...</option>
-								{cursos.map(curso => (
+								{cursos.filter(curso => curso.cupos > 0).map(curso => (
 									<option key={curso.id} value={curso.nombre} id={curso.linkPago}>{curso.nombre}</option>
 								))}
 							</select>
@@ -447,6 +516,24 @@ export default function Inscription() {
 							{
 								metodoPago == 'Mercado Pago' &&
 								<p><b>Link de pago: </b><a href={linkDePago} target='_blank'>{linkDePago}</a></p>
+							}
+							{
+								metodoPago == 'Transferencia' &&
+								<>
+									<p>
+										<label htmlFor="comprobante"><b>Suba su comprobante de pago:</b></label>
+									</p>
+									<input type="file" name="comprobante" id="comprobante" accept='.pdf, .jpg, .png, .jpeg' onChange={handleFileChange} />
+								</>
+							}
+							{
+								metodoPago == 'Mercado Pago' &&
+								<>
+									<p>
+										<label htmlFor="comprobante"><b>Suba su comprobante de pago:</b></label>
+									</p>
+									<input type="file" name="comprobante" id="comprobante" accept='.pdf, .jpg, .png, .jpeg' onChange={handleFileChange} />
+								</>
 							}
 						</div>
 					</div>

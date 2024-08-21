@@ -90,6 +90,20 @@
   text-decoration: none;
 }
 
+.inscription-btn-disabled{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #EE1120;
+  padding: 12px;
+  border-radius: 36px;
+  width: 80%;
+  font-size: 32px;
+  color: #fff;
+  text-decoration: none;
+  opacity: 0.5;
+}
+
 .card--duration{
   display: flex;
   flex-direction: column;

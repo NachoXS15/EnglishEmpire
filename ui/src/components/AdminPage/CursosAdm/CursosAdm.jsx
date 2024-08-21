@@ -93,14 +93,14 @@ export default function CursosAdm() {
           <i className="fa-solid fa-circle-left"></i>
         </div>
         <h2>Cursos</h2>
-        <select name="filter" onChange={selectedCursoChange} defaultValue={categorySelectedName}>
-          {
-            categories.map(category => (
-              <option name={category} key={category} value={category}>{category}</option>
-            ))
-          }
-        </select>
       </div>
+      <select name="filter" onChange={selectedCursoChange} defaultValue={categorySelectedName}>
+        {
+          categories.map(category => (
+            <option name={category} key={category} value={category}>{category}</option>
+          ))
+        }
+      </select>
       <div className='grilla-cursos'>
         {
           cursos.filter(curso => curso.categoria == categorySelectedName).map(curso => (
