@@ -43,9 +43,7 @@ export default function Login() {
         throw new Error('No user is currently signed in');
       }
       const token = await user.getIdToken();
-      console.log('Token:', token);
-
-      const response = await fetch('http://localhost:3000/auth', {
+      const response = await fetch('https://englishempire.onrender.com/auth', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

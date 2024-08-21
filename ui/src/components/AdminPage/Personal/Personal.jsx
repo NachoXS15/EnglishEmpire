@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react'
 import ModificarStaffModal from './ModificarStaffModal'
 import AddNewStaffModal from './AddNewStaffModal'
 import { getDocs, getFirestore, collection } from 'firebase/firestore'
+import Loader from '../Loader'
 
 export default function Personal() {
   const navigate = useNavigate()
@@ -79,7 +80,7 @@ export default function Personal() {
         </div>
         <div className='personal--cards-container'>
           {
-            staff.map(empleado => (
+            staff ? staff.map(empleado => (
               <div className='profesor-card--admin' key={empleado.nombre}
                 onClick={() => navigateTo(empleado.id)}
               >
@@ -91,6 +92,10 @@ export default function Personal() {
                 />
               </div>
             ))
+            : (
+              <Loader />
+
+            )
           }
           <div className='profesor-card--admin'
             onClick={() => navigateTo('add')}
