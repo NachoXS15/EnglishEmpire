@@ -63,7 +63,17 @@ export default function CursoDetails() {
           <div className='price-description'>
             <div className='price-description--card'>
               <h2>${curso.precio}</h2>
-              <Link to={`/inscripcion/${params.nombre}`} className='inscription-btn'>Inscribirme</Link>
+              {
+                curso.cupos > 0 ?
+                  <Link to={`/inscripcion/${params.nombre}`} className='inscription-btn'>Inscribirme</Link>
+                  :
+                  <Link to={'.'} className='inscription-btn-disabled' disabled>Inscribirme</Link>
+              }
+              {
+                curso.cupos > 0 ?
+                  <i>Cupos disponibles: {curso.cupos}</i> :
+                  <i>No hay más cupos disponibles</i>
+              }
               <div className="card--duration">
                 <p>
                   <img src={weekIcon} alt="" />

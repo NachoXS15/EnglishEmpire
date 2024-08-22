@@ -15,7 +15,7 @@ export default function Menu() {
       navigate('/administracion')
     }
   })
-  
+
   useEffect(() => {
     if (!isLogged) {
       navigate('/administracion')
@@ -31,13 +31,14 @@ export default function Menu() {
   const goTo = (url) => {
     navigate(url)
   }
-  
+
   return (
     <div className="menu-container">
       <div className="menu-box">
         <img src={Logo} alt="English Empire" />
         <button onClick={() => goTo('./cursos')}>Cursos</button>
         <button onClick={() => goTo('./personal')}>Personal</button>
+        <button onClick={() => goTo('./inscripciones')}>Inscripciones</button>
         <button onClick={() => goTo('./configuracion')}>Configuración</button>
         <button onClick={() => logOut()}>Cerrar Sesión</button>
       </div>

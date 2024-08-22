@@ -1,0 +1,96 @@
+.inscripciones--container{
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #fff;
+  width: 100%;
+  max-width: 1000px;
+  height: 100vh;
+  padding: 2rem 0;
+}
+
+.inscripciones-header{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 1200px;
+  min-width: 300px;
+  width: 60%;
+}
+
+.inscripciones-header h2{
+  font-size: 30px;
+}
+
+
+
+/* filtro de inscripciones */
+.inscripciones--filtro-container{
+  width: 90%;
+  min-height: 40px;
+  padding: 12px 0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  text-align: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.inscripciones--filtro-container div{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.inscripciones--filtro-container input{
+  padding: 4px;
+  height: 28px;
+}
+
+.inscripciones--filtro-container select{
+  cursor: pointer;
+  height: 28px;
+  min-width: 120px;
+}
+
+
+/* tabla de incripciones */
+
+.inscripciones--table-container{
+  width: 100%;
+}
+
+.inscripciones--table-container table{
+  padding: 4px;
+  border: 1px solid black;
+  width: 100%;
+}
+
+.inscripciones--table-container tbody tr{
+  width: 100%;
+  border: 1px solid red;
+}
+
+td{
+  border-top: 1px solid black;
+  padding: 12px;
+  text-align: center;
+}
+
+.inscripcion-completa-btn{
+  width: 140px;
+  height: 44px;
+  font-size: 16px;
+  background-color: #EE1120;
+  color: #fff;
+  border: none;
+  border-radius: 60px;
+  cursor: pointer;
+  text-decoration: none;
+}
