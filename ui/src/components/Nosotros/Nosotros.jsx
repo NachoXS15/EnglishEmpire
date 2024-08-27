@@ -15,6 +15,15 @@ export default function Nosotros() {
   const db = getFirestore()
 
   useEffect(() => {
+
+    const cargoPrioridad = {
+      'Presidente': 1,
+      'Secretaria': 5,
+      'Secretario': 5,
+      'Manejo de RRSS': 7,
+      'Profesora': 10,
+      'Profesor': 10
+    };
     const fetchData = async () => {
       try {
         const response = await getDocs(collection(db, 'Staff'));
@@ -22,7 +31,10 @@ export default function Nosotros() {
           id: doc.id,
           ...doc.data()
         }));
-        setStaff(dataList);
+        const empleadosOrdenados = dataList.sort((a, b) => {
+          return cargoPrioridad[a.cargo] - cargoPrioridad[b.cargo];
+        });
+        setStaff(empleadosOrdenados);
       } catch (error) {
         console.error('Error fetching data: ', error);
       }

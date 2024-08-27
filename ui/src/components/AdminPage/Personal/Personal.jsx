@@ -5,22 +5,26 @@ import { useState, useEffect } from 'react'
 import ModificarStaffModal from './ModificarStaffModal'
 import AddNewStaffModal from './AddNewStaffModal'
 import { getDocs, getFirestore, collection } from 'firebase/firestore'
-import Loader from '../Loader'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
 export default function Personal() {
   const navigate = useNavigate()
   const [staff, setStaff] = useState([])
   const [staffModificarId, setStaffModificarId] = useState(false)
-  const [isLogged, setIsLogged] = useState(true)
 
-
+  const auth = getAuth()
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      setIsLogged(false)
-      navigate('/administracion')
-    }
-  })
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        console.log('existe usuario', currentUser)
+      } else {
+        navigate('../administracion')
+      }
+    });
+
+    return () => unsubscribe();
+  }, [auth, navigate])
+
 
   const db = getFirestore();
 
@@ -80,7 +84,7 @@ export default function Personal() {
         </div>
         <div className='personal--cards-container'>
           {
-            staff ? staff.map(empleado => (
+            staff && staff.map(empleado => (
               <div className='profesor-card--admin' key={empleado.nombre}
                 onClick={() => navigateTo(empleado.id)}
               >
@@ -92,10 +96,6 @@ export default function Personal() {
                 />
               </div>
             ))
-            : (
-              <Loader />
-
-            )
           }
           <div className='profesor-card--admin'
             onClick={() => navigateTo('add')}

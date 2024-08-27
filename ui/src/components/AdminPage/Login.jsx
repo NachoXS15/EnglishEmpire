@@ -1,33 +1,40 @@
 import { useState, useEffect } from 'react';
 import logo from '../../assets/logo.png';
 import '../../styles/AdminPage/Login.css';
-import { signIn } from '../../config/auth';
-import { useAuth } from '../../config/AuthProvider';
 import { useNavigate } from 'react-router';
-import { auth } from '../../config/firebase-config';
+import { browserLocalPersistence, browserSessionPersistence, getAuth, onAuthStateChanged, setPersistence, signInWithEmailAndPassword } from 'firebase/auth';
 
 export default function Login() {
   const navigate = useNavigate();
-  const { userLoggedIn } = useAuth();
-  const [isLogged, setIsLogged] = useState(false);
   const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
+  const [mantenerSesion, setMantenerSesion] = useState(false)
+
+  const auth = getAuth()
 
   useEffect(() => {
-    const token = localStorage.getItem('token')
-    if (token) {
-      navigate('/menu')
-    }
-  })
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        console.log('user', currentUser)
+        navigate('../menu')
+      }
+    });
+
+    return () => unsubscribe();
+  }, [])
 
   const isValidEmail = (email) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
 
   const handleChange = (e) => {
+    if (e.target.id == 'sesion') {
+      setMantenerSesion(!mantenerSesion)
+      return
+    }
     const { name, value } = e.target;
     setFormData(prevState => ({
       ...prevState,
@@ -37,31 +44,13 @@ export default function Login() {
 
   const signInAuth = async () => {
     try {
-      await signIn(formData.email, formData.password);
-      const user = auth.currentUser;
-      if (!user) {
-        throw new Error('No user is currently signed in');
+      if (mantenerSesion) {
+        await setPersistence(auth, browserLocalPersistence)
+      } else {
+        await setPersistence(auth, browserSessionPersistence)
       }
-      const token = await user.getIdToken();
-      const response = await fetch('https://englishempire.onrender.com/auth', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ token })
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to authenticate');
-      }
-
-      const data = await response.json();
-      const jwtToken = data.jwt;
-
-      localStorage.setItem('token', jwtToken);
-      console.log('Sesión Iniciada');
-      setIsLogged(true);
+      const user = await signInWithEmailAndPassword(auth, formData.email, formData.password);
+      console.log('Registrado: ', user)
     } catch (error) {
       console.error('Error:', error.message);
       throw error;
@@ -97,11 +86,6 @@ export default function Login() {
     }
   };
 
-  useEffect(() => {
-    if (isLogged) {
-      navigate('/menu');
-    }
-  }, [isLogged, navigate]);
 
   return (
     <div className='login-container'>
@@ -129,14 +113,15 @@ export default function Login() {
               onChange={handleChange} />
             {errors.password && <span>{errors.password}</span>}
           </div>
+          <div className='sesion-div'>
+            <label htmlFor="sesion">Mantener la sesión</label>
+            <input type="checkbox" checked={mantenerSesion} name="sesion" id="sesion" onChange={handleChange} />
+          </div>
           <div className='other-error'>
             <button type='submit' className='login-button'>Ingresar</button>
             {errors.others && <span>{errors.others}</span>}
           </div>
         </form>
-        <div>
-          <a href=''>¿Problemas para iniciar sesión? Click aqui</a>
-        </div>
       </div>
     </div>
   );

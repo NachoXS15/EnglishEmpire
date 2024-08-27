@@ -5,7 +5,6 @@ import '../../styles/Cursos.css'
 import { useState, useEffect } from 'react'
 import { CourseCard } from './CourseCard.jsx'
 import { collection, getDocs, getFirestore } from 'firebase/firestore'
-import Loader from '../AdminPage/Loader.jsx'
 
 export default function Cursos() {
   const db = getFirestore()
@@ -73,10 +72,7 @@ export default function Cursos() {
                   key={curso.id}
                   curso={curso}
                 />
-              ))
-                : (
-                  <Loader />
-                )
+              )) : ''
             }
           </div>
         </div>

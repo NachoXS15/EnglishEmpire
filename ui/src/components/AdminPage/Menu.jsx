@@ -1,35 +1,28 @@
-import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import Logo from '../../assets/logo.png'
 import '../../styles/AdminPage/Menu.css'
-import { signOut } from "../../config/auth"
+import { useEffect } from "react"
+import { getAuth, onAuthStateChanged } from "firebase/auth"
 
 export default function Menu() {
   const navigate = useNavigate()
-  const [isLogged, setIsLogged] = useState(true)
 
+  const auth = getAuth();
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      setIsLogged(false)
-      navigate('/administracion')
-    }
-  })
 
-  useEffect(() => {
-    if (!isLogged) {
-      navigate('/administracion')
-    }
-  }, [isLogged, navigate])
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        console.log('existe usuario', currentUser)
+      } else {
+        navigate('../administracion')
+      }
+    });
 
-  const logOut = () => {
-    signOut();
-    localStorage.removeItem('token');
-    setIsLogged(false)
-  }
+    return () => unsubscribe();
+  }, [auth, navigate])
 
-  const goTo = (url) => {
-    navigate(url)
+  const goTo = (dir) => {
+    navigate(dir)
   }
 
   return (
@@ -40,7 +33,6 @@ export default function Menu() {
         <button onClick={() => goTo('./personal')}>Personal</button>
         <button onClick={() => goTo('./inscripciones')}>Inscripciones</button>
         <button onClick={() => goTo('./configuracion')}>Configuración</button>
-        <button onClick={() => logOut()}>Cerrar Sesión</button>
       </div>
     </div>
   )
