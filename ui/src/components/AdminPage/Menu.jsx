@@ -12,7 +12,7 @@ export default function Menu() {
 
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
-        console.log('existe usuario', currentUser)
+        console.log('User exists')
       } else {
         navigate('../administracion')
       }

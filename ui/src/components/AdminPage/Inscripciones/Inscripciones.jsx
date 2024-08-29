@@ -23,7 +23,6 @@ export default function Inscripciones() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
-        console.log('existe usuario', currentUser)
       } else {
         navigate('../administracion')
       }

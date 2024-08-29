@@ -16,7 +16,6 @@ export default function Personal() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
-        console.log('existe usuario', currentUser)
       } else {
         navigate('../administracion')
       }

@@ -24,7 +24,7 @@ export default function CursosAdm() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
-        setUser(currentUser.user)
+        setUser(currentUser)
       } else {
         navigate('../administracion')
       }

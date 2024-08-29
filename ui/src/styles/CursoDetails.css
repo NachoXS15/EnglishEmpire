@@ -148,3 +148,71 @@
 .card--red-text{
   color: #EE1120;
 }
+
+/* Media querys */
+
+@media (max-width: 1024px){
+  .curso-description{
+    flex-direction: column;
+  }
+
+  .curso-banner{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 0;
+
+  }
+
+  .curso-banner .card--duration{
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+
+  .text-description{
+    width: 100%;
+  }
+
+  .curso-description{
+    padding-bottom: 20px;
+  }
+
+  .cursoDetails-container{
+    padding-bottom: 40px;
+  }
+
+  .price-description{
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    max-width: 600px;
+    top: 24px;
+    min-width: 320px;
+    margin: auto;
+  }
+  
+  .price-description--card{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    background-color: #f1f1f1;
+    width: 100%;
+    padding: 2rem 0;
+    border-radius: 20px;
+    color: #252D52;
+    height: auto;
+  }
+  
+  .price-description--card h2{
+    font-size: 40px;
+    font-weight: normal;
+    
+  }
+}

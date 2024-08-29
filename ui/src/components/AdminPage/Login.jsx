@@ -18,7 +18,6 @@ export default function Login() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
-        console.log('user', currentUser)
         navigate('../menu')
       }
     });
@@ -49,8 +48,7 @@ export default function Login() {
       } else {
         await setPersistence(auth, browserSessionPersistence)
       }
-      const user = await signInWithEmailAndPassword(auth, formData.email, formData.password);
-      console.log('Registrado: ', user)
+      await signInWithEmailAndPassword(auth, formData.email, formData.password);
     } catch (error) {
       console.error('Error:', error.message);
       throw error;
