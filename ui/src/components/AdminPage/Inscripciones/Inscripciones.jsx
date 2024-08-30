@@ -3,6 +3,7 @@ import '../../../styles/AdminPage/Inscripciones/Inscripciones.css'
 import { useNavigate } from 'react-router-dom'
 import { getFirestore, collection, getDocs } from 'firebase/firestore'
 import FormCompletoCard from './FormCompletoCard'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
 export default function Inscripciones() {
   const [inscripciones, setInscripciones] = useState([])
@@ -16,6 +17,20 @@ export default function Inscripciones() {
   const navigate = useNavigate()
 
   const [isMobile, setIsMobile] = useState(window.innerWidth < 650);
+
+  //verificar usuario registrado
+  const auth = getAuth()
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+      } else {
+        navigate('../administracion')
+      }
+    });
+
+    return () => unsubscribe();
+  }, [auth, navigate])
+
 
   useEffect(() => {
     const handleResize = () => {

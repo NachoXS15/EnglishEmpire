@@ -3,6 +3,7 @@ import logoFooter from '../assets/logo_footer.png'
 import fbIcon from '../assets/icons/icon-fb.png'
 import igIcon from '../assets/icons/icon-ig.png'
 import tiktokIcon from '../assets/icons/icon-tiktok.png'
+import { Link } from 'react-router-dom'
 
 
 export default function Footer() {
@@ -14,19 +15,35 @@ export default function Footer() {
         </div>
         <nav>
           <h3>Cursos</h3>
-          <li><a href="">Kinder</a></li>
-          <li><a href="">Juniors</a></li>
-          <li><a href="">Teens</a></li>
-          <li><a href="">Adults</a></li>
-          <li><a href="">Individuales</a></li>
-          <li><a href="">Empresariales</a></li>
+          <li>
+            <Link to="/cursos">Kinder</Link>
+          </li>
+          <li>
+            <Link to="/cursos">Juniors</Link>
+          </li>
+          <li>
+            <Link to="/cursos">Teens</Link>
+          </li>
+          <li>
+            <Link to="/cursos">Adults</Link>
+          </li>
+          <li>
+            <Link to="/cursos">Individuales</Link>
+          </li>
+          <li>
+            <Link to="/cursos">Empresariales</Link>
+          </li>
         </nav>
         <nav className='nosotros-nav'>
           <h3>Nosotros</h3>
-          <li><a href="">Quiénes somos</a></li>
-          <li><a href="">Contacto</a></li>
-          <li><a href="">Trabajá con nosotros</a></li>
-          <li><a href="">Preguntas Frecuentes</a></li>
+          <li>
+            <Link to='/nosotros'>Quiénes somos</Link>
+          </li>
+          <li>
+            <Link to="/contacto">Contacto</Link>
+          </li>
+          <li><Link to="/postulate">Trabajá con nosotros</Link></li>
+          <li><Link to="/nosotros">Preguntas Frecuentes</Link></li>
         </nav>
         <div className='redes-footer'>
           <p>Seguinos</p>

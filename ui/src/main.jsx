@@ -16,6 +16,8 @@ import Personal from './components/AdminPage/Personal/Personal.jsx'
 import Inscripciones from './components/AdminPage/Inscripciones/Inscripciones.jsx'
 
 import './config/firebase-config.js'
+import Configuracion from './components/AdminPage/Configuracion/Configuracion.jsx'
+import Faq from './components/faq/Faq.jsx'
 
 
 const router = createBrowserRouter([
@@ -56,6 +58,10 @@ const router = createBrowserRouter([
     element: <Inscription />
   },
   {
+    path: '/faq',
+    element: <Faq />
+  },
+  {
     // --------Admin page--------
     path: '/administracion',
     element: <Login />
@@ -75,6 +81,10 @@ const router = createBrowserRouter([
   {
     path: '/menu/inscripciones',
     element: <Inscripciones />
+  },
+  {
+    path: '/menu/configuracion',
+    element: <Configuracion />
   }
 ])
 

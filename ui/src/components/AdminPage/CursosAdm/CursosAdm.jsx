@@ -5,6 +5,7 @@ import ModificarCursoModal from './modificarCursoModal'
 import { useNavigate } from 'react-router-dom'
 import { getFirestore, getDocs, collection } from 'firebase/firestore'
 import AddCursoModal from './AddCursoModal'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
 // ARREGLAR PROBLEMA DE SUBIR IMG
 
@@ -12,21 +13,29 @@ export default function CursosAdm() {
   const [cursos, setCursos] = useState([])
   const [categories, setCategories] = useState([])
   const [categorySelectedName, setCategorySelectedId] = useState('Kinders')
-  const [isLogged, setIsLogged] = useState(true)
   // Estado para modificar la url y que aparezca el modal
   const [cursoModificarId, setCursoModificarId] = useState(false)
   const navigate = useNavigate()
+  const [user, setUser] = useState(null)
 
+  // verificar si hay usuario registrado
+
+  const auth = getAuth()
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      setIsLogged(false)
-      navigate('/administracion')
-    }
-  })
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        setUser(currentUser)
+      } else {
+        navigate('../administracion')
+      }
+    });
 
+    return () => unsubscribe();
+  }, [auth, navigate])
+
+
+  // traer cursos de firebase
   const db = getFirestore()
-
   useEffect(() => {
     const fetchData = async () => {
       try {

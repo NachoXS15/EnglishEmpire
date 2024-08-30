@@ -10,9 +10,30 @@ import { getFirestore, getDocs, collection, query, where } from 'firebase/firest
 export default function CursoDetails() {
   const params = useParams()
   const [curso, setCurso] = useState({})
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024)
 
   const db = getFirestore()
 
+  // Resize UseEffect
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 1024) {
+        setIsMobile(true);
+      } else {
+        setIsMobile(false);
+
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Limpieza del evento cuando el componente se desmonta
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  // Fetching data
   useEffect(() => {
     const getCursoByName = async (nombre, nivel) => {
       try {
@@ -50,6 +71,19 @@ export default function CursoDetails() {
       <section className='cursoDetails-container'>
         <div className='curso-banner'>
           <p>{curso.nombre}</p>
+          {
+            isMobile &&
+            <div className="card--duration">
+              <p>
+                <img src={weekIcon} alt="" />
+                {curso.duracion}
+              </p>
+              <p>
+                <img src={lessonsIcon} alt="" />
+                {curso.clasesSemanales} clases semanales
+              </p>
+            </div>
+          }
         </div>
         <div className='curso-description'>
           <div className='text-description'>
@@ -74,16 +108,19 @@ export default function CursoDetails() {
                   <i>Cupos disponibles: {curso.cupos}</i> :
                   <i>No hay más cupos disponibles</i>
               }
-              <div className="card--duration">
-                <p>
-                  <img src={weekIcon} alt="" />
-                  {curso.duracion}
-                </p>
-                <p>
-                  <img src={lessonsIcon} alt="" />
-                  {curso.clasesSemanales} clases semanales
-                </p>
-              </div>
+              {
+                !isMobile &&
+                <div className="card--duration">
+                  <p>
+                    <img src={weekIcon} alt="" />
+                    {curso.duracion}
+                  </p>
+                  <p>
+                    <img src={lessonsIcon} alt="" />
+                    {curso.clasesSemanales} clases semanales
+                  </p>
+                </div>
+              }
               <div className='card--inicio-final'>
                 <div>
                   <p className='card--red-text'>Fecha de inicio</p>

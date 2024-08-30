@@ -76,3 +76,17 @@
   text-decoration: none;
 }
 
+.sesion-div{
+  display: flex;
+  flex-direction: row !important;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.login--form-container input[type="checkbox"]{
+  width: 20px;
+  height: 20px;
+}
+
+
