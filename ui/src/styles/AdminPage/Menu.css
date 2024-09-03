@@ -22,13 +22,14 @@
   justify-content: center;
   align-items: center;
   width: 260px;
-  height: 60px;
+  min-height: 68px;
   font-size: 28px;
   background-color: #fff;
   color: #222;
   border: 1px solid #999;
   border-radius: 60px;
   cursor: pointer;
+  padding: 4px;
 }
 
 .menu-box button:hover{

@@ -55,9 +55,14 @@
 }
 
 .text-area,
-.button,
-.file-element{
+.button{
   width: 100%;
+}
+
+.file-element input{
+  background-color: #fff;
+  cursor: pointer;
+  padding: 0;
 }
 
 .text-area textarea{
@@ -73,10 +78,6 @@
   width: 100%;
 }
 
-.file-element input{
-  background-color: transparent;
-  cursor: pointer;
-}
 
 .button{
   display: flex;
@@ -94,6 +95,30 @@
   border-radius: 24px;
   font-size: 32px;
 }
+
+/* upload cv modal */
+.upload-cv--container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  background-color: rgba(0,0,0,0.5);
+  width: 100%;
+  height: inherit;
+  top: 0;
+  left: 0;
+  z-index: 999999;
+}
+
+.upload-cv--box{
+  width: 80%;
+  height: 80%;
+  background-color: #f1f1f1;
+  border-radius: 26px;
+  padding: 12px;
+}
+
+
 
 @media (max-width: 1024px){
   .form-element{

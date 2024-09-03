@@ -91,7 +91,7 @@ export default function CursoDetails() {
               curso.descripcion ?
                 curso.descripcion.map(parrafo => (
                   <p className='parrafo-description' key={parrafo}>{parrafo}</p>
-                )) : ''
+                )) : <p>Cargando Curso...</p>
             }
           </div>
           <div className='price-description'>

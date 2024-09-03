@@ -32,6 +32,7 @@ export default function Menu() {
         <button onClick={() => goTo('./cursos')}>Cursos</button>
         <button onClick={() => goTo('./personal')}>Personal</button>
         <button onClick={() => goTo('./inscripciones')}>Inscripciones</button>
+        <button onClick={() => goTo('./consultas')}>Consultas y Postulantes</button>
         <button onClick={() => goTo('./configuracion')}>Configuración</button>
       </div>
     </div>

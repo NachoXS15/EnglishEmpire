@@ -67,12 +67,12 @@ export default function Cursos() {
           </div>
           <div className='cursos-cards-container'>
             {
-              cursos ? cursos.filter(curso => curso.categoria === categorySelected).map(curso => (
+              cursos.length > 0 ? cursos.filter(curso => curso.categoria === categorySelected).map(curso => (
                 <CourseCard
                   key={curso.id}
                   curso={curso}
                 />
-              )) : ''
+              )) : <p>Cargando Cursos...</p>
             }
           </div>
         </div>
