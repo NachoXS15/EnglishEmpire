@@ -63,6 +63,7 @@ export default function Inscription() {
 		})
 	}, [tutorSi])
 
+	// fetching data
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
@@ -202,10 +203,8 @@ export default function Inscription() {
 			}
 		}
 
-
 		let cursoElegido = cursos.filter(curso => curso.nombre == formAlumno.curso)
 		// Descontar Cupo de curso
-
 
 		let comprobanteURL
 		if (metodoPago != 'Efectivo') {

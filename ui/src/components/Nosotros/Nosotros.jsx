@@ -86,14 +86,15 @@ export default function Nosotros() {
         </div>
         <div className='profes-container'>
           {
-            staff.map(prof => (
-              <ProfesorCard
-                name={prof.nombre}
-                role={prof.cargo}
-                imgUrl={prof.imagen}
-                key={prof.id}
-              />
-            ))
+            staff.length > 0 ?
+              staff.map(prof => (
+                <ProfesorCard
+                  name={prof.nombre}
+                  role={prof.cargo}
+                  imgUrl={prof.imagen}
+                  key={prof.id}
+                />
+              )) : <p>Cargando Personal...</p>
           }
 
 
