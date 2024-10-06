@@ -13,6 +13,7 @@ export default function Inscription() {
 	const [file, setFile] = useState(null);
 	const [linkDePago, setLinkDePago] = useState('')
 	const [metodoPago, setMetodoPago] = useState('')
+	const [datosTransferenciaModal, setDatosTransferenciaModal] = useState(false)
 	const [formAlumno, setFormAlumno] = useState({
 		nombre: '',
 		apellido: '',
@@ -207,17 +208,28 @@ export default function Inscription() {
 		// Descontar Cupo de curso
 
 		let comprobanteURL
-		if (metodoPago != 'Efectivo') {
+		if (metodoPago == 'Transferencia') {
 			comprobanteURL = await uploadComprobante(file)
 		} else {
 			comprobanteURL = false
 		}
+
+		const now = new Date();
+		const dia = now.getDate().toString().padStart(2, '0'); // Día con dos dígitos
+		const mes = (now.getMonth() + 1).toString().padStart(2, '0'); // Mes con dos dígitos (getMonth es 0-indexado)
+		const año = now.getFullYear(); // Año con cuatro dígitos
+		const hora = now.getHours().toString().padStart(2, '0'); // Hora con dos dígitos
+		const minutos = now.getMinutes().toString().padStart(2, '0'); // Minutos con dos dígitos
+
+		// Formato "DD/MM/YYYY - HH:MM"
+		const horarioSubida = `${dia}/${mes}/${año} - ${hora}:${minutos}`;
 
 		// Agregar timestamp al formData
 		const formDataWithTimestamp = {
 			...formData,
 			comprobante: comprobanteURL,
 			pagado: false,
+			horarioSubida,
 			createdAt: serverTimestamp() // Marca de tiempo del servidor
 		};
 
@@ -519,15 +531,9 @@ export default function Inscription() {
 							{
 								metodoPago == 'Transferencia' &&
 								<>
-									<p>
-										<label htmlFor="comprobante"><b>Suba su comprobante de pago:</b></label>
-									</p>
-									<input type="file" name="comprobante" id="comprobante" accept='.pdf, .jpg, .png, .jpeg' onChange={handleFileChange} />
-								</>
-							}
-							{
-								metodoPago == 'Mercado Pago' &&
-								<>
+									<button className='datos-transferir' onClick={() => {
+										setDatosTransferenciaModal(true)
+									}}>Ver datos para transferir</button>
 									<p>
 										<label htmlFor="comprobante"><b>Suba su comprobante de pago:</b></label>
 									</p>
@@ -541,6 +547,17 @@ export default function Inscription() {
 						<button onClick={submitForm}>Confirmar</button>
 					</div>
 				</div>
+				{
+					datosTransferenciaModal &&
+					<div className='datos-transferencia-container'>
+						<div className='datos-transferencia--box'>
+							<div onClick={() => { setDatosTransferenciaModal(false) }}>X</div>
+							<p>Titular de la cuenta: English Empire LR</p>
+							<p>Alias: nicolujan16</p>
+							<p>CBU: 000124120849128410</p>
+						</div>
+					</div>
+				}
 			</section>
 			<Footer></Footer>
 		</>

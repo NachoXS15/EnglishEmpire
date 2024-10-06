@@ -84,8 +84,9 @@ td{
 }
 
 .inscripcion-completa-btn{
-  width: 140px;
+  max-width: 140px;
   height: 44px;
+  padding: 8px;
   font-size: 16px;
   background-color: #EE1120;
   color: #fff;

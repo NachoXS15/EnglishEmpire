@@ -38,7 +38,7 @@ function Inicio() {
       <Header />
       <Slider
         images={!isScreenSmall ? imagesDesktop : imagesMobile}
-        text='Inscripción 2024'
+        text='Inscripción 2025'
         link='/inscripcion'
       />
       <div className='cursos-section'>

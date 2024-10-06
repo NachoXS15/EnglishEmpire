@@ -28,3 +28,11 @@
   background-color: #242424;
   width: 40px;
 }
+
+@media (max-width: 777px){
+  .contacto-info{
+    flex-direction: column;
+    gap: 12px;
+    margin-right: 24px;
+  }
+}
