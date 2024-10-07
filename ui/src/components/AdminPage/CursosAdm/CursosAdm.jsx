@@ -44,13 +44,7 @@ export default function CursosAdm() {
           id: doc.id,
           ...doc.data()
         }));
-        const ordenarPorLetra = (a, b) => {
-          const letraA = a.nombre.match(/"([^"]+)"/)[1];
-          const letraB = b.nombre.match(/"([^"]+)"/)[1];
-          return letraA.localeCompare(letraB);
-        }
-        let cursosOrdenados = dataCursos.sort(ordenarPorLetra)
-        setCursos(cursosOrdenados);
+        setCursos(dataCursos);
       } catch (error) {
         console.error('Error fetching data: ', error);
       }
@@ -103,7 +97,7 @@ export default function CursosAdm() {
         </div>
         <h2>Cursos</h2>
       </div>
-      <select name="filter" onChange={selectedCursoChange} defaultValue={categorySelectedName}>
+      <select name="filter" onChange={selectedCursoChange}>
         {
           categories.map(category => (
             <option name={category} key={category} value={category}>{category}</option>

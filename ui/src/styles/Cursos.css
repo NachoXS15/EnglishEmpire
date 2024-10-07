@@ -10,6 +10,7 @@
   width: 100%;
   height: auto;
   padding: 3rem;
+  padding-right:40px;
 }
 
 .cursos-buttons{
@@ -41,4 +42,5 @@ button.curso-selected{
   justify-content: center;
   flex-wrap: wrap;
   gap: 3rem;
+  max-width: 1000px;
 }

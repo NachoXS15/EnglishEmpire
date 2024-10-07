@@ -15,6 +15,7 @@ import CursosAdm from './components/AdminPage/CursosAdm/CursosAdm.jsx'
 import Personal from './components/AdminPage/Personal/Personal.jsx'
 import Inscripciones from './components/AdminPage/Inscripciones/Inscripciones.jsx'
 import Consultas from './components/AdminPage/Consultas/Consultas.jsx'
+import Personalizados from './components/CursoDetails/Personalizados.jsx'
 
 import './config/firebase-config.js'
 import Configuracion from './components/AdminPage/Configuracion/Configuracion.jsx'
@@ -41,6 +42,14 @@ const router = createBrowserRouter([
   {
     path: '/cursos',
     element: <Cursos />
+  },
+  {
+    path: '/individuales',
+    element: <Personalizados tipo='Individuales' />,
+  },
+  {
+    path: '/empresariales',
+    element: <Personalizados tipo='Empresariales' />
   },
   {
     path: '/cursos/:nivel',

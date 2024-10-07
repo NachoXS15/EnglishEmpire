@@ -7,6 +7,7 @@ import weekIcon from '../../assets/cursoDetails/icon_semanas.png'
 import lessonsIcon from '../../assets/cursoDetails/icon_frecuencia.png'
 import { getFirestore, getDocs, collection, query, where } from 'firebase/firestore'
 
+
 export default function CursoDetails() {
   const params = useParams()
   const [curso, setCurso] = useState({})
@@ -43,6 +44,7 @@ export default function CursoDetails() {
 
         if (!querySnapshot.empty) {
           const cursos = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+          console.log(cursos)
           cursos.forEach(curso => {
             if (curso.nombre.replace(/\s+/g, "") == nombre) {
               let desc = curso.descripcion.split('\n\n')

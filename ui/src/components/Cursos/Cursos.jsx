@@ -6,6 +6,25 @@ import { useState, useEffect } from 'react'
 import { CourseCard } from './CourseCard.jsx'
 import { collection, getDocs, getFirestore } from 'firebase/firestore'
 
+
+
+const cursosPersonalizados = [
+  {
+    id: "1",
+    edades: "Todas las edades!",
+    descripcion: '¡Bienvenidos a nuestras clases de inglés para niños de 4 y 5 años! En estas clases, los niños aprenderán de manera divertida y lúdica los conceptos básicos de la lengua inglesa.\n\nUtilizamos juegos, canciones y actividades interactivas para que los niños se diviertan mientras aprenden. Además, nuestros profesores están altamente capacitados en enseñar a niños pequeños y utilizan técnicas pedagógicas que estimulan su creatividad y curiosidad.\n\nEntre las habilidades que los niños desarrollarán en estas clases se encuentran: comprensión auditiva, pronunciación, vocabulario básico, gramática simple y la capacidad de comunicarse en situaciones cotidianas.',
+    categoria: "Individuales",
+    nombre: "Clases Individuales"
+  },
+  {
+    id: "2",
+    edades: "Todas las edades!",
+    categoria: "Empresariales",
+    nombre: "Clases empresariales"
+  }
+
+]
+
 export default function Cursos() {
   const db = getFirestore()
 
@@ -18,7 +37,7 @@ export default function Cursos() {
       try {
         const response = await getDocs(collection(db, 'Categorias'));
         const cat = response.docs[0].data().categorias
-        setCategories(cat)
+        setCategories([...cat, 'Individuales', 'Empresariales'])
       } catch (error) {
         console.error('Error fetching data: ', error);
       }
@@ -28,13 +47,7 @@ export default function Cursos() {
           id: doc.id,
           ...doc.data()
         }));
-        const ordenarPorLetra = (a, b) => {
-          const letraA = a.nombre.match(/"([^"]+)"/)[1];
-          const letraB = b.nombre.match(/"([^"]+)"/)[1];
-          return letraA.localeCompare(letraB);
-        }
-        let cursosOrdenados = dataCursos.sort(ordenarPorLetra)
-        setCursos(cursosOrdenados);
+        setCursos([...dataCursos, ...cursosPersonalizados]);
       } catch (error) {
         console.error('Error fetching data: ', error);
       }
