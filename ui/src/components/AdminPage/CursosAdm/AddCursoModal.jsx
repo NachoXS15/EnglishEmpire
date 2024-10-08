@@ -117,7 +117,7 @@ export default function AddCursoModal({ navigateTo, categories, categorySelected
           </div>
           <div>
             <label htmlFor="categoria">Categoria del curso</label>
-            <select name="categoria" id="categoria" onChange={handleInputChange} defaultValue={categorySelectedName}>
+            <select name="categoria" id="categoria" onChange={handleInputChange} defaultValue={'Kinders'}>
               {
                 categories.map(category => (
                   <option name={category} key={category} value={category}>{category}</option>

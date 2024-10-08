@@ -76,6 +76,7 @@
 
 .pago--buttons-container{
   display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
 }
 
@@ -107,7 +108,9 @@
 /* confirmacion datos */
 .confirmacion .datos{
   display: flex;
-  gap: 3rem;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2rem;
 }
 
 .confirmacion .datos-first-container{
@@ -116,10 +119,74 @@
   gap: 1rem;
 }
 
+.datos-curso-pago{
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
 
 /* disabled */
 .disabled{
   display: none;
+}
+
+/* datos para trasnferir modal */
+
+.datos-transferir{
+  border: 1px solid black;
+  padding: 4px 12px;
+  border-radius: 12px;
+  max-width: 240px;
+  height: 36px;
+  font-size: 16px;
+}
+
+.datos-transferencia-container{
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  z-index: 999999;
+}
+
+.datos-transferencia--box{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 300px;
+  height: 200px;
+  background-color: #fff;
+  gap: 12px;
+  border-radius: 16px;
+  border: 1px solid #222;
+  position: relative;
+}
+
+.datos-transferencia--box div{
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: #f1f1f1;
+  border: 1px solid #444;
+  padding: 12px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 16px;
+}
+
+.datos-transferencia--box p{
+  font-size: 16px;
+  margin: 0 auto;
 }
 
 

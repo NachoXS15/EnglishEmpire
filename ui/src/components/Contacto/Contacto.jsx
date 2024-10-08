@@ -48,13 +48,13 @@ export default function Contacto() {
           <div>
             <p>¡Usa nuestras redes para comunicarte!</p>
             <div className='contacto-icons'>
-              <a href="">
+              <a target='_blank' href="https://www.facebook.com/englishempirelr">
                 <i className="fa-brands fa-facebook"></i>
               </a>
-              <a href="">
+              <a target='_blank' href="https://www.instagram.com/englishempirelr/">
                 <i className="fa-brands fa-instagram"></i>
               </a>
-              <a href="">
+              <a target='_blank' href="https://wa.me/3804259004">
                 <i className="fa-brands fa-whatsapp"></i>
               </a>
             </div>

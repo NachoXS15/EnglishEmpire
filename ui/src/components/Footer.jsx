@@ -50,7 +50,7 @@ export default function Footer() {
           <div>
             <a target='_blank' rel='noreferrer' href="https://www.facebook.com/englishempirelr"><img src={fbIcon} alt="" /></a>
             <a target='_blank' rel='noreferrer' href="https://www.instagram.com/englishempirelr/"><img src={igIcon} alt="" /></a>
-            <a target='_blank' rel='noreferrer' href="https://www.tiktok.com/@englishempirelr"><img src={tiktokIcon} alt="" /></a>
+            <a target='_blank' rel='noreferrer' href="https://www.tiktok.com/@englishempire.lr"><img src={tiktokIcon} alt="" /></a>
           </div>
         </div>
       </footer>

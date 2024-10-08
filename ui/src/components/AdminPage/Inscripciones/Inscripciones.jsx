@@ -176,55 +176,61 @@ export default function Inscripciones() {
           -Boton ver comprobante
           -Metodo de pago
         */}
-        <table>
-          <thead>
-            <tr>
-              <th>Alumno</th>
-              <th>DNI</th>
-              {
-                !isMobile &&
-                <>
-                  <th>Curso</th>
-                  <th>Metodo de pago</th>
-                </>
-              }
+        {
+          inscripciones.length > 0 &&
+          <table>
+            <thead>
+              <tr>
+                <th>Alumno</th>
+                <th>DNI</th>
+                {
+                  !isMobile &&
+                  <>
+                    <th>Curso</th>
+                    <th>Metodo de pago</th>
+                  </>
+                }
 
-              <th>Formulario</th>
-              <th>Pagado</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              inscripcionesFiltradas.length > 0 ?
-                inscripcionesFiltradas.map((inscripcion, index) => (
-                  <tr key={index} >
-                    <td>{inscripcion.alumno.nombre} {inscripcion.alumno.apellido}</td>
-                    <td>{inscripcion.alumno.dni}</td>
-                    {
-                      !isMobile &&
-                      <>
-                        <td>{inscripcion.alumno.curso}</td>
-                        <td>
-                          <p>{inscripcion.metodoPago}</p>
-                          {
-                            inscripcion.metodoPago != 'Efectivo' &&
-                            <a href={inscripcion.comprobante} target="_blank" rel="noopener noreferrer">
-                              Ver Comprobante
-                            </a>
-                          }
-                        </td>
-                      </>
-                    }
-                    <td>
-                      <button className='inscripcion-completa-btn' onClick={() => { handleViewForm(index) }}>Ver Inscripción Completa</button>
-                    </td>
-                    <td>
-                      {inscripcion.pagado ? <p>Si</p> : <p>No</p>}
-                    </td>
-                  </tr>)) : ''
-            }
-          </tbody>
-        </table>
+                <th>Formulario</th>
+                <th>Pagado</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                inscripcionesFiltradas.length > 0 ?
+                  inscripcionesFiltradas.map((inscripcion, index) => (
+                    <tr key={index} >
+                      <td>{inscripcion.alumno.nombre} {inscripcion.alumno.apellido}</td>
+                      <td>{inscripcion.alumno.dni}</td>
+                      {
+                        !isMobile &&
+                        <>
+                          <td>{inscripcion.alumno.curso}</td>
+                          <td>
+                            <p>{inscripcion.metodoPago}</p>
+                            {
+                              inscripcion.metodoPago == 'Transferencia' &&
+                              <a href={inscripcion.comprobante} target="_blank" rel="noopener noreferrer">
+                                Ver Comprobante
+                              </a>
+                            }
+                          </td>
+                        </>
+                      }
+                      <td>
+                        <button className='inscripcion-completa-btn' onClick={() => { handleViewForm(index) }}>Formulario</button>
+                      </td>
+                      <td>
+                        {inscripcion.pagado ? <p>Si</p> : <p>No</p>}
+                      </td>
+                    </tr>)) : ''
+              }
+            </tbody>
+          </table>
+        }
+        {
+          inscripciones.length < 1 && <p>Aun no hay inscripciones...</p>
+        }
 
       </div>
 

@@ -81,8 +81,12 @@ export default function FormCompletoCard({ form, setForm }) {
             </>
           }
 
+          <div className='metodo-pago--info'>
+            <p>Metodo de pago: {form.metodoPago}</p>
+            <p>Inscripto el {form.horarioSubida}</p>
+          </div>
           {
-            form.metodoPago != 'Efectivo' &&
+            form.metodoPago == 'Transferencia' &&
             <a href={form.comprobante} target='_blank'>Ver comprobante</a>
           }
           <div className='marcar-pagado-btns'>
