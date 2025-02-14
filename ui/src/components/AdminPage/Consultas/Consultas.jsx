@@ -66,29 +66,33 @@ export default function Consultas() {
         <div>
           <h3>Consultas</h3>
           {
-            consultas.map(cons => (
-              <div className='consulta--box' key={cons.id}>
-                <i>{cons.nombre} {cons.apellido}</i>
-                <p>{cons.consulta}</p>
-                <p>{cons.email}</p>
-                <a href={`https://wa.me/${cons.telefono}`} target='_blank'>{cons.telefono}</a>
-              </div>
-            ))
+            consultas.length > 0 ?
+              consultas.map(cons => (
+                <div className='consulta--box' key={cons.id}>
+                  <i>{cons.nombre} {cons.apellido}</i>
+                  <p>{cons.consulta}</p>
+                  <p>{cons.email}</p>
+                  <a href={`https://wa.me/${cons.telefono}`} target='_blank'>{cons.telefono}</a>
+                </div>
+              )) :
+              <p>Aun no hay consultas.</p>
           }
         </div>
         <div>
           <h3>Postulaciones</h3>
           {
-            postulaciones.map(pos => (
-              <div className='consulta--box' key={pos.id}>
-                <p>{pos.nombre} {pos.apellido} - {pos.nacimiento}</p>
-                <p>{pos.descripcion}</p>
-                <p>{pos.email}</p>
-                <a href={`https://wa.me/${pos.telefono}`} target='_blank'>{pos.telefono}</a>
-                <a href={pos.cv} target='_blank'>Ver CV</a>
+            postulaciones.length > 0 ?
+              postulaciones.map(pos => (
+                <div className='consulta--box' key={pos.id}>
+                  <p>{pos.nombre} {pos.apellido} - {pos.nacimiento}</p>
+                  <p>{pos.descripcion}</p>
+                  <p>{pos.email}</p>
+                  <a href={`https://wa.me/${pos.telefono}`} target='_blank'>{pos.telefono}</a>
+                  <a href={pos.cv} target='_blank'>Ver CV</a>
 
-              </div>
-            ))
+                </div>
+              )) :
+              <p>Aun no hay postulaciones.</p>
           }
         </div>
       </div>

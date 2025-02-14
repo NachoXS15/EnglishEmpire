@@ -10,6 +10,10 @@
   font-size: 20px;
 }
 
+.select-curso{
+  width: 100%;
+}
+
 .form-element label p{
   padding-top: 12px;
   font-weight: normal;

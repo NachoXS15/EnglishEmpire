@@ -71,12 +71,12 @@ export default function FormCompletoCard({ form, setForm }) {
             <>
               <h3>Datos del {form.tutor.parentesco}:</h3>
               <div className='datos-tutor'>
-                <p>Nombre: {form.alumno.tutor ? form.tutor.nombre : ''}</p>
-                <p>Apellido: {form.tutor.apellido}</p>
-                <p>DNI: {form.tutor.dni}</p>
-                <p>Email: {form.tutor.email}</p>
-                <p>Telefono: {form.tutor.telefono}</p>
-                <p>Nacimiento: {form.tutor.nacimiento}</p>
+                <p>Nombre: <b>{form.alumno.tutor ? form.tutor.nombre : ''}</b></p>
+                <p>Apellido: <b>{form.tutor.apellido}</b></p>
+                <p>DNI: <b>{form.tutor.dni}</b></p>
+                <p>Email: <b>{form.tutor.email}</b></p>
+                <p>Telefono: <b>{form.tutor.telefono}</b></p>
+                <p>Nacimiento: <b>{form.tutor.fechaNacimiento}</b></p>
               </div>
             </>
           }
