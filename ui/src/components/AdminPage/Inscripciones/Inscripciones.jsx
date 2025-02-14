@@ -73,6 +73,7 @@ export default function Inscripciones() {
 
       setCursos(listaCursos)
       setInscripciones(inscripcionesList);
+      console.log(inscripcionesList)
     };
 
     fetchData();
@@ -124,6 +125,60 @@ export default function Inscripciones() {
 
   }
 
+
+  // Descargar tabla de inscripciones como CSV
+  const inscripcionesToCSV = (inscripciones) => {
+    const csvRows = [];
+    const headers = [
+      "ID", "Nombre", "Apellido", "DNI", "Fecha de Nacimiento", "Email",
+      "Teléfono", "Curso", "Tutor", "Método de Pago", "Pagado",
+      "Comprobante", "Horario Subida", "Fecha Creación"
+    ];
+    csvRows.push(headers.join(",")); // Agregar encabezados
+
+    inscripciones.forEach(inscripcion => {
+      const { id, pagado, metodoPago, comprobante, horarioSubida, createdAt, alumno } = inscripcion;
+      const fechaCreacion = createdAt ? new Date(createdAt.seconds * 1000).toLocaleString() : "N/A";
+
+      const row = [
+        id,
+        alumno?.nombre || "N/A",
+        alumno?.apellido || "N/A",
+        alumno?.dni || "N/A",
+        alumno?.fechaNacimiento || "N/A",
+        alumno?.email || "N/A",
+        alumno?.telefono || "N/A",
+        alumno?.curso || "N/A",
+        alumno?.tutor || "N/A",
+        metodoPago || "N/A",
+        pagado ? "Sí" : "No",
+        comprobante ? (typeof comprobante === "string" ? comprobante : "No") : "No",
+        horarioSubida || "N/A",
+        fechaCreacion
+      ];
+
+      csvRows.push(row.map(value => `"${value}"`).join(",")); // Formatear cada celda con comillas
+    });
+
+    return csvRows.join("\n");
+  };
+
+  // Función para descargar el CSV
+  const downloadCSV = (data) => {
+    const csvContent = "data:text/csv;charset=utf-8," + data;
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "inscripciones.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const descargarCSVButton = () => {
+    const csvData = inscripcionesToCSV(inscripciones);
+    downloadCSV(csvData);
+  }
 
   return (
     <div className='inscripciones--container'>
@@ -229,7 +284,9 @@ export default function Inscripciones() {
           </table>
         }
         {
-          inscripciones.length < 1 && <p>Aun no hay inscripciones...</p>
+          inscripciones.length < 1
+            ? <p>Aun no hay inscripciones.</p>
+            : <button className='descargar-inscripciones-btn' onClick={descargarCSVButton}>Descargar todas las inscripciones</button>
         }
 
       </div>
@@ -238,6 +295,6 @@ export default function Inscripciones() {
         formToShow != null && <FormCompletoCard form={formToShow} setForm={setFormToShow} />
       }
 
-    </div>
+    </div >
   )
 }

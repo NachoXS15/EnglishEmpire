@@ -17,7 +17,7 @@ export default function Nosotros() {
   useEffect(() => {
 
     const cargoPrioridad = {
-      'Presidente': 1,
+      'Director': 1,
       'Secretaria': 5,
       'Secretario': 5,
       'Manejo de RRSS': 7,
@@ -58,11 +58,11 @@ export default function Nosotros() {
           </div>
           <div className='second-banner--element'>
             <img src={nosCursos} alt="12 Cursos disponibles" />
-            <p>Alumnos Cursos</p>
+            <p>Cursos</p>
           </div>
           <div className='second-banner--element'>
             <img src={nosProfesores} alt="6 Profesores excelentes" />
-            <p>Alumnos Profesores</p>
+            <p>Profesores</p>
           </div>
         </div>
         <div className='nosotros--first-text'>

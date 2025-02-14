@@ -34,8 +34,6 @@ export default function Inscription() {
 		parentesco: '',
 		alternativo: ''
 	})
-
-	const { id } = useParams()
 	const db = getFirestore()
 	const navigate = useNavigate()
 
@@ -48,6 +46,7 @@ export default function Inscription() {
 		if (e.target.id == 'curso') {
 			setLinkDePago(e.target.selectedOptions[0].id)
 		}
+
 	}
 
 	const handleInputTutorChange = (e) => {
@@ -73,17 +72,13 @@ export default function Inscription() {
 					id: doc.id,
 					...doc.data()
 				}));
-				const ordenarPorLetra = (a, b) => {
-					const letraA = a.nombre.match(/"([^"]+)"/)[1];
-					const letraB = b.nombre.match(/"([^"]+)"/)[1];
-					return letraA.localeCompare(letraB);
-				}
-				let cursosOrdenados = dataCursos.sort(ordenarPorLetra)
-				setCursos(cursosOrdenados)
+				const opcionesOrdenadas = dataCursos.sort((a, b) =>
+					b.nombre.localeCompare(a.nombre)
+				);
+				setCursos(opcionesOrdenadas)
 			} catch (error) {
 				console.error('Error fetching data: ', error);
 			}
-
 		};
 
 		fetchData()
@@ -355,7 +350,7 @@ export default function Inscription() {
 								<span>*</span>
 							</label>
 
-							<select className='select-element' name="curso" id="curso" defaultValue={id} required onChange={handleInputAlumnoChange}>
+							<select className='select-element select-curso' name="curso" id="curso" required onChange={handleInputAlumnoChange}>
 								<option value="x">Seleccionar...</option>
 								{cursos.filter(curso => curso.cupos > 0).map(curso => (
 									<option key={curso.id} value={curso.nombre} id={curso.linkPago}>{curso.nombre}</option>

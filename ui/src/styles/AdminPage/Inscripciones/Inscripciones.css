@@ -95,3 +95,16 @@ td{
   cursor: pointer;
   text-decoration: none;
 }
+
+.descargar-inscripciones-btn{
+  height: 44px;
+  padding: 8px;
+  margin: 12px;
+  font-size: 16px;
+  background-color: #EE1120;
+  color: #fff;
+  border: none;
+  border-radius: 60px;
+  cursor: pointer;
+  text-decoration: none;
+}

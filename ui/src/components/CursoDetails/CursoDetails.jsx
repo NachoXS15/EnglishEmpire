@@ -44,7 +44,6 @@ export default function CursoDetails() {
 
         if (!querySnapshot.empty) {
           const cursos = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-          console.log(cursos)
           cursos.forEach(curso => {
             if (curso.nombre.replace(/\s+/g, "") == nombre) {
               let desc = curso.descripcion.split('\n\n')
@@ -129,7 +128,7 @@ export default function CursoDetails() {
                   <p>{curso.inicio}</p>
                 </div>
                 <div>
-                  <p className='card--red-text'>Fecha de inicio</p>
+                  <p className='card--red-text'>Fecha de finalización</p>
                   <p>{curso.fin}</p>
                 </div>
 
