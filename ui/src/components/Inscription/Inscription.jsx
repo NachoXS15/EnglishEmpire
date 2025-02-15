@@ -6,6 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { getFirestore, getDocs, collection, serverTimestamp, addDoc, updateDoc, doc } from 'firebase/firestore'
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage'
+import { FaRegCopy } from "react-icons/fa";
 
 export default function Inscription() {
 	const [tutorSi, setTutorSi] = useState(false)
@@ -292,6 +293,9 @@ export default function Inscription() {
 		});
 	};
 
+	const handleCopy = (e) => {
+		navigator.clipboard.writeText("0000003100047332857816");
+	};
 
 
 	return (
@@ -547,9 +551,11 @@ export default function Inscription() {
 					<div className='datos-transferencia-container'>
 						<div className='datos-transferencia--box'>
 							<div onClick={() => { setDatosTransferenciaModal(false) }}>X</div>
-							<p>Titular de la cuenta: English Empire LR</p>
-							<p>Alias: nicolujan16</p>
-							<p>CBU: 000124120849128410</p>
+							<p>CVU: <b>0000003100047332857816</b> <button className='copy-btn' onClick={handleCopy}
+							><FaRegCopy className='copy-icon' /></button></p>
+							<p>Alias: <b>ENGLISH.EMPIRE.LR</b></p>
+							<p>CUIT/CUIL: <b>20-42845329-9</b></p>
+							<p>Mercado Pago</p>
 						</div>
 					</div>
 				}
