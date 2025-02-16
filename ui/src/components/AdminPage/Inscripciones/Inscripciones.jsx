@@ -73,7 +73,6 @@ export default function Inscripciones() {
 
       setCursos(listaCursos)
       setInscripciones(inscripcionesList);
-      console.log(inscripcionesList)
     };
 
     fetchData();
