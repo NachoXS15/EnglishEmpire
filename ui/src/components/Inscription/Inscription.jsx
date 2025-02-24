@@ -2,19 +2,20 @@ import '../../styles/Inscription.css'
 import Header from '../Header'
 import Footer from '../Footer'
 import { MainBanner } from '../MainBanner'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { getFirestore, getDocs, collection, serverTimestamp, addDoc, updateDoc, doc } from 'firebase/firestore'
-import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage'
 import { FaRegCopy } from "react-icons/fa";
+import Swal from 'sweetalert2'
 
 export default function Inscription() {
 	const [tutorSi, setTutorSi] = useState(false)
 	const [cursos, setCursos] = useState([])
-	const [file, setFile] = useState(null);
 	const [linkDePago, setLinkDePago] = useState('')
 	const [metodoPago, setMetodoPago] = useState('')
 	const [datosTransferenciaModal, setDatosTransferenciaModal] = useState(false)
+	const [pagoRealizado, setPagoRealizado] = useState(false)
+
 	const [formAlumno, setFormAlumno] = useState({
 		nombre: '',
 		apellido: '',
@@ -91,21 +92,33 @@ export default function Inscription() {
 
 		// Verificaciones
 		if (formAlumno.telefono.length < 10) {
-			alert('Ingrese numero valido')
+			Swal.fire({
+				text: "Seleccione un número valido",
+				icon: "warning"
+			})
 			return
 		}
 		if (formAlumno.curso == '' || formAlumno.curso == 'x') {
-			alert('Seleccione un curso')
+			Swal.fire({
+				text: "Seleccione un curso",
+				icon: "warning"
+			})
 			return
 		}
 
 		if (formAlumno.tutor) {
 			if (formTutor.telefono.length < 10) {
-				alert('Ingrese numero valido')
+				Swal.fire({
+					text: "Ingrese un número valido",
+					icon: "warning"
+				})
 				return
 			}
 			if (formTutor.parentesco == '') {
-				alert('Seleccione parentesco')
+				Swal.fire({
+					text: "Seleccione parentesco",
+					icon: "warning"
+				})
 				return
 			}
 		}
@@ -136,7 +149,10 @@ export default function Inscription() {
 
 	const goToConfirmacion = () => {
 		if (metodoPago == '') {
-			alert('Seleccione Metodo de Pago')
+			Swal.fire({
+				text: "Seleccione metodo de pago.",
+				icon: "warning"
+			})
 			return
 		}
 		window.scrollTo({
@@ -151,6 +167,7 @@ export default function Inscription() {
 	const handleMetodoPagoChange = (e) => {
 		if (e.target.id == 'mercado-pago') {
 			setMetodoPago('Mercado Pago')
+			window.open(linkDePago, "_blank")
 		} else if (e.target.id == 'transferencia') {
 			setMetodoPago('Transferencia')
 		} else {
@@ -159,7 +176,16 @@ export default function Inscription() {
 
 	}
 
+
 	const submitForm = async () => {
+		if (!pagoRealizado && metodoPago == "Transferencia") {
+			Swal.fire({
+				title: "Realice el pago",
+				text: "Para confirmar la inscripción, primero realice el pago y marque la casilla",
+				icon: "warning"
+			})
+			return
+		}
 		let formData
 		if (tutorSi) {
 			formData = {
@@ -204,12 +230,6 @@ export default function Inscription() {
 		// Descontar Cupo de curso
 
 		let comprobanteURL
-		if (metodoPago == 'Transferencia') {
-			comprobanteURL = await uploadComprobante(file)
-		} else {
-			comprobanteURL = false
-		}
-
 		const now = new Date();
 		const dia = now.getDate().toString().padStart(2, '0'); // Día con dos dígitos
 		const mes = (now.getMonth() + 1).toString().padStart(2, '0'); // Mes con dos dígitos (getMonth es 0-indexado)
@@ -223,7 +243,7 @@ export default function Inscription() {
 		// Agregar timestamp al formData
 		const formDataWithTimestamp = {
 			...formData,
-			comprobante: comprobanteURL,
+			comprobante: "",
 			pagado: false,
 			horarioSubida,
 			createdAt: serverTimestamp() // Marca de tiempo del servidor
@@ -234,64 +254,86 @@ export default function Inscription() {
 		const docRef = doc(db, 'Cursos', cursoElegido[0].id);
 
 		try {
+			Swal.fire({
+				title: "Inscribiendo...",
+				text: "Por favor espera.",
+				icon: "info",
+				showConfirmButton: false,  // No mostrar botón
+				allowOutsideClick: false,  // Evitar que se cierre fuera del cuadro
+				didOpen: () => {
+					Swal.showLoading();  // Muestra el spinner
+				}
+			});
 			await updateDoc(docRef, {
 				cupos: cuposRestantes
 			});
 			await addDoc(collection(db, 'Inscripciones'), formDataWithTimestamp);
-			alert('Inscripcion exitosa! Nos estaremos comunicando con usted a la brevedad!')
-			navigate('../')
+			Swal.close();
+
+			Swal.fire({
+				title: "¡Inscripto!",
+				text: "Su inscripción ha sido cargada con exito",
+				icon: "success"
+			}).then(() => {
+				navigate('../')
+			})
 		} catch (error) {
-			console.error('Error al actualizar el campo:', error);
+			setLoadingScreen(false)
+			Swal.fire({
+				title: "Error",
+				text: "Ha ocurrido un error inesperado",
+				icon: "error"
+			})
 		}
 
 	}
 
 	// Funciones para subir comprobante de pago
-	const handleFileChange = (e) => {
-		const selectedFile = e.target.files[0];
+	// const handleFileChange = (e) => {
+	// 	const selectedFile = e.target.files[0];
 
-		if (selectedFile && (selectedFile.type === 'application/pdf' || selectedFile.type.startsWith('image/'))) {
-			setFile(selectedFile); // Solo acepta PDFs o imágenes
-		} else {
-			alert('Formato de archivo no válido. Solo se aceptan PDFs e imágenes.');
-			// Puedes agregar lógica para notificar al usuario sobre el error
-		}
-	};
-
-
-	const uploadComprobante = (archivo) => {
-		return new Promise((resolve, reject) => {
-			if (!archivo) {
-				alert('Subir comprobante por favor')
-				reject('No se seleccionó ningún archivo');
-				return;
-			}
-
-			const storage = getStorage();
-			const storageRef = ref(storage, `comprobantes/${archivo.name}`);
-			const uploadTask = uploadBytesResumable(storageRef, archivo);
-
-			uploadTask.on(
-				'state_changed',
-				(snapshot) => {
-					// Puedes manejar el progreso de la carga aquí si lo deseas
-				},
-				(error) => {
-					reject('Error subiendo el archivo:', error);
-				},
-				async () => {
-					try {
-						const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-						resolve(downloadURL); // Devuelve la URL del comprobante
-					} catch (error) {
-						reject('Error obteniendo la URL del archivo:', error);
-					}
-				}
-			);
+	// 	if (selectedFile && (selectedFile.type === 'application/pdf' || selectedFile.type.startsWith('image/'))) {
+	// 		setFile(selectedFile); // Solo acepta PDFs o imágenes
+	// 	} else {
+	// 		alert('Formato de archivo no válido. Solo se aceptan PDFs e imágenes.');
+	// 		// Puedes agregar lógica para notificar al usuario sobre el error
+	// 	}
+	// };
 
 
-		});
-	};
+	// const uploadComprobante = (archivo) => {
+	// 	return new Promise((resolve, reject) => {
+	// 		if (!archivo) {
+	// 			alert('Subir comprobante por favor')
+	// 			reject('No se seleccionó ningún archivo');
+	// 			return;
+	// 		}
+
+	// 		const storage = getStorage();
+	// 		const storageRef = ref(storage, `comprobantes/${archivo.name}`);
+	// 		const uploadTask = uploadBytesResumable(storageRef, archivo);
+
+	// 		uploadTask.on(
+	// 			'state_changed',
+	// 			(snapshot) => {
+	// 				// Puedes manejar el progreso de la carga aquí si lo deseas
+	// 			},
+	// 			(error) => {
+	// 				reject('Error subiendo el archivo:', error);
+	// 			},
+	// 			async () => {
+	// 				try {
+	// 					const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+	// 					resolve(downloadURL); // Devuelve la URL del comprobante
+	// 				} catch (error) {
+	// 					reject('Error obteniendo la URL del archivo:', error);
+	// 				}
+	// 			}
+	// 		);
+
+
+	// 	});
+	// };
 
 	const handleCopy = (e) => {
 		navigator.clipboard.writeText("0000003100047332857816");
@@ -532,11 +574,14 @@ export default function Inscription() {
 								<>
 									<button className='datos-transferir' onClick={() => {
 										setDatosTransferenciaModal(true)
-									}}>Ver datos para transferir</button>
-									<p>
-										<label htmlFor="comprobante"><b>Suba su comprobante de pago:</b></label>
-									</p>
-									<input type="file" name="comprobante" id="comprobante" accept='.pdf, .jpg, .png, .jpeg' onChange={handleFileChange} />
+									}}>Ver datos de transferencia</button>
+
+									<div className='checkbox-transferir'>
+										<input type="checkbox" name="radio" id="radio" checked={pagoRealizado} onChange={() => { setPagoRealizado(!pagoRealizado) }} />
+										<label htmlFor="radio">
+											He realizado el pago.
+										</label>
+									</div>
 								</>
 							}
 						</div>

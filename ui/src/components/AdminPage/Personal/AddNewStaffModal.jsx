@@ -2,6 +2,7 @@ import { useState } from 'react'
 import ProfesorCard from '../../Nosotros/ProfesorCard.jsx'
 import { addDoc, collection, getFirestore } from 'firebase/firestore'
 import { getStorage, ref, uploadString, getDownloadURL } from "firebase/storage";
+import Swal from 'sweetalert2';
 
 export default function AddNewStaffModal({ setId }) {
 
@@ -52,12 +53,18 @@ export default function AddNewStaffModal({ setId }) {
         cargo: cargo,
         imagen: imgURL
       });
-      alert("Personal agregado correctamente!");
-      setId(0)
-      window.location.reload()
+      Swal.fire({
+        text: "Personal agregado correctamente!",
+        icon: "success"
+      }).then(() => {
+        setId(0)
+        window.location.reload()
+      })
     } catch (error) {
-      console.error("Error saving data:", error);
-      alert("Ocurrió un error al guardar la información. Por favor, inténtalo de nuevo.");
+      Swal.fire({
+        text: "Error guardando información, intente nuevamente",
+        icon: "error"
+      })
     }
   }
 
