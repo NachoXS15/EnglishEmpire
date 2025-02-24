@@ -2,6 +2,7 @@ import { useState } from 'react'
 import '../../../styles/AdminPage/Cursos/AddCursoModal.css'
 import { getDownloadURL, getStorage, ref, uploadString } from 'firebase/storage'
 import { addDoc, collection, getFirestore } from 'firebase/firestore'
+import Swal from 'sweetalert2'
 
 export default function AddCursoModal({ navigateTo, categories, categorySelectedName }) {
   const [descartarCambiosModal, setDescartarCambiosModal] = useState(false)
@@ -47,7 +48,6 @@ export default function AddCursoModal({ navigateTo, categories, categorySelected
         setAgregarCursoModal(true)
       } else if (e.target.innerText == 'Confirmar') {
         const urlImg = await uploadImage(form.imagen)
-        console.log(urlImg)
         saveDataToDB({
           ...form,
           imagen: urlImg
@@ -95,13 +95,31 @@ export default function AddCursoModal({ navigateTo, categories, categorySelected
 
   const saveDataToDB = async (data) => {
     try {
+      Swal.fire({
+        title: "Agregando curso...",
+        text: "Por favor espera.",
+        icon: "info",
+        showConfirmButton: false,  // No mostrar botón
+        allowOutsideClick: false,  // Evitar que se cierre fuera del cuadro
+        didOpen: () => {
+          Swal.showLoading();  // Muestra el spinner
+        }
+      });
       await addDoc(collection(db, "Cursos"), data);
-      alert("Curso agregado correctamente!");
-      navigateTo(0)
-      window.location.reload()
+      Swal.close();
+      Swal.fire({
+        text: "Curso agregado correctamente!",
+        icon: "success"
+      }).then(() => {
+        navigateTo(0)
+        window.location.reload()
+      })
     } catch (error) {
       console.error("Error saving data:", error);
-      alert("Ocurrió un error al guardar la información. Por favor, inténtalo de nuevo.");
+      Swal.fire({
+        text: "Ocurrió un error al guardar la información. Por favor, inténtalo de nuevo.",
+        icon: "error"
+      })
     }
 
   }

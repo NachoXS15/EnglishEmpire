@@ -2,6 +2,7 @@ import '../../../styles/AdminPage/Cursos/ModificarCursoModal.css'
 import { useEffect, useState } from 'react'
 import { doc, getFirestore, updateDoc, deleteDoc } from 'firebase/firestore'
 import { getDownloadURL, getStorage, ref, uploadString } from 'firebase/storage'
+import Swal from 'sweetalert2'
 
 // AGREGAR TEMA DE CUPOS DISPONIBLES
 export default function ModificarCursoModal({ curso, navigateTo, categories, categorySelectedName }) {
@@ -105,13 +106,31 @@ export default function ModificarCursoModal({ curso, navigateTo, categories, cat
     if (e.target.innerText == 'Si') {
       try {
         const docRef = doc(db, "Cursos", cursoModificado.id);
+        Swal.fire({
+          title: "Eliminando...",
+          text: "Por favor espera.",
+          icon: "info",
+          showConfirmButton: false,  // No mostrar botón
+          allowOutsideClick: false,  // Evitar que se cierre fuera del cuadro
+          didOpen: () => {
+            Swal.showLoading();  // Muestra el spinner
+          }
+        });
         await deleteDoc(docRef);
-        alert("Documento eliminado correctamente");
-        navigateTo(0)
-        window.location.reload(); // Recargar la página después de eliminar el documento
+        Swal.close();
+        Swal.fire({
+          text: "Documento eliminado correctamente",
+          icon: "success"
+        }).then(() => {
+          navigateTo(0)
+          window.location.reload(); // Recargar la página después de eliminar el documento
+        })
       } catch (error) {
         console.error("Error deleting document:", error);
-        alert("Ocurrió un error al eliminar el documento. Por favor, inténtalo de nuevo.");
+        Swal.fire({
+          text: "Ocurrió un error al eliminar el documento. Por favor, inténtalo de nuevo.",
+          icon: "error"
+        })
       }
     } else if (e.target.innerText == 'No') {
       setDeleteCursoModal(false)

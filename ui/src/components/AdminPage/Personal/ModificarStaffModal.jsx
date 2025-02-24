@@ -3,6 +3,7 @@ import '../../../styles/AdminPage/Personal/ModificarStaffModal.css'
 import ProfesorCard from '../../Nosotros/ProfesorCard'
 import { doc, getFirestore, updateDoc, deleteDoc } from 'firebase/firestore'
 import { getDownloadURL, getStorage, ref, uploadString } from 'firebase/storage'
+import Swal from 'sweetalert2'
 
 export default function ModificarStaffModal({ empleado, setId }) {
   const [actualizarStaffModal, setActualizarStaffModal] = useState(false)
@@ -51,10 +52,17 @@ export default function ModificarStaffModal({ empleado, setId }) {
     try {
       const docRef = doc(db, "Staff", id);
       await updateDoc(docRef, updatedData);
-      alert('Datos actualizados!')
-      window.location.reload()
+      Swal.fire({
+        text: "Datos actualizados!",
+        icon: "success"
+      }).then(() => {
+        window.location.reload()
+      })
     } catch (error) {
-      console.error("Error updating document:", error);
+      Swal.fire({
+        text: "Error actualizando documento, intente nuevamente",
+        icon: "error"
+      })
     }
   };
 
@@ -97,11 +105,17 @@ export default function ModificarStaffModal({ empleado, setId }) {
       try {
         const docRef = doc(db, "Staff", empleado.id);
         await deleteDoc(docRef);
-        alert("Documento eliminado correctamente");
-        window.location.reload(); // Recargar la página después de eliminar el documento
+        Swal.fire({
+          text: "Documento eliminado correctamente",
+          icon: "success"
+        }).then(() => {
+          window.location.reload(); // Recargar la página después de eliminar el documento
+        })
       } catch (error) {
-        console.error("Error deleting document:", error);
-        alert("Ocurrió un error al eliminar el documento. Por favor, inténtalo de nuevo.");
+        Swal.fire({
+          text: "Error eliminando documento, intente nuevamente",
+          icon: "error"
+        })
       }
     }
     if (e.target.innerText == 'No') {

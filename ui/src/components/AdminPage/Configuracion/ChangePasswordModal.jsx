@@ -1,6 +1,7 @@
 import { EmailAuthProvider, getAuth, reauthenticateWithCredential, updatePassword } from 'firebase/auth'
 import '../../../styles/AdminPage/Configuracion/Configuracion.css'
 import { useState } from 'react'
+import Swal from 'sweetalert2'
 
 export default function ChangePasswordModal({ salirModal }) {
   const [errors, setError] = useState('')
@@ -23,11 +24,26 @@ export default function ChangePasswordModal({ salirModal }) {
     const user = auth.currentUser
     const credential = EmailAuthProvider.credential(user.email, passwords.oldPass);
     try {
+      Swal.fire({
+        title: "Actualizando datos...",
+        text: "Por favor espera.",
+        icon: "info",
+        showConfirmButton: false,  // No mostrar botón
+        allowOutsideClick: false,  // Evitar que se cierre fuera del cuadro
+        didOpen: () => {
+          Swal.showLoading();  // Muestra el spinner
+        }
+      });
       await reauthenticateWithCredential(user, credential)
       // Usuario reautenticado, cambiar contraseña
       await updatePassword(user, passwords.newPass);
-      alert('Contraseña actualizada')
-      salirModal(false)
+      Swal.close();
+      Swal.fire({
+        text: "Contraseña actualizada correctamente",
+        icon: "success"
+      }).then(() => {
+        salirModal(false)
+      })
     } catch (e) {
       setError(`Error en la reautenticación: ${e}`);
     }

@@ -130,13 +130,12 @@ export default function Inscripciones() {
     const csvRows = [];
     const headers = [
       "ID", "Nombre", "Apellido", "DNI", "Fecha de Nacimiento", "Email",
-      "Teléfono", "Curso", "Tutor", "Método de Pago", "Pagado",
-      "Comprobante", "Horario Subida", "Fecha Creación"
+      "Teléfono", "Curso", "Tutor", "Método de Pago", "Pagado", "Horario Subida", "Fecha Creación"
     ];
     csvRows.push(headers.join(",")); // Agregar encabezados
 
     inscripciones.forEach(inscripcion => {
-      const { id, pagado, metodoPago, comprobante, horarioSubida, createdAt, alumno } = inscripcion;
+      const { id, pagado, metodoPago, horarioSubida, createdAt, alumno } = inscripcion;
       const fechaCreacion = createdAt ? new Date(createdAt.seconds * 1000).toLocaleString() : "N/A";
 
       const row = [
@@ -151,7 +150,6 @@ export default function Inscripciones() {
         alumno?.tutor || "N/A",
         metodoPago || "N/A",
         pagado ? "Sí" : "No",
-        comprobante ? (typeof comprobante === "string" ? comprobante : "No") : "No",
         horarioSubida || "N/A",
         fechaCreacion
       ];
@@ -260,15 +258,7 @@ export default function Inscripciones() {
                         !isMobile &&
                         <>
                           <td>{inscripcion.alumno.curso}</td>
-                          <td>
-                            <p>{inscripcion.metodoPago}</p>
-                            {
-                              inscripcion.metodoPago == 'Transferencia' &&
-                              <a href={inscripcion.comprobante} target="_blank" rel="noopener noreferrer">
-                                Ver Comprobante
-                              </a>
-                            }
-                          </td>
+                          <td>{inscripcion.metodoPago}</td>
                         </>
                       }
                       <td>

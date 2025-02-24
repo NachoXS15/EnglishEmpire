@@ -2,6 +2,7 @@ import { useState } from 'react'
 import '../../../styles/AdminPage/Inscripciones/FormCompletoCard.css'
 import { deleteDoc, doc, getFirestore, updateDoc } from 'firebase/firestore'
 import { useNavigate } from 'react-router-dom'
+import Swal from 'sweetalert2'
 
 export default function FormCompletoCard({ form, setForm }) {
 
@@ -24,10 +25,14 @@ export default function FormCompletoCard({ form, setForm }) {
       await updateDoc(docRef, {
         pagado: !form.pagado
       });
-      alert('Curso actualizado!')
-      setConfirmarPagadoModal(false)
-      setForm(null)
-      window.location.reload()
+      Swal.fire({
+        text: "Curso actualizado correctamente",
+        icon: "success"
+      }).then(() => {
+        setConfirmarPagadoModal(false)
+        setForm(null)
+        window.location.reload()
+      })
     } catch (error) {
       console.log('Error al actualizar el campo:', error);
     }
@@ -40,12 +45,30 @@ export default function FormCompletoCard({ form, setForm }) {
 
   const deleteInsc = async () => {
     try {
+      Swal.fire({
+        title: "Eliminando...",
+        text: "Por favor espera.",
+        icon: "info",
+        showConfirmButton: false,  // No mostrar botón
+        allowOutsideClick: false,  // Evitar que se cierre fuera del cuadro
+        didOpen: () => {
+          Swal.showLoading();  // Muestra el spinner
+        }
+      });
       const docRef = doc(db, "Inscripciones", form.id);
       await deleteDoc(docRef)
-      alert('Documento eliminado exitosamente.')
-      window.location.reload()
+      Swal.close();
+      Swal.fire({
+        text: "Documento eliminado exitosamente",
+        icon: "success"
+      }).then(() => {
+        window.location.reload()
+      })
     } catch {
-      alert('Error eliminando documento, intente nuevamente')
+      Swal.fire({
+        text: "Error eliminando documento, intente nuevamente",
+        icon: "error"
+      })
     }
 
   }
