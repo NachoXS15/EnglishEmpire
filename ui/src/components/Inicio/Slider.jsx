@@ -6,7 +6,7 @@ import { useEffect } from 'react'
 import { Link } from 'react-router-dom';
 
 
-export default function Slider({ images, text, link, interval = true }) {
+export default function Slider({ images, text, link, interval = true, imgAlt = "" }) {
   const [currentImage, setCurrentImage] = useState(0)
   const intervalDuration = 6000;
 
@@ -25,7 +25,7 @@ export default function Slider({ images, text, link, interval = true }) {
 
   return (
     <div className='slider'>
-      <img src={images[currentImage]} alt="" />
+      <img src={images[currentImage]} alt={imgAlt} />
       <Link to={link} className='inscripcion-btn'>{text}</Link>
     </div>
   )
