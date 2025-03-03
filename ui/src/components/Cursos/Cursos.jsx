@@ -85,7 +85,11 @@ export default function Cursos() {
                   key={curso.id}
                   curso={curso}
                 />
-              )) : <p>Cargando Cursos...</p>
+              ))
+                :
+                <div className='loader'>
+                  <div class="spinner"></div>
+                </div>
             }
           </div>
         </div>

@@ -40,6 +40,7 @@ function Inicio() {
         images={!isScreenSmall ? imagesDesktop : imagesMobile}
         text='Inscripción 2025'
         link='/inscripcion'
+        imgAlt='Aprende inglés con los cursos personalizados de English Empire'
       />
       <div className='cursos-section'>
         <h2 className='title'>Nuestros Cursos</h2>
@@ -50,6 +51,7 @@ function Inicio() {
         text='Ver cursos'
         link='/cursos'
         interval={false}
+        imgAlt='Aprende inglés con los cursos personalizados de English Empire'
       />
       <div className='certificacion-section'>
         <h2 className='title'>Certificados con <b>validez nacional y oficial.</b></h2>
@@ -65,6 +67,7 @@ function Inicio() {
         text='Postulate'
         link='/postulate'
         interval={false}
+        imgAlt='Unete a nuestro equipo, postulate!'
       />
       <Footer></Footer>
     </div>
